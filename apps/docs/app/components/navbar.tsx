@@ -1,5 +1,6 @@
-import { GithubIcon, MoonIcon, XIcon } from 'lucide-react';
+import { GithubIcon, XIcon } from 'lucide-react';
 import type { FC } from 'react';
+import { ModeToggle } from './mode-toggle';
 
 export const Navbar: FC = () => (
   <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -28,17 +29,7 @@ export const Navbar: FC = () => (
           </a>
         </nav>
       </div>
-      <button
-        className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 py-2 w-9 px-0"
-        type="button"
-        id="radix-:R16dta:"
-        aria-haspopup="menu"
-        aria-expanded="false"
-        data-state="closed"
-      >
-        <MoonIcon size={16} />
-        <span className="sr-only">Toggle theme</span>
-      </button>
+      <ModeToggle />
     </div>
   </header>
 );
