@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { GanttExample } from '../components/gantt';
-import { Waitlist } from '../components/waitlist';
+
+import { CopyIcon } from 'lucide-react';
+import BunLogo from './bun.svg';
 import EververseLogo from './eververse.png';
 import GanttLogo from './gantt.svg';
+import GithubLogo from './github.svg';
 import ReactLogo from './react.svg';
 
 export const metadata: Metadata = {
@@ -14,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="h-screen overflow-hidden">
+    <>
       <section className="container mx-auto max-w-5xl flex flex-col items-center gap-2 py-8 md:py-12 lg:py-16">
         <div className="mb-8 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-primary text-primary">
           Coming Soon
@@ -52,7 +55,7 @@ export default function HomePage() {
             Eververse.
           </a>
         </p>
-        {/* <div className="flex w-full items-center justify-center space-x-4 mt-4">
+        <div className="flex w-full items-center justify-center space-x-4 mt-4">
           <div className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-2">
             <Image src={BunLogo} alt="Bun" width={16} height={16} />
             <div className="text-muted-foreground">
@@ -84,16 +87,12 @@ export default function HomePage() {
             </div>
           </a>
         </div>
-         */}
-        <div className="mt-4 w-full">
-          <Waitlist />
-        </div>
       </section>
       <section className="container mx-auto">
         <div className="mt-8 flex flex-col overflow-clip h-[500px] w-full bg-white rounded-xl border">
           <GanttExample />
         </div>
       </section>
-    </div>
+    </>
   );
 }
