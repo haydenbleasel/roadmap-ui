@@ -6,7 +6,7 @@ export const SidebarHeader: FC = () => (
     style={{ height: 'var(--gantt-header-height)' }}
   >
     {/* <Checkbox className="shrink-0" /> */}
-    <p className="flex-1 text-left truncate">Issues</p>
+    <p className="flex-1 truncate text-left">Issues</p>
     <p className="shrink-0">Duration</p>
   </div>
 );

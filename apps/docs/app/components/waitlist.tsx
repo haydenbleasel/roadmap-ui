@@ -11,7 +11,7 @@ const SubmitButton: FC = () => {
   return (
     <button
       className={cn(
-        'absolute top-0.5 right-0.5 select-none rounded-full bg-primary px-6 py-2 font-medium text-sm text-primary-foreground',
+        'absolute top-0.5 right-0.5 select-none rounded-full bg-primary px-6 py-2 font-medium text-primary-foreground text-sm',
         'disabled:cursor-not-allowed disabled:opacity-50'
       )}
       type="submit"
@@ -29,7 +29,7 @@ export const Waitlist: FC = () => {
 
   return (
     <div className="w-full space-y-2">
-      <form action={formAction} className="relative max-w-96 mx-auto w-full">
+      <form action={formAction} className="relative mx-auto w-full max-w-96">
         <label htmlFor="email" className="sr-only">
           Email
         </label>
@@ -52,7 +52,7 @@ export const Waitlist: FC = () => {
       {state.message ? (
         <p
           aria-live="polite"
-          className="m-0 mt-4 block text-sm mx-auto text-center"
+          className="m-0 mx-auto mt-4 block text-center text-sm"
         >
           {state.message}
         </p>

@@ -51,7 +51,7 @@ export const SidebarItem: FC<SidebarItemProperties> = ({
           backgroundColor: feature.status.color,
         }}
       />
-      <p className="pointer-events-none text-left flex-1 truncate font-medium">
+      <p className="pointer-events-none flex-1 truncate text-left font-medium">
         {feature.name}
       </p>
       <p className="pointer-events-none text-muted-foreground">{duration}</p>

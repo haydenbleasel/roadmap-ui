@@ -72,7 +72,7 @@ export const Marker: FC<MarkerProps> = ({
       <ContextMenu>
         <ContextMenuTrigger asChild>
           <div
-            className="group pointer-events-auto sticky top-0 flex select-auto flex-col flex-nowrap items-center justify-center whitespace-nowrap rounded-b-md bg-primary text-white px-2 py-1 text-xs"
+            className="group pointer-events-auto sticky top-0 flex select-auto flex-col flex-nowrap items-center justify-center whitespace-nowrap rounded-b-md bg-primary px-2 py-1 text-white text-xs"
             style={{ backgroundColor, color: textColor }}
           >
             {label}

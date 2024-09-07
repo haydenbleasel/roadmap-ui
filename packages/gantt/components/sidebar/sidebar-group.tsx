@@ -12,7 +12,7 @@ export const SidebarGroup: FC<SidebarGroupProperties> = ({
   <div>
     <p
       style={{ height: 'var(--gantt-row-height)' }}
-      className="w-full text-left truncate p-2.5 font-medium text-muted-foreground text-xs"
+      className="w-full truncate p-2.5 text-left font-medium text-muted-foreground text-xs"
     >
       {name}
     </p>
