@@ -9,6 +9,7 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
+    "@octokit/rest": "^21.0.2",
     "@repo/gantt": "workspace:*",
     "@repo/shadcn-ui": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
