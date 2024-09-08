@@ -8,36 +8,41 @@ import {
 } from 'fumadocs-ui/page';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import type { FC } from 'react';
 
-export default async function Page({
-  params,
-}: {
+type PageProps = {
   params: { slug?: string[] };
-}) {
+};
+
+const Page: FC<PageProps> = ({ params }) => {
   const page = source.getPage(params.slug);
+
   if (!page) {
     notFound();
   }
 
-  const mdx = page.data.body;
+  const Mdx = page.data.body;
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <mdx components={{ ...defaultMdxComponents }} />
+        <Mdx components={{ ...defaultMdxComponents }} />
       </DocsBody>
     </DocsPage>
   );
-}
+};
 
-export async function generateStaticParams() {
-  return source.generateParams();
-}
+export const generateStaticParams = () => source.generateParams();
 
-export function generateMetadata({ params }: { params: { slug?: string[] } }) {
+export const generateMetadata = ({
+  params,
+}: {
+  params: { slug?: string[] };
+}) => {
   const page = source.getPage(params.slug);
+
   if (!page) {
     notFound();
   }
@@ -46,4 +51,6 @@ export function generateMetadata({ params }: { params: { slug?: string[] } }) {
     title: page.data.title,
     description: page.data.description,
   } satisfies Metadata;
-}
+};
+
+export default Page;
