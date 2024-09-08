@@ -1,3 +1,4 @@
+import { GanttExample } from '@/app/components/gantt';
 import { source } from '@/app/source';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import {
@@ -14,6 +15,11 @@ type PageProps = {
   params: { slug?: string[] };
 };
 
+const components = {
+  ...defaultMdxComponents,
+  Gantt: GanttExample,
+};
+
 const Page: FC<PageProps> = ({ params }) => {
   const page = source.getPage(params.slug);
 
@@ -28,7 +34,7 @@ const Page: FC<PageProps> = ({ params }) => {
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <Mdx components={{ ...defaultMdxComponents }} />
+        <Mdx components={components} />
       </DocsBody>
     </DocsPage>
   );
