@@ -7,12 +7,12 @@
     "lint": "turbo lint"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
-    "turbo": "^2.1.1",
-    "typescript": "^5.5.4",
-    "ultracite": "4.0.6"
+    "@biomejs/biome": "1.9.1",
+    "turbo": "^2.1.2",
+    "typescript": "^5.6.2",
+    "ultracite": "4.1.1"
   },
-  "packageManager": "pnpm@9.9.0",
+  "packageManager": "pnpm@9.10.0",
   "engines": {
     "node": ">=18"
   }

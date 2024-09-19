@@ -5,8 +5,8 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/lodash.throttle": "^4.1.9",
-    "@types/react": "^18.3.5",
-    "typescript": "^5.5.4"
+    "@types/react": "^18.3.7",
+    "typescript": "^5.6.2"
   },
   "peerDependencies": {
     "react": "18.3.1"
@@ -15,9 +15,9 @@
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/modifiers": "^7.0.0",
     "@repo/shadcn-ui": "workspace:*",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "lodash.throttle": "^4.1.1",
-    "lucide-react": "^0.439.0",
+    "lucide-react": "^0.441.0",
     "zustand": "^4.5.5"
   }
 }
