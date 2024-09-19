@@ -11,4 +11,14 @@ export const baseOptions: HomeLayoutProps = {
   nav: {
     title: 'Roadmap UI',
   },
+  links: [
+    {
+      text: 'Home',
+      url: '/',
+    },
+    {
+      text: 'Docs',
+      url: '/docs',
+    },
+  ],
 };

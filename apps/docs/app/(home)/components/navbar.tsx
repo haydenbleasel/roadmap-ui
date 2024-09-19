@@ -2,7 +2,7 @@ import { GithubIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
-import Logo from '../(home)/gantt.svg';
+import Logo from '../gantt.svg';
 import { ModeToggle } from './mode-toggle';
 
 export const Navbar: FC = () => (
