@@ -1,0 +1,110 @@
+---
+title: Schema
+description: A single, unified data model for all components.
+---
+
+Roadmap UI is built on top of a single, unified data model. This model is used to store the data for all components.
+
+This allows you to easily switch between components without having to worry about the data model.
+
+The data model is defined using [Zod](https://zod.dev/).
+
+## Feature
+
+A feature is a single item on the roadmap. It has a start and end date, a status, a group, a product, an owner, an initiative, and a release.
+
+```ts
+const FeatureSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  startAt: z.date(),
+  endAt: z.date(),
+  status: StatusSchema,
+  group: GroupSchema,
+  product: ProductSchema,
+  owner: OwnerSchema,
+  initiative: InitiativeSchema,
+  release: ReleaseSchema,
+});
+```
+
+## Status
+
+A status represents the current state of a feature.
+
+```ts
+const StatusSchema = z.object({
+  name: z.string(),
+  color: z.string(),
+});
+```
+
+## Group
+
+A group is a collection of features.
+
+```ts
+const GroupSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+```
+
+## Product
+
+A product is a collection of features.
+
+```ts
+const ProductSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+```
+
+## Owner
+
+An owner is a person who is responsible for a feature.
+
+```ts
+const OwnerSchema = z.object({
+  id: z.string(),
+  image: z.string().url(),
+  name: z.string(),
+});
+```
+
+## Initiative
+
+An initiative is a collection of features.
+
+```ts
+const InitiativeSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+```
+
+## Release
+
+A release is a collection of features.
+
+```ts
+const ReleaseSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+```
+
+## Marker
+
+A marker is a single item on the timeline.
+
+```ts
+const MarkerSchema = z.object({
+  id: z.string(),
+  date: z.date(),
+  label: z.string(),
+  backgroundColor: z.string(),
+  textColor: z.string(),
+});
+```
