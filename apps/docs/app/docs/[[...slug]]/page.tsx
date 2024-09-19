@@ -1,3 +1,4 @@
+import { CalendarExample } from '@/app/components/calendar';
 import { GanttExample } from '@/app/components/gantt';
 import { KanbanExample } from '@/app/components/kanban';
 import { source } from '@/app/source';
@@ -20,6 +21,7 @@ const components = {
   ...defaultMdxComponents,
   Gantt: GanttExample,
   Kanban: KanbanExample,
+  Calendar: CalendarExample,
 };
 
 const Page: FC<PageProps> = ({ params }) => {

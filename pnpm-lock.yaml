@@ -26,6 +26,9 @@ importers:
       '@octokit/rest':
         specifier: ^21.0.2
         version: 21.0.2
+      '@repo/calendar':
+        specifier: workspace:*
+        version: link:../../packages/calendar
       '@repo/gantt':
         specifier: workspace:*
         version: link:../../packages/gantt
@@ -102,6 +105,37 @@ importers:
       tailwindcss:
         specifier: ^3.4.12
         version: 3.4.12(ts-node@10.9.1(@types/node@22.5.5)(typescript@5.6.2))
+      typescript:
+        specifier: ^5.6.2
+        version: 5.6.2
+
+  packages/calendar:
+    dependencies:
+      '@dnd-kit/core':
+        specifier: ^6.1.0
+        version: 6.1.0(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1)
+      '@repo/shadcn-ui':
+        specifier: workspace:*
+        version: link:../shadcn-ui
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
+      lucide-react:
+        specifier: ^0.441.0
+        version: 0.441.0(react@18.3.1)
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      zustand:
+        specifier: ^4.5.5
+        version: 4.5.5(@types/react@18.3.7)(react@18.3.1)
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^18.3.7
+        version: 18.3.7
       typescript:
         specifier: ^5.6.2
         version: 5.6.2
