@@ -33,7 +33,7 @@ export const KanbanExample: FC = () => {
   };
 
   return (
-    <Kanban.KanbanProvider className="not-prose" onDragEnd={handleDragEnd}>
+    <Kanban.KanbanProvider onDragEnd={handleDragEnd}>
       {exampleStatuses.map((status) => (
         <Kanban.KanbanBoard
           key={status.name}
