@@ -2,6 +2,7 @@
 
 import { DndContext, rectIntersection } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core';
+import { cn } from '@repo/shadcn-ui/lib/utils';
 import type { FC, ReactNode } from 'react';
 
 type KanbanProviderProps = {
@@ -16,6 +17,6 @@ export const KanbanProvider: FC<KanbanProviderProps> = ({
   className,
 }) => (
   <DndContext collisionDetection={rectIntersection} onDragEnd={onDragEnd}>
-    <div className={className}>{children}</div>
+    <div className={cn('flex items-stretch gap-2', className)}>{children}</div>
   </DndContext>
 );

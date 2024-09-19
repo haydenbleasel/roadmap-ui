@@ -5,7 +5,7 @@ import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 
 const today = new Date();
 
-const exampleStatuses = [
+export const exampleStatuses = [
   { name: 'Done', color: tailwind.theme.colors.emerald[500] },
   { name: 'In Review', color: tailwind.theme.colors.blue[500] },
   { name: 'In Progress', color: tailwind.theme.colors.amber[500] },
