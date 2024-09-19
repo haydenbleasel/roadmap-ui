@@ -7,7 +7,9 @@ Roadmap UI is built on top of a single, unified data model. This model is used t
 
 This allows you to easily switch between components without having to worry about the data model.
 
-The data model is defined using [Zod](https://zod.dev/).
+The data model is defined using [Zod](https://zod.dev/). The aim of the model is to have as little data as possible, while still being able to represent all the data needed for the components.
+
+This means that, while we don't have support for "Groups" for example, you can implement your own grouping and filtering logic on top of the data model.
 
 ## Feature
 
