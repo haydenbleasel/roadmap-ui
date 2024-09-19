@@ -20,13 +20,15 @@ import {
 } from '@repo/shadcn-ui/components/ui/hover-card';
 import { Separator } from '@repo/shadcn-ui/components/ui/separator';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 import { toast } from 'sonner';
 import { exampleFeatures, exampleMarkers } from '../../lib/content';
 
 export const GanttExample: FC = () => {
+  const [features, setFeatures] = useState(exampleFeatures);
+
   const groupedFeatures: Record<string, Feature[]> = {
-    features: exampleFeatures,
+    features,
   };
 
   const sortedGroupedFeatures = Object.fromEntries(
@@ -41,7 +43,7 @@ export const GanttExample: FC = () => {
   const handleCopyLink = (id: string) => toast.success(`Copy link: ${id}`);
 
   const handleRemoveFeature = (id: string) =>
-    toast.success(`Remove feature: ${id}`);
+    setFeatures((prev) => prev.filter((feature) => feature.id !== id));
 
   const handleRemoveMarker = (id: string) =>
     toast.success(`Remove marker: ${id}`);
@@ -53,7 +55,13 @@ export const GanttExample: FC = () => {
     id: string,
     startDate: Date,
     endDate: Date | null
-  ) => toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+  ) => {
+    setFeatures((prev) =>
+      prev.map((feature) =>
+        feature.id === id ? { ...feature, startDate, endDate } : feature
+      )
+    );
+  };
 
   const handleAddFeature = (date: Date) =>
     toast.success(`Add feature: ${date.toISOString()}`);

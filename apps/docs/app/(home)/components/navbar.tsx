@@ -1,12 +1,28 @@
 import { GithubIcon, XIcon } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 import type { FC } from 'react';
+import Logo from '../(home)/gantt.svg';
 import { ModeToggle } from './mode-toggle';
 
 export const Navbar: FC = () => (
   <header className="sticky top-0 z-50 w-full border-border/40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    <div className="container flex h-14 max-w-screen-2xl items-center">
-      <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-        <nav className="flex items-center">
+    <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
+      <nav className="flex items-center gap-6">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src={Logo}
+            alt="Roadmap UI"
+            width={28}
+            height={28}
+            className="w-6 h-6"
+          />
+          <span className="font-medium">Roadmap UI</span>
+        </Link>
+        <Link href="/docs">Docs</Link>
+      </nav>
+      <div className="flex flex-1 items-center gap-2 md:justify-end">
+        <div className="flex items-center">
           <a
             target="_blank"
             rel="noreferrer"
@@ -27,7 +43,7 @@ export const Navbar: FC = () => (
               <span className="sr-only">X</span>
             </div>
           </a>
-        </nav>
+        </div>
       </div>
       <ModeToggle />
     </div>
