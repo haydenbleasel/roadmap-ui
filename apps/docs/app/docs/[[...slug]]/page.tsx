@@ -1,4 +1,5 @@
 import { GanttExample } from '@/app/components/gantt';
+import { KanbanExample } from '@/app/components/kanban';
 import { source } from '@/app/source';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import {
@@ -18,6 +19,7 @@ type PageProps = {
 const components = {
   ...defaultMdxComponents,
   Gantt: GanttExample,
+  Kanban: KanbanExample,
 };
 
 const Page: FC<PageProps> = ({ params }) => {

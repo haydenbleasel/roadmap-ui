@@ -29,6 +29,9 @@ importers:
       '@repo/gantt':
         specifier: workspace:*
         version: link:../../packages/gantt
+      '@repo/kanban':
+        specifier: workspace:*
+        version: link:../../packages/kanban
       '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/shadcn-ui
@@ -136,6 +139,28 @@ importers:
       '@types/lodash.throttle':
         specifier: ^4.1.9
         version: 4.1.9
+      '@types/react':
+        specifier: ^18.3.7
+        version: 18.3.7
+      typescript:
+        specifier: ^5.6.2
+        version: 5.6.2
+
+  packages/kanban:
+    dependencies:
+      '@dnd-kit/core':
+        specifier: ^6.1.0
+        version: 6.1.0(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1)
+      '@repo/shadcn-ui':
+        specifier: workspace:*
+        version: link:../shadcn-ui
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       '@types/react':
         specifier: ^18.3.7
         version: 18.3.7
