@@ -4,6 +4,10 @@ description: Show the tasks in a gantt chart.
 icon: SquareChartGantt
 ---
 
+<div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
+  <Gantt />
+</div>
+
 ## Usage
 
 ### Basic Example
@@ -281,9 +285,3 @@ export const GanttExample: FC = () => {
   );
 };
 ```
-
-## Demo
-
-<div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
-  <Gantt />
-</div>

@@ -1,4 +1,12 @@
-import { GithubIcon, XIcon } from 'lucide-react';
+import {
+  CalendarRangeIcon,
+  GithubIcon,
+  KanbanSquareIcon,
+  ListIcon,
+  SquareChartGanttIcon,
+  TablePropertiesIcon,
+  XIcon,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
@@ -17,9 +25,48 @@ export const Navbar: FC = () => (
             height={28}
             className="w-6 h-6"
           />
-          <span className="font-medium">Roadmap UI</span>
+          <span className="font-semibold">Roadmap UI</span>
         </Link>
+
         <Link href="/docs">Docs</Link>
+
+        <div className="rounded-md bg-secondary flex items-center gap-px p-0.5 text-muted-foreground">
+          <Link
+            href="/docs/gantt"
+            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
+          >
+            <SquareChartGanttIcon size={16} />
+            <span className="sr-only">Gantt</span>
+          </Link>
+          <Link
+            href="/docs/kanban"
+            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
+          >
+            <KanbanSquareIcon size={16} />
+            <span className="sr-only">Kanban</span>
+          </Link>
+          <Link
+            href="/docs/calendar"
+            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
+          >
+            <CalendarRangeIcon size={16} />
+            <span className="sr-only">Calendar</span>
+          </Link>
+          <Link
+            href="/docs/list"
+            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
+          >
+            <ListIcon size={16} />
+            <span className="sr-only">List</span>
+          </Link>
+          <Link
+            href="/docs/table"
+            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
+          >
+            <TablePropertiesIcon size={16} />
+            <span className="sr-only">Table</span>
+          </Link>
+        </div>
       </nav>
       <div className="flex flex-1 items-center gap-2 md:justify-end">
         <div className="flex items-center">

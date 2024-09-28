@@ -4,6 +4,10 @@ description: Show the tasks in a kanban board.
 icon: SquareKanban
 ---
 
+<div className="not-prose w-full" style={{ height: '32rem' }}>
+  <Kanban />
+</div>
+
 ## Overview
 
 Kanban is a component that allows you to show the tasks in a kanban board. It is built on top of [dnd-kit](https://dndkit.com/), a powerful drag and drop library.
@@ -74,9 +78,3 @@ export const KanbanExample: FC = () => {
   );
 };
 ```
-
-## Demo
-
-<div className="not-prose w-full" style={{ height: '32rem' }}>
-  <Kanban />
-</div>
