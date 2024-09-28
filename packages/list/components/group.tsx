@@ -20,9 +20,7 @@ export const ListGroup: FC<ListGroupProperties> = ({
   const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
-    <div
-      className={cn('', isOver ? 'outline-violet-500' : 'outline-transparent')}
-    >
+    <div className={cn(isOver && 'bg-primary/5')}>
       <div className="flex shrink-0 items-center gap-2 bg-secondary p-3">
         <div
           className="h-2 w-2 rounded-full"
