@@ -1,0 +1,17 @@
+{
+  "name": "@repo/table",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^18.3.7",
+    "typescript": "^5.6.2"
+  },
+  "peerDependencies": {
+    "react": "18.3.1"
+  },
+  "dependencies": {
+    "@repo/shadcn-ui": "workspace:*",
+    "lucide-react": "^0.441.0"
+  }
+}
