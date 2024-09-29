@@ -2,12 +2,10 @@
 
 import { useDroppable } from '@dnd-kit/core';
 import { cn } from '@repo/shadcn-ui/lib/utils';
+import type { Status } from '@repo/types';
 import type { FC, ReactNode } from 'react';
 
-type ListGroupProperties = {
-  id: string;
-  name: string;
-  color: string;
+type ListGroupProperties = Status & {
   children: ReactNode;
 };
 

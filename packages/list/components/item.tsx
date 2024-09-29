@@ -1,10 +1,9 @@
 import { useDraggable } from '@dnd-kit/core';
 import { cn } from '@repo/shadcn-ui/lib/utils';
+import type { Feature } from '@repo/types';
 import type { FC } from 'react';
 
-type ListItemProps = {
-  readonly id: string;
-  readonly name: string;
+type ListItemProps = Feature & {
   readonly color: string;
   readonly index: number;
   readonly parent: string;

@@ -3,12 +3,10 @@
 import { useDroppable } from '@dnd-kit/core';
 import { Card } from '@repo/shadcn-ui/components/ui/card';
 import { cn } from '@repo/shadcn-ui/lib/utils';
+import type { Status } from '@repo/types';
 import type { FC, ReactNode } from 'react';
 
-type KanbanBoardProperties = {
-  id: string;
-  name: string;
-  color: string;
+type KanbanBoardProperties = Status & {
   children: ReactNode;
 };
 

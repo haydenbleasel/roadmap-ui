@@ -17,6 +17,6 @@ export const CalendarProvider: FC<CalendarProviderProps> = ({
   className,
 }) => (
   <DndContext collisionDetection={rectIntersection} onDragEnd={onDragEnd}>
-    <div className={cn('flex flex-col relative', className)}>{children}</div>
+    <div className={cn('relative flex flex-col', className)}>{children}</div>
   </DndContext>
 );

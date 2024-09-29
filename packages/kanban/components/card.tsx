@@ -1,13 +1,12 @@
 import { useDraggable } from '@dnd-kit/core';
 import { cn } from '@repo/shadcn-ui/lib/utils';
+import type { Feature } from '@repo/types';
 import type { FC } from 'react';
 
-type KanbanCardProps = {
-  readonly id: string;
-  readonly name: string;
-  readonly color: string;
-  readonly index: number;
-  readonly parent: string;
+type KanbanCardProps = Feature & {
+  index: number;
+  parent: string;
+  color: string;
 };
 
 export const KanbanCard: FC<KanbanCardProps> = ({
