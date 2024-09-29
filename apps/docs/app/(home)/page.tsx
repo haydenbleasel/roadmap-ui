@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import type { FC } from 'react';
-import { GanttExample } from '../components/gantt';
+import { GanttExampleCustom } from '../components/gantt';
 import { GitHubButton } from './components/github-button';
 import { Installer } from './components/installer';
 import { Navbar } from './components/navbar';
@@ -59,7 +59,7 @@ const HomePage: FC = () => (
     </section>
     <section className="container mx-auto">
       <div className="mt-8 flex h-[500px] w-full flex-col overflow-clip rounded-xl border bg-white">
-        <GanttExample />
+        <GanttExampleCustom />
       </div>
     </section>
   </>
