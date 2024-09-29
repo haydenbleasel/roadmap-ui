@@ -4,6 +4,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@repo/shadcn-ui/components/ui/context-menu';
+import type { Marker as MarkerType } from '@repo/types';
 import { formatDate } from 'date-fns';
 import { TrashIcon } from 'lucide-react';
 import type { FC } from 'react';
@@ -33,23 +34,11 @@ const calculateInnerOffset = (
   return (dayOfMonth / totalRangeDays) * columnWidth;
 };
 
-export type MarkerProps = {
-  id: string;
-  date: Date;
-  label: string;
-  backgroundColor?: string;
-  textColor?: string;
-  onRemove?: (id: string) => void;
-};
-
-export const Marker: FC<MarkerProps> = ({
-  label,
-  date,
-  id,
-  onRemove,
-  backgroundColor,
-  textColor,
-}) => {
+export const Marker: FC<
+  MarkerType & {
+    onRemove?: (id: string) => void;
+  }
+> = ({ label, date, id, onRemove, backgroundColor, textColor }) => {
   const gantt = useContext(GanttContext);
   const differenceIn = getDifferenceIn(gantt.range);
   const timelineStartDate = new Date(gantt.timelineData[0].year, 0, 1);

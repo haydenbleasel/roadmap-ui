@@ -1,11 +1,11 @@
 import { useDraggable } from '@dnd-kit/core';
 import { cn } from '@repo/shadcn-ui/lib/utils';
+import type { Feature } from '@repo/types';
 import { format } from 'date-fns';
 import type { FC } from 'react';
 import { useContext, useEffect } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
 import { useGantt } from '../hooks/use-gantt';
-import type { Feature } from '../types/types';
 
 type FeatureDragHelperProps = {
   featureId: Feature['id'];

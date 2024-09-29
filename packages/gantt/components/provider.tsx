@@ -13,12 +13,11 @@ import {
 import { type FC, useRef } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
 import { createInitialTimelineData } from '../lib/data';
-import type { Grouping, Range, TimelineData } from '../types/types';
+import type { Range, TimelineData } from '../types/types';
 
 export type ProviderProperties = {
   range?: Range;
   zoom?: number;
-  grouping?: Grouping;
   onAddItem?: (date: Date) => void;
   editable?: boolean;
   children: ReactNode;
@@ -28,7 +27,6 @@ export type ProviderProperties = {
 export const Provider: FC<ProviderProperties> = ({
   zoom = 100,
   range = 'monthly',
-  grouping = 'feature',
   onAddItem,
   editable = false,
   children,
@@ -140,7 +138,6 @@ export const Provider: FC<ProviderProperties> = ({
       value={{
         zoom,
         range,
-        grouping,
         headerHeight,
         columnWidth,
         rowHeight,

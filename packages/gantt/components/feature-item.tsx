@@ -1,6 +1,7 @@
 import { DndContext, MouseSensor, useSensor } from '@dnd-kit/core';
 import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 import {} from '@repo/shadcn-ui/components/ui/avatar';
+import type { Feature } from '@repo/types';
 import { addDays, getDate, getDaysInMonth, isSameDay } from 'date-fns';
 import { type FC, type ReactNode, useContext, useRef, useState } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
@@ -12,7 +13,7 @@ import {
   getStartOf,
 } from '../lib/range-fns';
 import { getDateByMousePosition } from '../lib/utils';
-import type { Feature, GanttContextProps } from '../types/types';
+import type { GanttContextProps } from '../types/types';
 import { FeatureDragHelper } from './feature-drag-helper';
 import { FeatureItemCard } from './feature-item-card';
 

@@ -1,16 +1,21 @@
-import { z } from 'zod';
+export interface Status {
+  id: string;
+  name: string;
+  color: string;
+}
 
-export const FeatureSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  startAt: z.date(),
-  endAt: z.date(),
-});
+export interface Feature {
+  id: string;
+  name: string;
+  startAt: Date;
+  endAt: Date;
+  status: Status;
+}
 
-export const MarkerSchema = z.object({
-  id: z.string(),
-  date: z.date(),
-  label: z.string(),
-  backgroundColor: z.string(),
-  textColor: z.string(),
-});
+export interface Marker {
+  id: string;
+  date: Date;
+  label: string;
+  backgroundColor: string;
+  textColor: string;
+}

@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "@repo/types": "workspace:*",
     "@types/lodash.throttle": "^4.1.9",
     "@types/react": "^18.3.10",
     "typescript": "^5.6.2"

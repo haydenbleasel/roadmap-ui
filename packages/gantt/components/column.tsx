@@ -21,6 +21,7 @@ export const Column: FC<ColumnProps> = ({ index, isColumnSecondary }) => {
   const handleMouseLeave = () => setHovering(false);
 
   return (
+    // biome-ignore lint/nursery/noStaticElementInteractions: <explanation>
     <div
       className={cn(
         'group relative h-full overflow-hidden',

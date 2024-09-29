@@ -1,6 +1,6 @@
+import type { Feature } from '@repo/types';
 import { addDays, formatDistance, isSameDay } from 'date-fns';
 import type { FC, KeyboardEventHandler, MouseEventHandler } from 'react';
-import type { Feature } from '../../types/types';
 
 type SidebarItemProperties = {
   feature: Feature;
@@ -32,8 +32,8 @@ export const SidebarItem: FC<SidebarItemProperties> = ({
   };
 
   return (
-    // biome-ignore lint/nursery/useSemanticElements: <explanation>
     <div
+      // biome-ignore lint/a11y/useSemanticElements: <explanation>
       role="button"
       onClick={handleClick}
       onKeyDown={handleKeyDown}

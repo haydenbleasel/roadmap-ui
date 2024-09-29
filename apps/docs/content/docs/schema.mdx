@@ -13,7 +13,7 @@ This means that, while we don't have support for "Groups" for example, you can i
 
 ## Feature
 
-A feature is a single item on the roadmap. By default, it requires an ID, a name, a start and end date.
+A feature is a single item on the roadmap. By default, it requires an ID, a name, a start and end date, and a status.
 
 ```ts
 const FeatureSchema = z.object({
@@ -21,6 +21,11 @@ const FeatureSchema = z.object({
   name: z.string(),
   startAt: z.date(),
   endAt: z.date(),
+  status: z.object({
+    id: z.string(),
+    name: z.string(),
+    color: z.string(),
+  }),
 });
 ```
 
