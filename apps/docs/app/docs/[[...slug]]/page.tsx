@@ -1,5 +1,9 @@
 import { CalendarExample } from '@/app/components/calendar';
-import { GanttExampleBasic, GanttExampleCustom } from '@/app/components/gantt';
+import {
+  GanttExampleBasic,
+  GanttExampleCustom,
+  GanttExampleSimple,
+} from '@/app/components/gantt';
 import { KanbanExample } from '@/app/components/kanban';
 import { ListExample } from '@/app/components/list';
 import { source } from '@/app/source';
@@ -23,6 +27,7 @@ const components = {
   Gantt: {
     Basic: GanttExampleBasic,
     Custom: GanttExampleCustom,
+    Simple: GanttExampleSimple,
   },
   Kanban: KanbanExample,
   Calendar: CalendarExample,
