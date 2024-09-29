@@ -1,5 +1,5 @@
 import { CalendarExample } from '@/app/components/calendar';
-import { GanttExample } from '@/app/components/gantt';
+import { GanttExampleBasic, GanttExampleCustom } from '@/app/components/gantt';
 import { KanbanExample } from '@/app/components/kanban';
 import { ListExample } from '@/app/components/list';
 import { source } from '@/app/source';
@@ -20,7 +20,10 @@ type PageProps = {
 
 const components = {
   ...defaultMdxComponents,
-  Gantt: GanttExample,
+  Gantt: {
+    Basic: GanttExampleBasic,
+    Custom: GanttExampleCustom,
+  },
   Kanban: KanbanExample,
   Calendar: CalendarExample,
   List: ListExample,

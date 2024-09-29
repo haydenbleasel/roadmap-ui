@@ -4,13 +4,11 @@ description: Show the tasks in a gantt chart.
 icon: SquareChartGantt
 ---
 
-<div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
-  <Gantt />
-</div>
-
-## Usage
-
 ### Basic Example
+
+<div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
+  <Gantt.Basic />
+</div>
 
 ```tsx
 'use client';
@@ -107,6 +105,10 @@ export const GanttExample: FC = () => {
 ```
 
 ### Example with Shadcn UI
+
+<div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
+  <Gantt.Custom />
+</div>
 
 ```tsx
 'use client';

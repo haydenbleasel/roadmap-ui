@@ -1,7 +1,8 @@
 import { DndContext, MouseSensor, useSensor } from '@dnd-kit/core';
 import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
+import {} from '@repo/shadcn-ui/components/ui/avatar';
 import { addDays, getDate, getDaysInMonth, isSameDay } from 'date-fns';
-import { type FC, useContext, useRef, useState } from 'react';
+import { type FC, type ReactNode, useContext, useRef, useState } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
 import { useMouseRef } from '../hooks/use-mouse-ref';
 import {
@@ -85,8 +86,9 @@ const getWidth = (
 export const FeatureItem: FC<
   Feature & {
     onMove: (id: string, startDate: Date, endDate: Date | null) => void;
+    children?: ReactNode;
   }
-> = ({ onMove, ...feature }) => {
+> = ({ onMove, children, ...feature }) => {
   const gantt = useContext(GanttContext);
   const timelineStartDate = new Date(gantt.timelineData[0].year, 0, 1);
   const [startAt, setStartAt] = useState(feature.startAt);
@@ -168,11 +170,11 @@ export const FeatureItem: FC<
           onDragMove={handleItemDragMove}
           onDragEnd={onDragEnd}
         >
-          <FeatureItemCard
-            id={feature.id}
-            owner={feature.owner}
-            name={feature.name}
-          />
+          <FeatureItemCard id={feature.id}>
+            {children ?? (
+              <p className="flex-1 truncate text-xs">{feature.name}</p>
+            )}
+          </FeatureItemCard>
         </DndContext>
         {gantt.editable && (
           <DndContext

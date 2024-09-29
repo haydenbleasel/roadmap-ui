@@ -24,7 +24,87 @@ import { type FC, useState } from 'react';
 import { toast } from 'sonner';
 import { exampleFeatures, exampleMarkers } from '../../lib/content';
 
-export const GanttExample: FC = () => {
+export const GanttExampleBasic: FC = () => {
+  const [features, setFeatures] = useState(exampleFeatures);
+  const groupedFeatures: Record<string, Feature[]> = {
+    features,
+  };
+
+  const sortedGroupedFeatures = Object.fromEntries(
+    Object.entries(groupedFeatures).sort(([nameA], [nameB]) =>
+      nameA.localeCompare(nameB)
+    )
+  );
+
+  const handleViewFeature = (id: string) =>
+    toast.success(`Feature selected: ${id}`);
+
+  const handleRemoveMarker = (id: string) =>
+    toast.success(`Remove marker: ${id}`);
+
+  const handleCreateMarker = (date: Date) =>
+    toast.success(`Create marker: ${date.toISOString()}`);
+
+  const handleMoveFeature = (
+    id: string,
+    startDate: Date,
+    endDate: Date | null
+  ) => toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+
+  const handleAddFeature = (date: Date) =>
+    toast.success(`Add feature: ${date.toISOString()}`);
+
+  return (
+    <Gantt.Provider
+      editable
+      grouping="feature"
+      onAddItem={handleAddFeature}
+      range="monthly"
+      zoom={100}
+    >
+      <Gantt.Sidebar>
+        {Object.entries(sortedGroupedFeatures).map(([group, features]) => (
+          <Gantt.SidebarGroup key={group} name={group}>
+            {features.map((feature) => (
+              <Gantt.SidebarItem
+                key={feature.id}
+                feature={feature}
+                onSelectItem={handleViewFeature}
+              />
+            ))}
+          </Gantt.SidebarGroup>
+        ))}
+      </Gantt.Sidebar>
+      <Gantt.Timeline>
+        <Gantt.Header />
+        <Gantt.FeatureList>
+          {Object.entries(sortedGroupedFeatures).map(([group, features]) => (
+            <Gantt.FeatureListGroup key={group}>
+              {features.map((feature) => (
+                <Gantt.FeatureItem
+                  key={feature.id}
+                  {...feature}
+                  onMove={handleMoveFeature}
+                />
+              ))}
+            </Gantt.FeatureListGroup>
+          ))}
+        </Gantt.FeatureList>
+        {exampleMarkers.map((marker) => (
+          <Gantt.Marker
+            key={marker.id}
+            {...marker}
+            onRemove={handleRemoveMarker}
+          />
+        ))}
+        <Gantt.Today />
+        <Gantt.CreateMarkerTrigger onCreateMarker={handleCreateMarker} />
+      </Gantt.Timeline>
+    </Gantt.Provider>
+  );
+};
+
+export const GanttExampleCustom: FC = () => {
   const [features, setFeatures] = useState(exampleFeatures);
 
   const groupedFeatures: Record<string, Feature[]> = {
@@ -106,7 +186,19 @@ export const GanttExample: FC = () => {
                               key={feature.id}
                               {...feature}
                               onMove={handleMoveFeature}
-                            />
+                            >
+                              <p className="flex-1 truncate text-xs">
+                                {feature.name}
+                              </p>
+                              {feature.owner && (
+                                <Avatar className="h-4 w-4">
+                                  <AvatarImage src={feature.owner.image} />
+                                  <AvatarFallback>
+                                    {feature.owner.name?.slice(0, 2)}
+                                  </AvatarFallback>
+                                </Avatar>
+                              )}
+                            </Gantt.FeatureItem>
                           </button>
                         </ContextMenuTrigger>
                         <ContextMenuContent>

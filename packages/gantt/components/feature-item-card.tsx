@@ -1,23 +1,16 @@
 import { useDraggable } from '@dnd-kit/core';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@repo/shadcn-ui/components/ui/avatar';
 import { Card } from '@repo/shadcn-ui/components/ui/card';
 import { cn } from '@repo/shadcn-ui/lib/utils';
-import { type FC, useContext, useEffect } from 'react';
+import { type FC, type ReactNode, useContext, useEffect } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
 import { useGantt } from '../hooks/use-gantt';
 import type { Feature } from '../types/types';
 
-type FeatureItemCardProps = Pick<Feature, 'id' | 'owner' | 'name'>;
+type FeatureItemCardProps = Pick<Feature, 'id'> & {
+  children?: ReactNode;
+};
 
-export const FeatureItemCard: FC<FeatureItemCardProps> = ({
-  id,
-  owner,
-  name,
-}) => {
+export const FeatureItemCard: FC<FeatureItemCardProps> = ({ id, children }) => {
   const gantt = useContext(GanttContext);
   const { setDragging } = useGantt();
   const { attributes, listeners, setNodeRef } = useDraggable({
@@ -39,13 +32,7 @@ export const FeatureItemCard: FC<FeatureItemCardProps> = ({
         {...listeners}
         ref={setNodeRef}
       >
-        <p className="flex-1 truncate text-xs">{name}</p>
-        {owner && (
-          <Avatar className="h-4 w-4">
-            <AvatarImage src={owner.image} />
-            <AvatarFallback>{owner.name?.slice(0, 2)}</AvatarFallback>
-          </Avatar>
-        )}
+        {children}
       </div>
     </Card>
   );
