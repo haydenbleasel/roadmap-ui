@@ -23,8 +23,8 @@ export const KanbanBoard: FC<KanbanBoardProperties> = ({
   return (
     <Card
       className={cn(
-        'h-full w-full rounded-md p-2 text-xs shadow-sm flex min-h-40 flex-col gap-2 outline outline-2 transition-all',
-        isOver ? 'outline-violet-500' : 'outline-transparent'
+        'flex h-full min-h-40 w-full flex-col gap-2 rounded-md p-2 text-xs shadow-sm outline outline-2 transition-all',
+        isOver ? 'outline-primary' : 'outline-transparent'
       )}
     >
       <div className="flex shrink-0 items-center gap-2">
