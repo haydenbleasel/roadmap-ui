@@ -49,7 +49,14 @@ export const GanttExampleBasic: FC = () => {
     id: string,
     startDate: Date,
     endDate: Date | null
-  ) => toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+  ) => {
+    setFeatures((prev) =>
+      prev.map((feature) =>
+        feature.id === id ? { ...feature, startDate, endDate } : feature
+      )
+    );
+    toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+  };
 
   const handleAddFeature = (date: Date) =>
     toast.success(`Add feature: ${date.toISOString()}`);
@@ -83,8 +90,8 @@ export const GanttExampleBasic: FC = () => {
               {features.map((feature) => (
                 <Gantt.FeatureItem
                   key={feature.id}
-                  {...feature}
                   onMove={handleMoveFeature}
+                  {...feature}
                 />
               ))}
             </Gantt.FeatureListGroup>
@@ -141,6 +148,7 @@ export const GanttExampleCustom: FC = () => {
         feature.id === id ? { ...feature, startDate, endDate } : feature
       )
     );
+    toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
   };
 
   const handleAddFeature = (date: Date) =>
@@ -184,8 +192,8 @@ export const GanttExampleCustom: FC = () => {
                           >
                             <Gantt.FeatureItem
                               key={feature.id}
-                              {...feature}
                               onMove={handleMoveFeature}
+                              {...feature}
                             >
                               <p className="flex-1 truncate text-xs">
                                 {feature.name}
