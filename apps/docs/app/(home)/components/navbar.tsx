@@ -13,6 +13,28 @@ import type { FC } from 'react';
 import Logo from '../gantt.svg';
 import { ModeToggle } from './mode-toggle';
 
+const DocsLink: FC<{
+  href: string;
+  icon: typeof SquareChartGanttIcon;
+  title: string;
+}> = ({ href, icon: Icon, title }) => (
+  <Link
+    href={href}
+    className="flex aspect-square h-7 items-center justify-center rounded transition-all hover:bg-background hover:text-primary hover:shadow-sm"
+  >
+    <Icon size={16} />
+    <span className="sr-only">{title}</span>
+  </Link>
+);
+
+const docsLinks = [
+  { href: '/docs/gantt', icon: SquareChartGanttIcon, title: 'Gantt' },
+  { href: '/docs/kanban', icon: KanbanSquareIcon, title: 'Kanban' },
+  { href: '/docs/calendar', icon: CalendarRangeIcon, title: 'Calendar' },
+  { href: '/docs/list', icon: ListIcon, title: 'List' },
+  { href: '/docs/table', icon: TablePropertiesIcon, title: 'Table' },
+];
+
 export const Navbar: FC = () => (
   <header className="sticky top-0 z-50 w-full border-border/40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
     <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
@@ -30,42 +52,10 @@ export const Navbar: FC = () => (
 
         <Link href="/docs">Docs</Link>
 
-        <div className="rounded-md bg-secondary flex items-center gap-px p-0.5 text-muted-foreground">
-          <Link
-            href="/docs/gantt"
-            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
-          >
-            <SquareChartGanttIcon size={16} />
-            <span className="sr-only">Gantt</span>
-          </Link>
-          <Link
-            href="/docs/kanban"
-            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
-          >
-            <KanbanSquareIcon size={16} />
-            <span className="sr-only">Kanban</span>
-          </Link>
-          <Link
-            href="/docs/calendar"
-            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
-          >
-            <CalendarRangeIcon size={16} />
-            <span className="sr-only">Calendar</span>
-          </Link>
-          <Link
-            href="/docs/list"
-            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
-          >
-            <ListIcon size={16} />
-            <span className="sr-only">List</span>
-          </Link>
-          <Link
-            href="/docs/table"
-            className="h-7 rounded hover:text-primary aspect-square flex items-center justify-center hover:bg-background transition-colors"
-          >
-            <TablePropertiesIcon size={16} />
-            <span className="sr-only">Table</span>
-          </Link>
+        <div className="flex items-center gap-px rounded-md bg-secondary p-0.5 text-muted-foreground">
+          {docsLinks.map(({ href, icon, title }) => (
+            <DocsLink key={href} href={href} icon={icon} title={title} />
+          ))}
         </div>
       </nav>
       <div className="flex flex-1 items-center gap-2 md:justify-end">

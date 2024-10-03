@@ -1,7 +1,6 @@
 'use client';
 
 import * as Gantt from '@repo/gantt';
-import type { Feature } from '@repo/gantt/types/types';
 import {
   Avatar,
   AvatarFallback,
@@ -22,6 +21,7 @@ import { Separator } from '@repo/shadcn-ui/components/ui/separator';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
 import { type FC, useState } from 'react';
 import { toast } from 'sonner';
+import type { Feature } from '../../../../packages/types';
 import { exampleFeatures, exampleMarkers } from '../../lib/content';
 
 export const GanttExampleBasic: FC = () => {
@@ -64,7 +64,6 @@ export const GanttExampleBasic: FC = () => {
   return (
     <Gantt.Provider
       editable
-      grouping="feature"
       onAddItem={handleAddFeature}
       range="monthly"
       zoom={100}
@@ -157,7 +156,6 @@ export const GanttExampleCustom: FC = () => {
   return (
     <Gantt.Provider
       editable
-      grouping="feature"
       onAddItem={handleAddFeature}
       range="monthly"
       zoom={100}
@@ -328,7 +326,6 @@ export const GanttExampleSimple: FC = () => {
   return (
     <Gantt.Provider
       editable
-      grouping="feature"
       onAddItem={handleAddFeature}
       range="monthly"
       zoom={100}
