@@ -38,7 +38,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI Scene Analysis',
     startAt: startOfMonth(subMonths(today, 6)),
     endAt: endOfMonth(subMonths(today, 5)),
-    status: exampleStatuses[0], // Done
+    status: exampleStatuses[0],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -54,7 +54,7 @@ export const exampleFeatures: (Feature & {
     name: 'Collaborative Editing',
     startAt: startOfMonth(subMonths(today, 5)),
     endAt: endOfMonth(subMonths(today, 3)),
-    status: exampleStatuses[0], // Done
+    status: exampleStatuses[0],
     group: { id: '2', name: 'Collaboration Tools' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -70,7 +70,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI-Powered Color Grading',
     startAt: startOfMonth(subMonths(today, 4)),
     endAt: endOfMonth(subMonths(today, 3)),
-    status: exampleStatuses[0], // Done
+    status: exampleStatuses[0],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -86,7 +86,7 @@ export const exampleFeatures: (Feature & {
     name: 'Real-time Video Chat',
     startAt: startOfMonth(subMonths(today, 3)),
     endAt: endOfMonth(subMonths(today, 2)),
-    status: exampleStatuses[2], // In Progress
+    status: exampleStatuses[2],
     group: { id: '2', name: 'Collaboration Tools' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -102,7 +102,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI Voice-to-Text Subtitles',
     startAt: startOfMonth(subMonths(today, 2)),
     endAt: endOfMonth(subMonths(today, 1)),
-    status: exampleStatuses[1], // In Review
+    status: exampleStatuses[1],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -118,7 +118,7 @@ export const exampleFeatures: (Feature & {
     name: 'Cloud Asset Management',
     startAt: startOfMonth(subMonths(today, 1)),
     endAt: endOfMonth(today),
-    status: exampleStatuses[2], // In Progress
+    status: exampleStatuses[2],
     group: { id: '3', name: 'Cloud Infrastructure' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -134,7 +134,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI-Assisted Video Transitions',
     startAt: startOfMonth(today),
     endAt: endOfMonth(addMonths(today, 1)),
-    status: exampleStatuses[2], // In Progress
+    status: exampleStatuses[2],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -150,7 +150,7 @@ export const exampleFeatures: (Feature & {
     name: 'Version Control System',
     startAt: startOfMonth(addMonths(today, 1)),
     endAt: endOfMonth(addMonths(today, 2)),
-    status: exampleStatuses[1], // In Review
+    status: exampleStatuses[1],
     group: { id: '2', name: 'Collaboration Tools' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -166,7 +166,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI Content-Aware Fill',
     startAt: startOfMonth(addMonths(today, 2)),
     endAt: endOfMonth(addMonths(today, 3)),
-    status: exampleStatuses[2], // In Progress
+    status: exampleStatuses[2],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -182,7 +182,7 @@ export const exampleFeatures: (Feature & {
     name: 'Multi-User Permissions',
     startAt: startOfMonth(addMonths(today, 3)),
     endAt: endOfMonth(addMonths(today, 4)),
-    status: exampleStatuses[1], // In Review
+    status: exampleStatuses[1],
     group: { id: '2', name: 'Collaboration Tools' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -198,7 +198,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI-Powered Audio Enhancement',
     startAt: startOfMonth(addMonths(today, 4)),
     endAt: endOfMonth(addMonths(today, 5)),
-    status: exampleStatuses[2], // In Progress
+    status: exampleStatuses[2],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -214,7 +214,7 @@ export const exampleFeatures: (Feature & {
     name: 'Real-time Project Analytics',
     startAt: startOfMonth(addMonths(today, 5)),
     endAt: endOfMonth(addMonths(today, 6)),
-    status: exampleStatuses[1], // In Review
+    status: exampleStatuses[1],
     group: { id: '3', name: 'Cloud Infrastructure' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -230,7 +230,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI Scene Recommendations',
     startAt: startOfMonth(addMonths(today, 6)),
     endAt: endOfMonth(addMonths(today, 7)),
-    status: exampleStatuses[2], // In Progress
+    status: exampleStatuses[2],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -246,7 +246,7 @@ export const exampleFeatures: (Feature & {
     name: 'Collaborative Storyboarding',
     startAt: startOfMonth(addMonths(today, 7)),
     endAt: endOfMonth(addMonths(today, 8)),
-    status: exampleStatuses[1], // In Review
+    status: exampleStatuses[1],
     group: { id: '2', name: 'Collaboration Tools' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -262,7 +262,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI-Driven Video Compression',
     startAt: startOfMonth(addMonths(today, 8)),
     endAt: endOfMonth(addMonths(today, 9)),
-    status: exampleStatuses[2], // In Progress
+    status: exampleStatuses[2],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -278,7 +278,7 @@ export const exampleFeatures: (Feature & {
     name: 'Global CDN Integration',
     startAt: startOfMonth(addMonths(today, 9)),
     endAt: endOfMonth(addMonths(today, 10)),
-    status: exampleStatuses[3], // Planned
+    status: exampleStatuses[2],
     group: { id: '3', name: 'Cloud Infrastructure' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -294,7 +294,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI Object Tracking',
     startAt: startOfMonth(addMonths(today, 10)),
     endAt: endOfMonth(addMonths(today, 11)),
-    status: exampleStatuses[3], // Planned
+    status: exampleStatuses[2],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -310,7 +310,7 @@ export const exampleFeatures: (Feature & {
     name: 'Real-time Language Translation',
     startAt: startOfMonth(addMonths(today, 11)),
     endAt: endOfMonth(addMonths(today, 12)),
-    status: exampleStatuses[3], // Planned
+    status: exampleStatuses[2],
     group: { id: '2', name: 'Collaboration Tools' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -326,7 +326,7 @@ export const exampleFeatures: (Feature & {
     name: 'AI-Powered Video Summarization',
     startAt: startOfMonth(addMonths(today, 12)),
     endAt: endOfMonth(addMonths(today, 13)),
-    status: exampleStatuses[3], // Planned
+    status: exampleStatuses[2],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
@@ -342,7 +342,7 @@ export const exampleFeatures: (Feature & {
     name: 'Blockchain-based Asset Licensing',
     startAt: startOfMonth(addMonths(today, 13)),
     endAt: endOfMonth(addMonths(today, 14)),
-    status: exampleStatuses[3], // Planned
+    status: exampleStatuses[2],
     group: { id: '3', name: 'Cloud Infrastructure' },
     product: { id: '1', name: 'Video Editor Pro' },
     owner: {
