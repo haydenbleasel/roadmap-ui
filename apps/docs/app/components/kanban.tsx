@@ -48,8 +48,13 @@ export const KanbanExample: FC = () => {
                 key={feature.id}
                 id={feature.id}
                 name={feature.name}
-                parent={feature.status.name}
                 color={feature.status.color}
+                parent={status.name}
+                status={{
+                  color: feature.status.color,
+                  name: feature.status.name,
+                  id: feature.status.id,
+                }}
                 index={index}
               />
             ))}
