@@ -4,6 +4,144 @@ description: Show the tasks in a list view.
 icon: List
 ---
 
+## Overview
+
+List views are a great way to show a list of tasks grouped by status and ranked by priority. This implementation is built on [dnd-kit](https://dndkit.com/), a powerful drag and drop library.
+
 <div className="not-prose w-full bg-white border rounded-xl overflow-auto" style={{ height: '32rem' }}>
-  <List />
+  <List.Basic />
 </div>
+
+## Usage
+
+### Basic Example
+
+This example shows a basic list view with a list of features.
+
+<div className="not-prose w-full bg-white border rounded-xl overflow-auto" style={{ height: '32rem' }}>
+  <List.Basic />
+</div>
+
+```tsx
+export const ListExampleBasic: FC = () => {
+  const [features, setFeatures] = useState(exampleFeatures);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) {
+      return;
+    }
+
+    const status = exampleStatuses.find((status) => status.name === over.id);
+
+    if (!status) {
+      return;
+    }
+
+    setFeatures(
+      features.map((feature) => {
+        if (feature.id === active.id) {
+          return { ...feature, status };
+        }
+
+        return feature;
+      })
+    );
+  };
+
+  return (
+    <List.ListProvider onDragEnd={handleDragEnd}>
+      {exampleStatuses.map((status) => (
+        <List.ListGroup
+          key={status.name}
+          id={status.name}
+          name={status.name}
+          color={status.color}
+        >
+          {features
+            .filter((feature) => feature.status.name === status.name)
+            .map((feature, index) => (
+              <List.ListItem
+                key={feature.id}
+                id={feature.id}
+                name={feature.name}
+                parent={feature.status.name}
+                index={index}
+              />
+            ))}
+        </List.ListGroup>
+      ))}
+    </List.ListProvider>
+  );
+};
+```
+
+### Custom Example
+
+This example shows a list view with a list of features, where each feature has a custom rendering.
+
+<div className="not-prose w-full bg-white border rounded-xl overflow-auto" style={{ height: '32rem' }}>
+  <List.Custom />
+</div>
+
+```tsx
+export const ListExampleCustom: FC = () => {
+  const [features, setFeatures] = useState(exampleFeatures);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) {
+      return;
+    }
+
+    const status = exampleStatuses.find((status) => status.name === over.id);
+
+    if (!status) {
+      return;
+    }
+
+    setFeatures(
+      features.map((feature) => {
+        if (feature.id === active.id) {
+          return { ...feature, status };
+        }
+
+        return feature;
+      })
+    );
+  };
+
+  return (
+    <List.ListProvider onDragEnd={handleDragEnd}>
+      {exampleStatuses.map((status) => (
+        <List.ListGroup
+          key={status.name}
+          id={status.name}
+          name={status.name}
+          color={status.color}
+        >
+          {features
+            .filter((feature) => feature.status.name === status.name)
+            .map((feature, index) => (
+              <List.ListItem
+                key={feature.id}
+                id={feature.id}
+                name={feature.name}
+                parent={feature.status.name}
+                index={index}
+              >
+                <div
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: feature.status.color }}
+                />
+                <p className="m-0 font-medium text-sm">{feature.name}</p>
+              </List.ListItem>
+            ))}
+        </List.ListGroup>
+      ))}
+    </List.ListProvider>
+  );
+};
+```

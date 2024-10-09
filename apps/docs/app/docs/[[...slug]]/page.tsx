@@ -8,7 +8,7 @@ import {
   KanbanExampleBasic,
   KanbanExampleCustom,
 } from '@/app/components/kanban';
-import { ListExample } from '@/app/components/list';
+import { ListExampleBasic, ListExampleCustom } from '@/app/components/list';
 import { source } from '@/app/source';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import {
@@ -37,7 +37,10 @@ const components = {
     Custom: KanbanExampleCustom,
   },
   Calendar: CalendarExample,
-  List: ListExample,
+  List: {
+    Basic: ListExampleBasic,
+    Custom: ListExampleCustom,
+  },
 };
 
 const Page: FC<PageProps> = ({ params }) => {
