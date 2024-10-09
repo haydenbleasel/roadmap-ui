@@ -4,7 +4,39 @@ description: Show the tasks in a gantt chart.
 icon: SquareChartGantt
 ---
 
+## Overview
+
+The Gantt chart is a powerful tool for visualizing project schedules and tracking the progress of tasks. It provides a clear, hierarchical view of tasks, allowing you to easily identify manage project timelines.
+
+<div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
+  <Gantt.Basic />
+</div>
+
+## Subcomponents
+
+The Gantt chart is made up of the following subcomponents:
+
+| Subcomponent | Description |
+| ------- | ----------- |
+| Provider | The provider of the Gantt chart containing the drag-and-drop context. |
+| Sidebar | A container for the sidebar header and items. |
+| SidebarHeader | The header of the sidebar. |
+| SidebarGroup | A group of sidebar items. |
+| SidebarItem | A single item in the sidebar. |
+| Timeline | A container for the timeline and its content. |
+| Header | The header of the timeline with the columns. |
+| FeatureList | A container for the groups of features. |
+| FeatureListGroup | A logical group of features. |
+| FeatureItem | A single feature. |
+| Marker | A marker on the timeline e.g. a milestone. |
+| Today | A visual cue for the current date. |
+| Create Marker Trigger | A button to create a marker on the timeline. |
+
+## Usage
+
 ### Basic Example
+
+This example shows a basic Gantt chart with a sidebar, timeline, header, and features.
 
 <div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
   <Gantt.Basic />
@@ -104,7 +136,9 @@ export const GanttExample: FC = () => {
 };
 ```
 
-### Example with Shadcn UI
+### Complex Example
+
+This example shows a more complex Gantt chart with a sidebar, timeline, header, and features. It also uses Shadcn UI for the context menu and hover card. Try hovering over the features to see the hover card, or right-click an item to open the context menu. It also renders the owner of the feature in the hover card.
 
 <div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
   <Gantt.Custom />
@@ -288,7 +322,9 @@ export const GanttExample: FC = () => {
 };
 ```
 
-### Example without Sidebar
+### Simple Example
+
+This example shows a simple Gantt chart with a timeline, header, and features (no sidebar). It also removes the markers and create marker trigger.
 
 <div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
   <Gantt.Simple />
