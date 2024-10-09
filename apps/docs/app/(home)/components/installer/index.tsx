@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@repo/shadcn-ui/components/ui/dropdown-menu';
+import { toast } from 'sonner';
 import BunLogo from './bun.svg';
 import NpmLogo from './npm.svg';
 import PnpmLogo from './pnpm.svg';
@@ -33,6 +34,11 @@ export const Installer: FC = () => {
   if (!activeManager) {
     return null;
   }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`${activeManager.command} roadmap-ui`);
+    toast.success('Copied to clipboard');
+  };
 
   return (
     <div className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 font-medium text-sm ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
@@ -76,6 +82,7 @@ export const Installer: FC = () => {
         size="icon"
         aria-label="Copy"
         className="w-4 h-4 ml-2"
+        onClick={handleCopy}
       >
         <CopyIcon size={14} className="text-muted-foreground" />
       </Button>

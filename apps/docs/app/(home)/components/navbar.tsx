@@ -22,7 +22,7 @@ const DocsLink: FC<{
   icon: typeof SquareChartGanttIcon;
   title: string;
 }> = ({ href, icon: Icon, title }) => (
-  <Tooltip>
+  <Tooltip delayDuration={0}>
     <TooltipTrigger>
       <Link
         href={href}
