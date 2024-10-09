@@ -113,7 +113,7 @@ export const GanttExampleBasic: FC = () => {
 export const GanttExampleCustom: FC = () => {
   const [features, setFeatures] = useState(exampleFeatures);
 
-  const groupedFeatures: Record<string, Feature[]> = {
+  const groupedFeatures: Record<string, typeof exampleFeatures> = {
     features,
   };
 
