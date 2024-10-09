@@ -80,11 +80,19 @@ export const GanttExample: FC = () => {
   const handleCreateMarker = (date: Date) =>
     toast.success(`Create marker: ${date.toISOString()}`);
 
-  const handleMoveFeature = (
-    id: string,
-    startDate: Date,
-    endDate: Date | null
-  ) => toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+  const handleMoveFeature = (id: string, startAt: Date, endAt: Date | null) => {
+    if (!endAt) {
+      return;
+    }
+
+    setFeatures((prev) =>
+      prev.map((feature) =>
+        feature.id === id ? { ...feature, startAt, endAt } : feature
+      )
+    );
+
+    toast.success(`Move feature: ${id} from ${startAt} to ${endAt}`);
+  };
 
   const handleAddFeature = (date: Date) =>
     toast.success(`Add feature: ${date.toISOString()}`);
@@ -200,11 +208,19 @@ export const GanttExample: FC = () => {
   const handleCreateMarker = (date: Date) =>
     toast.success(`Create marker: ${date.toISOString()}`);
 
-  const handleMoveFeature = (
-    id: string,
-    startDate: Date,
-    endDate: Date | null
-  ) => toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+  const handleMoveFeature = (id: string, startAt: Date, endAt: Date | null) => {
+    if (!endAt) {
+      return;
+    }
+
+    setFeatures((prev) =>
+      prev.map((feature) =>
+        feature.id === id ? { ...feature, startAt, endAt } : feature
+      )
+    );
+
+    toast.success(`Move feature: ${id} from ${startAt} to ${endAt}`);
+  };
 
   const handleAddFeature = (date: Date) =>
     toast.success(`Add feature: ${date.toISOString()}`);
