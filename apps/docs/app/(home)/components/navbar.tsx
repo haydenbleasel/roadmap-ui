@@ -1,4 +1,9 @@
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@repo/shadcn-ui/components/ui/tooltip';
+import {
   CalendarRangeIcon,
   GithubIcon,
   KanbanSquareIcon,
@@ -18,13 +23,20 @@ const DocsLink: FC<{
   icon: typeof SquareChartGanttIcon;
   title: string;
 }> = ({ href, icon: Icon, title }) => (
-  <Link
-    href={href}
-    className="flex aspect-square h-7 items-center justify-center rounded transition-all hover:bg-background hover:text-primary hover:shadow-sm"
-  >
-    <Icon size={16} />
-    <span className="sr-only">{title}</span>
-  </Link>
+  <Tooltip>
+    <TooltipTrigger>
+      <Link
+        href={href}
+        className="flex aspect-square h-7 items-center justify-center rounded transition-all hover:bg-background hover:text-primary hover:shadow-sm"
+      >
+        <Icon size={16} />
+        <span className="sr-only">{title}</span>
+      </Link>
+    </TooltipTrigger>
+    <TooltipContent side="bottom" align="center" sideOffset={4}>
+      <p className="text-xs">{title}</p>
+    </TooltipContent>
+  </Tooltip>
 );
 
 const docsLinks = [
@@ -50,7 +62,9 @@ export const Navbar: FC = () => (
           <span className="font-semibold">Roadmap UI</span>
         </Link>
 
-        <Link href="/docs">Docs</Link>
+        <Link href="/docs" className="text-sm font-medium">
+          Docs
+        </Link>
 
         <div className="flex items-center gap-px rounded-md bg-secondary p-0.5 text-muted-foreground">
           {docsLinks.map(({ href, icon, title }) => (

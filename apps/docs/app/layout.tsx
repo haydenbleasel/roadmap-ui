@@ -1,5 +1,6 @@
 import '@repo/tailwind-config/globals.css';
 import { Toaster } from '@repo/shadcn-ui/components/ui/sonner';
+import { TooltipProvider } from '@repo/shadcn-ui/components/ui/tooltip';
 import { cn } from '@repo/shadcn-ui/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 import { GeistMono } from 'geist/font/mono';
@@ -20,7 +21,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     >
       <body>
         <ThemeProvider>
-          {children}
+          <TooltipProvider>{children}</TooltipProvider>
           <Toaster />
         </ThemeProvider>
         <Analytics />
