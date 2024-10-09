@@ -1,4 +1,5 @@
 import { GitHubIcon, TwitterIcon } from '@/app/components/icons';
+import { Logo } from '@/app/components/logo';
 import {
   Tooltip,
   TooltipContent,
@@ -11,10 +12,8 @@ import {
   SquareChartGanttIcon,
   TablePropertiesIcon,
 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
-import Logo from '../gantt.svg';
 import { ModeToggle } from './mode-toggle';
 
 const DocsLink: FC<{
@@ -50,16 +49,7 @@ export const Navbar: FC = () => (
   <header className="sticky top-0 z-50 w-full border-border/40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
     <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
       <nav className="flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src={Logo}
-            alt="Roadmap UI"
-            width={28}
-            height={28}
-            className="w-6 h-6"
-          />
-          <span className="font-semibold">Roadmap UI</span>
-        </Link>
+        <Logo />
 
         <Link href="/docs" className="text-sm font-medium">
           Docs

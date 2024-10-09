@@ -1,4 +1,5 @@
 import type { HomeLayoutProps } from 'fumadocs-ui/home-layout';
+import { Logo } from './components/logo';
 
 /**
  * Shared layout configurations
@@ -9,7 +10,8 @@ import type { HomeLayoutProps } from 'fumadocs-ui/home-layout';
  */
 export const baseOptions: HomeLayoutProps = {
   nav: {
-    title: 'Roadmap UI',
+    title: <Logo />,
+    enableSearch: true,
   },
   links: [
     {

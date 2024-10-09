@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import type { FC } from 'react';
 import { GanttExampleCustom } from '../components/gantt';
+import { RoadmapUiIcon } from '../components/icons';
 import { GitHubButton } from './components/github-button';
 import { Installer } from './components/installer';
 import { Navbar } from './components/navbar';
 import EververseLogo from './eververse.png';
-import GanttLogo from './gantt.svg';
 import ReactLogo from './react.svg';
 
 export const metadata: Metadata = {
@@ -29,13 +29,7 @@ const HomePage: FC = () => (
           className="inline-block align-baseline select-none pointer-events-none"
         />{' '}
         React components for building interactive{' '}
-        <Image
-          src={GanttLogo}
-          alt=""
-          width={48}
-          height={48}
-          className="-rotate-6 ml-2 inline-block translate-y-1 align-baseline select-none pointer-events-none"
-        />{' '}
+        <RoadmapUiIcon className="-rotate-6 ml-2 inline-block translate-y-1 align-baseline select-none pointer-events-none" />{' '}
         roadmaps.
       </h1>
       <p className="mt-6 max-w-lg text-pretty text-center text-lg text-muted-foreground sm:text-xl">
