@@ -32,7 +32,7 @@ export const FeatureDragHelper: FC<FeatureDragHelperProps> = ({
   return (
     <div
       className={cn(
-        'group -translate-y-1/2 absolute top-1/2 z-[3] h-full w-6 cursor-col-resize rounded-md outline-none',
+        'group -translate-y-1/2 !cursor-col-resize absolute top-1/2 z-[3] h-full w-6 rounded-md outline-none',
         direction === 'left' ? '-left-2.5' : '-right-2.5'
       )}
       ref={setNodeRef}
