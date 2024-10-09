@@ -48,12 +48,16 @@ export const Provider: FC<ProviderProperties> = ({
     columnWidth = 100;
   }
 
+  const sidebar = scrollRef.current?.querySelector(
+    '[data-roadmap-ui="gantt-sidebar"]'
+  );
+
   const cssVariables = {
     '--gantt-zoom': `${zoom}`,
     '--gantt-column-width': `${(zoom / 100) * columnWidth}px`,
     '--gantt-header-height': `${headerHeight}px`,
     '--gantt-row-height': `${rowHeight}px`,
-    '--gantt-sidebar-width': `${sidebarWidth}px`,
+    '--gantt-sidebar-width': sidebar ? `${sidebarWidth}px` : '0px',
   } as CSSProperties;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Re-render when props change
