@@ -45,17 +45,18 @@ export const GanttExampleBasic: FC = () => {
   const handleCreateMarker = (date: Date) =>
     toast.success(`Create marker: ${date.toISOString()}`);
 
-  const handleMoveFeature = (
-    id: string,
-    startDate: Date,
-    endDate: Date | null
-  ) => {
+  const handleMoveFeature = (id: string, startAt: Date, endAt: Date | null) => {
+    if (!endAt) {
+      return;
+    }
+
     setFeatures((prev) =>
       prev.map((feature) =>
-        feature.id === id ? { ...feature, startDate, endDate } : feature
+        feature.id === id ? { ...feature, startAt, endAt } : feature
       )
     );
-    toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+
+    toast.success(`Move feature: ${id} from ${startAt} to ${endAt}`);
   };
 
   const handleAddFeature = (date: Date) =>
@@ -137,17 +138,18 @@ export const GanttExampleCustom: FC = () => {
   const handleCreateMarker = (date: Date) =>
     toast.success(`Create marker: ${date.toISOString()}`);
 
-  const handleMoveFeature = (
-    id: string,
-    startDate: Date,
-    endDate: Date | null
-  ) => {
+  const handleMoveFeature = (id: string, startAt: Date, endAt: Date | null) => {
+    if (!endAt) {
+      return;
+    }
+
     setFeatures((prev) =>
       prev.map((feature) =>
-        feature.id === id ? { ...feature, startDate, endDate } : feature
+        feature.id === id ? { ...feature, startAt, endAt } : feature
       )
     );
-    toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+
+    toast.success(`Move feature: ${id} from ${startAt} to ${endAt}`);
   };
 
   const handleAddFeature = (date: Date) =>
@@ -293,17 +295,18 @@ export const GanttExampleSimple: FC = () => {
     )
   );
 
-  const handleMoveFeature = (
-    id: string,
-    startDate: Date,
-    endDate: Date | null
-  ) => {
+  const handleMoveFeature = (id: string, startAt: Date, endAt: Date | null) => {
+    if (!endAt) {
+      return;
+    }
+
     setFeatures((prev) =>
       prev.map((feature) =>
-        feature.id === id ? { ...feature, startDate, endDate } : feature
+        feature.id === id ? { ...feature, startAt, endAt } : feature
       )
     );
-    toast.success(`Move feature: ${id} from ${startDate} to ${endDate}`);
+
+    toast.success(`Move feature: ${id} from ${startAt} to ${endAt}`);
   };
 
   const handleAddFeature = (date: Date) =>
