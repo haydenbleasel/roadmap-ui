@@ -1,18 +1,38 @@
-import type { MarkerProps } from '@repo/gantt/components/marker';
-import type { FeatureProps } from '@repo/gantt/types/types';
 import tailwind from '@repo/tailwind-config/tailwind';
 import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
+import type { Feature, Status } from '../../../packages/types';
 
 const today = new Date();
 
-export const exampleStatuses = [
-  { name: 'Done', color: tailwind.theme.colors.emerald[500] },
-  { name: 'In Review', color: tailwind.theme.colors.blue[500] },
-  { name: 'In Progress', color: tailwind.theme.colors.amber[500] },
-  { name: 'Planned', color: tailwind.theme.colors.gray[500] },
+export const exampleStatuses: Status[] = [
+  { id: '1', name: 'Planned', color: tailwind.theme.colors.gray[500] },
+  { id: '2', name: 'In Progress', color: tailwind.theme.colors.amber[500] },
+  { id: '3', name: 'Done', color: tailwind.theme.colors.emerald[500] },
 ];
 
-export const exampleFeatures: FeatureProps[] = [
+export const exampleFeatures: (Feature & {
+  group: {
+    id: string;
+    name: string;
+  };
+  product: {
+    id: string;
+    name: string;
+  };
+  owner: {
+    id: string;
+    image: string;
+    name: string;
+  };
+  initiative: {
+    id: string;
+    name: string;
+  };
+  release: {
+    id: string;
+    name: string;
+  };
+})[] = [
   {
     id: '1',
     name: 'AI Scene Analysis',
