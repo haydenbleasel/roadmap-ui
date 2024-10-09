@@ -1,3 +1,4 @@
+import { GitHubIcon, TwitterIcon } from '@/app/components/icons';
 import {
   Tooltip,
   TooltipContent,
@@ -5,12 +6,10 @@ import {
 } from '@repo/shadcn-ui/components/ui/tooltip';
 import {
   CalendarRangeIcon,
-  GithubIcon,
   KanbanSquareIcon,
   ListIcon,
   SquareChartGanttIcon,
   TablePropertiesIcon,
-  XIcon,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -73,30 +72,30 @@ export const Navbar: FC = () => (
         </div>
       </nav>
       <div className="flex flex-1 items-center gap-2 md:justify-end">
-        <div className="flex items-center">
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://github.com/haydenbleasel/roadmap-ui"
-          >
-            <div className="inline-flex h-10 w-9 items-center justify-center whitespace-nowrap rounded-md px-0 py-2 font-medium text-sm ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-              <GithubIcon size={16} />
-              <span className="sr-only">GitHub</span>
-            </div>
-          </a>
+        <div className="flex items-center gap-px">
           <a
             target="_blank"
             rel="noreferrer"
             href="https://x.com/haydenbleasel"
           >
             <div className="inline-flex h-10 w-9 items-center justify-center whitespace-nowrap rounded-md px-0 py-2 font-medium text-sm ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-              <XIcon size={16} />
+              <TwitterIcon className="w-4 h-4" />
+              <span className="sr-only">X</span>
+            </div>
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://github.com/haydenbleasel/roadmap-ui"
+          >
+            <div className="inline-flex h-10 w-9 items-center justify-center whitespace-nowrap rounded-md px-0 py-2 font-medium text-sm ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+              <GitHubIcon className="w-4 h-4" />
               <span className="sr-only">X</span>
             </div>
           </a>
         </div>
+        <ModeToggle />
       </div>
-      <ModeToggle />
     </div>
   </header>
 );

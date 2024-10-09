@@ -1,8 +1,6 @@
+import { GitHubIcon } from '@/app/components/icons';
 import { Octokit } from '@octokit/rest';
-import Image from 'next/image';
-
 import type { ReactElement } from 'react';
-import GithubLogo from './github.svg';
 
 export const GitHubButton = async (): Promise<ReactElement> => {
   const octokit = new Octokit();
@@ -21,7 +19,7 @@ export const GitHubButton = async (): Promise<ReactElement> => {
       href={data.html_url}
     >
       <div className="flex h-full items-center gap-2">
-        <Image src={GithubLogo} alt="Github" width={16} height={16} />
+        <GitHubIcon className="w-4 h-4" />
         <div className="hidden md:[display:unset]">GitHub</div>
         <div className="mx-2 hidden h-full w-px bg-border md:[display:unset]" />
         <div>{data.stargazers_count}</div>
