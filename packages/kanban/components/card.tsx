@@ -3,7 +3,7 @@ import { cn } from '@repo/shadcn-ui/lib/utils';
 import type { Feature } from '@repo/types';
 import type { FC, ReactNode } from 'react';
 
-type KanbanCardProps = Pick<Feature, 'id' | 'name' | 'status'> & {
+type KanbanCardProps = Pick<Feature, 'id' | 'name'> & {
   index: number;
   parent: string;
   children?: ReactNode;

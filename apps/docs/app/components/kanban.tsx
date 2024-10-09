@@ -49,11 +49,6 @@ export const KanbanExampleBasic: FC = () => {
                 id={feature.id}
                 name={feature.name}
                 parent={status.name}
-                status={{
-                  color: feature.status.color,
-                  name: feature.status.name,
-                  id: feature.status.id,
-                }}
                 index={index}
               />
             ))}
@@ -107,13 +102,14 @@ export const KanbanExampleCustom: FC = () => {
                 id={feature.id}
                 name={feature.name}
                 parent={status.name}
-                status={{
-                  color: feature.status.color,
-                  name: feature.status.name,
-                  id: feature.status.id,
-                }}
                 index={index}
-              />
+              >
+                <div
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: feature.status.color }}
+                />
+                <p className="m-0 font-medium text-sm">{feature.name}</p>
+              </Kanban.KanbanCard>
             ))}
         </Kanban.KanbanBoard>
       ))}

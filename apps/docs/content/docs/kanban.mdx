@@ -16,6 +16,8 @@ A kanban board is a visual tool that helps you manage and visualize your work. I
 
 ### Basic Example
 
+This example shows a basic kanban board with a list of features.
+
 <div className="not-prose w-full">
   <Kanban.Basic />
 </div>
@@ -71,8 +73,7 @@ export const KanbanExample: FC = () => {
                 key={feature.id}
                 id={feature.id}
                 name={feature.name}
-                parent={feature.status.name}
-                color={feature.status.color}
+                parent={status.name}
                 index={index}
               />
             ))}
@@ -84,6 +85,8 @@ export const KanbanExample: FC = () => {
 ```
 
 ### Custom Example
+
+This example shows a custom kanban board with a list of features. The card contents are rendered using a custom component.
 
 <div className="not-prose w-full">
   <Kanban.Custom />
@@ -140,10 +143,15 @@ export const KanbanExample: FC = () => {
                 key={feature.id}
                 id={feature.id}
                 name={feature.name}
-                parent={feature.status.name}
-                color={feature.status.color}
+                parent={status.name}
                 index={index}
-              />
+              >
+              <div
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: feature.status.color }}
+                />
+                <p className="m-0 font-medium text-sm">{feature.name}</p>
+              </Kanban.KanbanCard>
             ))}
         </Kanban.KanbanBoard>
       ))}
