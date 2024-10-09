@@ -1,12 +1,12 @@
 import { useDraggable } from '@dnd-kit/core';
 import { cn } from '@repo/shadcn-ui/lib/utils';
 import type { Feature } from '@repo/types';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 type KanbanCardProps = Pick<Feature, 'id' | 'name' | 'status'> & {
   index: number;
   parent: string;
-  color: string;
+  children?: ReactNode;
 };
 
 export const KanbanCard: FC<KanbanCardProps> = ({
@@ -14,7 +14,7 @@ export const KanbanCard: FC<KanbanCardProps> = ({
   name,
   index,
   parent,
-  color,
+  children,
 }) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -37,11 +37,7 @@ export const KanbanCard: FC<KanbanCardProps> = ({
       {...attributes}
       ref={setNodeRef}
     >
-      <div
-        className="h-2 w-2 shrink-0 rounded-full"
-        style={{ backgroundColor: color }}
-      />
-      <p className="m-0 font-medium text-sm">{name}</p>
+      {children ?? <p className="m-0 font-medium text-sm">{name}</p>}
     </div>
   );
 };

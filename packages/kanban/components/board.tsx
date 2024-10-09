@@ -1,7 +1,6 @@
 'use client';
 
 import { useDroppable } from '@dnd-kit/core';
-import { Card } from '@repo/shadcn-ui/components/ui/card';
 import { cn } from '@repo/shadcn-ui/lib/utils';
 import type { Status } from '@repo/types';
 import type { FC, ReactNode } from 'react';
@@ -19,9 +18,9 @@ export const KanbanBoard: FC<KanbanBoardProperties> = ({
   const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
-    <Card
+    <div
       className={cn(
-        'flex h-full min-h-40 w-full flex-col gap-2 rounded-md p-2 text-xs shadow-sm outline outline-2 transition-all',
+        'flex h-full min-h-40 w-full bg-secondary flex-col gap-2 rounded-md border p-2 text-xs shadow-sm outline outline-2 transition-all',
         isOver ? 'outline-primary' : 'outline-transparent'
       )}
     >
@@ -35,6 +34,6 @@ export const KanbanBoard: FC<KanbanBoardProperties> = ({
       <div className="flex flex-1 flex-col gap-2" ref={setNodeRef}>
         {children}
       </div>
-    </Card>
+    </div>
   );
 };

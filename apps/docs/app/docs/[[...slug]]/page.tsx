@@ -4,7 +4,10 @@ import {
   GanttExampleCustom,
   GanttExampleSimple,
 } from '@/app/components/gantt';
-import { KanbanExample } from '@/app/components/kanban';
+import {
+  KanbanExampleBasic,
+  KanbanExampleCustom,
+} from '@/app/components/kanban';
 import { ListExample } from '@/app/components/list';
 import { source } from '@/app/source';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
@@ -29,7 +32,10 @@ const components = {
     Custom: GanttExampleCustom,
     Simple: GanttExampleSimple,
   },
-  Kanban: KanbanExample,
+  Kanban: {
+    Basic: KanbanExampleBasic,
+    Custom: KanbanExampleCustom,
+  },
   Calendar: CalendarExample,
   List: ListExample,
 };

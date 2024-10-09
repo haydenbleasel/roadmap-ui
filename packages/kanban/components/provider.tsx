@@ -17,6 +17,6 @@ export const KanbanProvider: FC<KanbanProviderProps> = ({
   className,
 }) => (
   <DndContext collisionDetection={rectIntersection} onDragEnd={onDragEnd}>
-    <div className={cn('flex items-stretch gap-2', className)}>{children}</div>
+    <div className={cn('flex items-stretch gap-4', className)}>{children}</div>
   </DndContext>
 );
