@@ -6,4 +6,7 @@ export default defineConfig({
   minify: true,
   dts: true,
   format: ['cjs', 'esm'],
+  loader: {
+    '.ts': 'tsx',
+  },
 });
