@@ -6,6 +6,7 @@ export const GanttContext = createContext<GanttContextProps>({
   range: 'monthly',
   columnWidth: 50,
   headerHeight: 60,
+  sidebarWidth: 300,
   rowHeight: 36,
   onAddItem: undefined,
   placeholderLength: 2,

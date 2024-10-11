@@ -6,6 +6,8 @@ type GanttState = {
   setDragging: (dragging: boolean) => void;
   resizing: boolean;
   setResizing: (resizing: boolean) => void;
+  scrollX: number;
+  setScrollX: (scrollX: number) => void;
 };
 
 export const useGantt = create<GanttState>()(
@@ -14,5 +16,7 @@ export const useGantt = create<GanttState>()(
     setDragging: (dragging: boolean) => set(() => ({ dragging })),
     resizing: false,
     setResizing: (resizing: boolean) => set(() => ({ resizing })),
+    scrollX: 0,
+    setScrollX: (scrollX: number) => set(() => ({ scrollX })),
   }))
 );

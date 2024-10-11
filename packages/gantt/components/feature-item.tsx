@@ -2,10 +2,11 @@ import { DndContext, MouseSensor, useSensor } from '@dnd-kit/core';
 import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 import {} from '@repo/shadcn-ui/components/ui/avatar';
 import type { Feature } from '@repo/types';
+import { useMouse } from '@uidotdev/usehooks';
 import { addDays, getDate, getDaysInMonth, isSameDay } from 'date-fns';
-import { type FC, type ReactNode, useContext, useRef, useState } from 'react';
+import { type FC, type ReactNode, useContext, useState } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
-import { useMouseRef } from '../hooks/use-mouse-ref';
+import { useGantt } from '../hooks/use-gantt';
 import {
   getAddRange,
   getDifferenceIn,
@@ -90,6 +91,7 @@ export const FeatureItem: FC<
     children?: ReactNode;
   }
 > = ({ onMove, children, ...feature }) => {
+  const { scrollX } = useGantt();
   const gantt = useContext(GanttContext);
   const timelineStartDate = new Date(gantt.timelineData[0].year, 0, 1);
   const [startAt, setStartAt] = useState<Date>(feature.startAt);
@@ -97,8 +99,7 @@ export const FeatureItem: FC<
   const width = getWidth(startAt, endAt, gantt);
   const offset = getOffset(startAt, timelineStartDate, gantt);
   const addRange = getAddRange(gantt.range);
-  const ref = useRef<HTMLDivElement>(null);
-  const mouse = useMouseRef(ref);
+  const [mousePosition, mouseRef] = useMouse<HTMLDivElement>();
 
   const [previousMouseX, setPreviousMouseX] = useState(0);
   const [previousStartAt, setPreviousStartAt] = useState(startAt);
@@ -111,13 +112,13 @@ export const FeatureItem: FC<
   });
 
   const handleItemDragStart = () => {
-    setPreviousMouseX(mouse.x);
+    setPreviousMouseX(mousePosition.x);
     setPreviousStartAt(startAt);
     setPreviousEndAt(endAt);
   };
 
   const handleItemDragMove = () => {
-    const currentDate = getDateByMousePosition(gantt, mouse.x);
+    const currentDate = getDateByMousePosition(gantt, mousePosition.x);
     const originalDate = getDateByMousePosition(gantt, previousMouseX);
     const delta =
       gantt.range === 'daily'
@@ -131,10 +132,22 @@ export const FeatureItem: FC<
   };
 
   const onDragEnd = () => onMove(feature.id, startAt, endAt);
-  const handleLeftDragMove = () =>
-    setStartAt(getDateByMousePosition(gantt, mouse.x));
-  const handleRightDragMove = () =>
-    setEndAt(getDateByMousePosition(gantt, mouse.x));
+  const handleLeftDragMove = () => {
+    const ganttRect = gantt.ref?.current?.getBoundingClientRect();
+    const x =
+      mousePosition.x - (ganttRect?.left ?? 0) + scrollX - gantt.sidebarWidth;
+    const newStartAt = getDateByMousePosition(gantt, x);
+
+    setStartAt(newStartAt);
+  };
+  const handleRightDragMove = () => {
+    const ganttRect = gantt.ref?.current?.getBoundingClientRect();
+    const x =
+      mousePosition.x - (ganttRect?.left ?? 0) + scrollX - gantt.sidebarWidth;
+    const newEndAt = getDateByMousePosition(gantt, x);
+
+    setEndAt(newEndAt);
+  };
 
   return (
     <div
@@ -142,7 +155,6 @@ export const FeatureItem: FC<
       style={{ height: 'var(--gantt-row-height)' }}
     >
       <div
-        ref={ref}
         className="pointer-events-auto absolute top-0.5"
         style={{
           height: 'calc(var(--gantt-row-height) - 4px)',

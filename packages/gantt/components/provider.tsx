@@ -12,6 +12,7 @@ import {
 } from 'react';
 import { type FC, useRef } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
+import { useGantt } from '../hooks/use-gantt';
 import { createInitialTimelineData } from '../lib/data';
 import type { Range, TimelineData } from '../types/types';
 
@@ -36,9 +37,13 @@ export const Provider: FC<ProviderProperties> = ({
   const [timelineData, setTimelineData] = useState<TimelineData>(
     createInitialTimelineData(new Date())
   );
+  const { setScrollX } = useGantt();
+  const sidebarElement = scrollRef.current?.querySelector(
+    '[data-roadmap-ui="gantt-sidebar"]'
+  );
 
   const headerHeight = 60;
-  const sidebarWidth = 300;
+  const sidebarWidth = sidebarElement ? 300 : 0;
   const rowHeight = 36;
   let columnWidth = 50;
 
@@ -48,16 +53,12 @@ export const Provider: FC<ProviderProperties> = ({
     columnWidth = 100;
   }
 
-  const sidebar = scrollRef.current?.querySelector(
-    '[data-roadmap-ui="gantt-sidebar"]'
-  );
-
   const cssVariables = {
     '--gantt-zoom': `${zoom}`,
     '--gantt-column-width': `${(zoom / 100) * columnWidth}px`,
     '--gantt-header-height': `${headerHeight}px`,
     '--gantt-row-height': `${rowHeight}px`,
-    '--gantt-sidebar-width': sidebar ? `${sidebarWidth}px` : '0px',
+    '--gantt-sidebar-width': `${sidebarWidth}px`,
   } as CSSProperties;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Re-render when props change
@@ -65,8 +66,9 @@ export const Provider: FC<ProviderProperties> = ({
     if (scrollRef.current) {
       scrollRef.current.scrollLeft =
         scrollRef.current.scrollWidth / 2 - scrollRef.current.clientWidth / 2;
+      setScrollX(scrollRef.current.scrollLeft);
     }
-  }, [range, zoom]);
+  }, [range, zoom, setScrollX]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: "Throttled"
   const handleScroll = useCallback(
@@ -76,6 +78,7 @@ export const Provider: FC<ProviderProperties> = ({
       }
 
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setScrollX(scrollLeft);
 
       if (scrollLeft === 0) {
         // Extend timelineData to the past
@@ -98,6 +101,7 @@ export const Provider: FC<ProviderProperties> = ({
 
         // Scroll a bit forward so it's not at the very start
         scrollRef.current.scrollLeft = scrollRef.current.clientWidth;
+        setScrollX(scrollRef.current.scrollLeft);
       } else if (scrollLeft + clientWidth >= scrollWidth) {
         // Extend timelineData to the future
         const lastYear = timelineData[timelineData.length - 1].year + 1;
@@ -120,9 +124,10 @@ export const Provider: FC<ProviderProperties> = ({
         // Scroll a bit back so it's not at the very end
         scrollRef.current.scrollLeft =
           scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+        setScrollX(scrollRef.current.scrollLeft);
       }
     }, 100),
-    [timelineData]
+    [timelineData, setScrollX]
   );
 
   useEffect(() => {
@@ -144,6 +149,7 @@ export const Provider: FC<ProviderProperties> = ({
         range,
         headerHeight,
         columnWidth,
+        sidebarWidth,
         rowHeight,
         onAddItem,
         timelineData,
