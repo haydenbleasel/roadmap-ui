@@ -1,10 +1,10 @@
 {
-  "name": "@roadmap-ui/shadcn-ui",
+  "name": "@repo/shadcn-ui",
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@roadmap-ui/tailwind-config": "workspace:*",
-    "@roadmap-ui/typescript-config": "workspace:*",
+    "@repo/tailwind-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@types/node": "22.7.5",
     "@types/react": "^18.3.11",
     "typescript": "^5.6.3"

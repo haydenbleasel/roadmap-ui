@@ -1,4 +1,4 @@
-import type { Feature } from '@roadmap-ui/types';
+import type { Feature } from '@repo/types';
 import { addDays, formatDistance, isSameDay } from 'date-fns';
 import type { FC, KeyboardEventHandler, MouseEventHandler } from 'react';
 

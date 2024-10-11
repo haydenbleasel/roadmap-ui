@@ -1,5 +1,5 @@
 {
-  "extends": "@roadmap-ui/typescript-config/nextjs.json",
+  "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "plugins": [

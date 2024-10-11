@@ -1,5 +1,5 @@
 {
-  "name": "@roadmap-ui/gantt",
+  "name": "@repo/gantt",
   "version": "0.0.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -9,8 +9,8 @@
     "dev": "tsup --watch"
   },
   "devDependencies": {
-    "@roadmap-ui/types": "workspace:*",
-    "@roadmap-ui/typescript-config": "workspace:*",
+    "@repo/types": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@types/lodash.throttle": "^4.1.9",
     "@types/react": "^18.3.11",
     "tsup": "^8.3.0",
@@ -22,7 +22,7 @@
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/modifiers": "^7.0.0",
-    "@roadmap-ui/shadcn-ui": "workspace:*",
+    "@repo/shadcn-ui": "workspace:*",
     "@uidotdev/usehooks": "^2.4.1",
     "date-fns": "^4.1.0",
     "lodash.throttle": "^4.1.1",

@@ -1,8 +1,8 @@
 'use client';
 
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
-import type { DragEndEvent } from '@roadmap-ui/list';
-import * as List from '@roadmap-ui/list';
+import type { DragEndEvent } from '@repo/list';
+import * as List from '@repo/list';
 import { type FC, useState } from 'react';
 
 export const ListExampleBasic: FC = () => {

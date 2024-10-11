@@ -3,8 +3,8 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@roadmap-ui/shadcn-ui/components/ui/context-menu';
-import type { Marker as MarkerType } from '@roadmap-ui/types';
+} from '@repo/shadcn-ui/components/ui/context-menu';
+import type { Marker as MarkerType } from '@repo/types';
 import { formatDate } from 'date-fns';
 import { TrashIcon } from 'lucide-react';
 import type { FC } from 'react';

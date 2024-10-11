@@ -26,22 +26,22 @@ importers:
       '@octokit/rest':
         specifier: ^21.0.2
         version: 21.0.2
-      '@roadmap-ui/calendar':
+      '@repo/calendar':
         specifier: workspace:*
         version: link:../../packages/calendar
-      '@roadmap-ui/gantt':
+      '@repo/gantt':
         specifier: workspace:*
         version: link:../../packages/gantt
-      '@roadmap-ui/kanban':
+      '@repo/kanban':
         specifier: workspace:*
         version: link:../../packages/kanban
-      '@roadmap-ui/list':
+      '@repo/list':
         specifier: workspace:*
         version: link:../../packages/list
-      '@roadmap-ui/shadcn-ui':
+      '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/shadcn-ui
-      '@roadmap-ui/tailwind-config':
+      '@repo/tailwind-config':
         specifier: workspace:*
         version: link:../../packages/tailwind-config
       '@vercel/analytics':
@@ -120,7 +120,7 @@ importers:
       '@dnd-kit/core':
         specifier: ^6.1.0
         version: 6.1.0(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1)
-      '@roadmap-ui/shadcn-ui':
+      '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui
       date-fns:
@@ -136,10 +136,10 @@ importers:
         specifier: ^4.5.5
         version: 4.5.5(@types/react@18.3.11)(react@18.3.1)
     devDependencies:
-      '@roadmap-ui/types':
+      '@repo/types':
         specifier: workspace:*
         version: link:../types
-      '@roadmap-ui/typescript-config':
+      '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/react':
@@ -157,7 +157,7 @@ importers:
       '@dnd-kit/modifiers':
         specifier: ^7.0.0
         version: 7.0.0(@dnd-kit/core@6.1.0(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      '@roadmap-ui/shadcn-ui':
+      '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui
       '@uidotdev/usehooks':
@@ -179,10 +179,10 @@ importers:
         specifier: ^4.5.5
         version: 4.5.5(@types/react@18.3.11)(react@18.3.1)
     devDependencies:
-      '@roadmap-ui/types':
+      '@repo/types':
         specifier: workspace:*
         version: link:../types
-      '@roadmap-ui/typescript-config':
+      '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/lodash.throttle':
@@ -203,17 +203,17 @@ importers:
       '@dnd-kit/core':
         specifier: ^6.1.0
         version: 6.1.0(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1)
-      '@roadmap-ui/shadcn-ui':
+      '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui
       react:
         specifier: 18.3.1
         version: 18.3.1
     devDependencies:
-      '@roadmap-ui/types':
+      '@repo/types':
         specifier: workspace:*
         version: link:../types
-      '@roadmap-ui/typescript-config':
+      '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/react':
@@ -231,7 +231,7 @@ importers:
       '@dnd-kit/modifiers':
         specifier: ^7.0.0
         version: 7.0.0(@dnd-kit/core@6.1.0(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1))(react@18.3.1)
-      '@roadmap-ui/shadcn-ui':
+      '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui
       lucide-react:
@@ -241,10 +241,10 @@ importers:
         specifier: 18.3.1
         version: 18.3.1
     devDependencies:
-      '@roadmap-ui/types':
+      '@repo/types':
         specifier: workspace:*
         version: link:../types
-      '@roadmap-ui/typescript-config':
+      '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/react':
@@ -302,10 +302,10 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.13(ts-node@10.9.1(@types/node@22.7.5)(typescript@5.6.3)))
     devDependencies:
-      '@roadmap-ui/tailwind-config':
+      '@repo/tailwind-config':
         specifier: workspace:*
         version: link:../tailwind-config
-      '@roadmap-ui/typescript-config':
+      '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/node':
@@ -320,7 +320,7 @@ importers:
 
   packages/table:
     dependencies:
-      '@roadmap-ui/shadcn-ui':
+      '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui
       lucide-react:
@@ -330,10 +330,10 @@ importers:
         specifier: 18.3.1
         version: 18.3.1
     devDependencies:
-      '@roadmap-ui/types':
+      '@repo/types':
         specifier: workspace:*
         version: link:../types
-      '@roadmap-ui/typescript-config':
+      '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/react':
@@ -357,7 +357,7 @@ importers:
 
   packages/types:
     devDependencies:
-      '@roadmap-ui/typescript-config':
+      '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       typescript:

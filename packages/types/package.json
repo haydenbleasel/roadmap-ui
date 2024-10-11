@@ -1,9 +1,9 @@
 {
-  "name": "@roadmap-ui/types",
+  "name": "@repo/types",
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@roadmap-ui/typescript-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "typescript": "^5.6.3"
   }
 }

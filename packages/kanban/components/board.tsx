@@ -1,8 +1,8 @@
 'use client';
 
 import { useDroppable } from '@dnd-kit/core';
-import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
-import type { Status } from '@roadmap-ui/types';
+import { cn } from '@repo/shadcn-ui/lib/utils';
+import type { Status } from '@repo/types';
 import type { FC, ReactNode } from 'react';
 
 type KanbanBoardProperties = Status & {

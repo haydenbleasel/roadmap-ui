@@ -1,1 +1,1 @@
-export { default } from '@roadmap-ui/tailwind-config';
+export { default } from '@repo/tailwind-config';

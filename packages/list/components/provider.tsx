@@ -3,7 +3,7 @@
 import { DndContext, rectIntersection } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
+import { cn } from '@repo/shadcn-ui/lib/utils';
 import type { FC, ReactNode } from 'react';
 
 type ListProviderProps = {
