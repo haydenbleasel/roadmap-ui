@@ -3,6 +3,11 @@
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
 import type { DragEndEvent } from '@repo/kanban';
 import * as Kanban from '@repo/kanban';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@repo/shadcn-ui/components/ui/avatar';
 import { type FC, useState } from 'react';
 
 export const KanbanExampleBasic: FC = () => {
@@ -108,7 +113,15 @@ export const KanbanExampleCustom: FC = () => {
                   className="h-2 w-2 shrink-0 rounded-full"
                   style={{ backgroundColor: feature.status.color }}
                 />
-                <p className="m-0 font-medium text-sm">{feature.name}</p>
+                <p className="m-0 font-medium text-sm flex-1">{feature.name}</p>
+                {feature.owner && (
+                  <Avatar className="h-4 w-4 shrink-0">
+                    <AvatarImage src={feature.owner.image} />
+                    <AvatarFallback>
+                      {feature.owner.name?.slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
+                )}
               </Kanban.KanbanCard>
             ))}
         </Kanban.KanbanBoard>
