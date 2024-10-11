@@ -5,8 +5,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch"
+    "build": "tsup"
   },
   "devDependencies": {
     "@repo/types": "workspace:*",
@@ -24,11 +23,6 @@
   "repository": "haydenbleasel/roadmap-ui",
   "author": "Hayden Bleasel <hello@haydenbleasel.com>",
   "auto": {
-    "plugins": [
-      "npm",
-      "all-contributors",
-      "first-time-contributor",
-      "released"
-    ]
+    "plugins": ["npm", "all-contributors", "first-time-contributor", "released"]
   }
 }
