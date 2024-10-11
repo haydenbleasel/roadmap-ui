@@ -1,6 +1,6 @@
 import tailwind from '@roadmap-ui/tailwind-config/tailwind';
 import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
-import type { Feature, Status } from '../../../packages/types';
+import type { Feature, Marker, Status } from '../../../packages/types';
 
 const today = new Date();
 
@@ -355,10 +355,7 @@ export const exampleFeatures: (Feature & {
   },
 ];
 
-export const exampleMarkers: Pick<
-  MarkerProps,
-  'id' | 'date' | 'label' | 'backgroundColor' | 'textColor'
->[] = [
+export const exampleMarkers: Marker[] = [
   {
     id: '1',
     date: startOfMonth(subMonths(today, 3)),
