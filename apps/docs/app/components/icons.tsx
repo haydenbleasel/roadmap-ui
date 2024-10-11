@@ -18,7 +18,7 @@ export const RoadmapUiIcon: FC<SVGProps<SVGSVGElement>> = ({
     <clipPath id="a">
       <path d="m0 0h48v48h-48z" />
     </clipPath>
-    <g clip-path="url(#a)">
+    <g clipPath="url(#a)">
       <rect fill="#0ba5ec" height="8" rx="4" width="19" x="5" y="5" />
       <rect fill="#ee46bc" height="8" rx="4" width="33" x="10" y="15" />
       <rect fill="#7a5af8" height="8" rx="4" width="23" x="17" y="25" />
@@ -27,7 +27,7 @@ export const RoadmapUiIcon: FC<SVGProps<SVGSVGElement>> = ({
         height="47"
         rx="9.5"
         stroke="#000"
-        stroke-opacity=".1"
+        strokeOpacity=".1"
         width="47"
         x=".5"
         y=".5"
@@ -68,10 +68,10 @@ export const GitHubIcon: FC<SVGProps<SVGSVGElement>> = ({
   >
     <title>GitHub</title>
     <path
-      clip-rule="evenodd"
+      clipRule="evenodd"
       d="m8 0c-4.42 0-8 3.58-8 8 0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38 3.16-1.06 5.45-4.06 5.45-7.59 0-4.42-3.58-8-8-8z"
       fill="#1b1f23"
-      fill-rule="evenodd"
+      fillRule="evenodd"
       transform="scale(64)"
     />
   </svg>
