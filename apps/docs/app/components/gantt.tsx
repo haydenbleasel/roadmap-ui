@@ -20,9 +20,13 @@ import {
 import { Separator } from '@repo/shadcn-ui/components/ui/separator';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
 import { type FC, useState } from 'react';
-import { toast } from 'sonner';
+// import { toast } from 'sonner';
 import type { Feature } from '../../../../packages/types';
 import { exampleFeatures, exampleMarkers } from '../../lib/content';
+
+const toast = {
+  success: (message: string) => console.log(message),
+};
 
 export const GanttExampleBasic: FC = () => {
   const [features, setFeatures] = useState(exampleFeatures);
