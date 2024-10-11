@@ -1,7 +1,8 @@
+import { useMouse } from '@uidotdev/usehooks';
 import { PlusIcon } from 'lucide-react';
-import { type FC, type RefObject, useContext } from 'react';
+import { type FC, useContext } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
-import { useMouse } from '../hooks/use-mouse';
+import { useGantt } from '../hooks/use-gantt';
 import { getDateByMousePosition } from '../lib/utils';
 
 type AddFeatureHelperProps = {
@@ -9,11 +10,15 @@ type AddFeatureHelperProps = {
 };
 
 export const AddFeatureHelper: FC<AddFeatureHelperProps> = ({ top }) => {
+  const { scrollX } = useGantt();
   const gantt = useContext(GanttContext);
-  const mouse = useMouse(gantt.ref as RefObject<HTMLDivElement>);
+  const [mousePosition, mouseRef] = useMouse<HTMLDivElement>();
 
   const handleClick = () => {
-    const currentDate = getDateByMousePosition(gantt, mouse.x);
+    const ganttRect = gantt.ref?.current?.getBoundingClientRect();
+    const x =
+      mousePosition.x - (ganttRect?.left ?? 0) + scrollX - gantt.sidebarWidth;
+    const currentDate = getDateByMousePosition(gantt, x);
 
     gantt.onAddItem?.(currentDate);
   };
@@ -25,6 +30,7 @@ export const AddFeatureHelper: FC<AddFeatureHelperProps> = ({ top }) => {
         marginTop: -gantt.rowHeight / 2,
         transform: `translateY(${top}px)`,
       }}
+      ref={mouseRef}
     >
       <button
         onClick={handleClick}
