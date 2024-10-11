@@ -1,4 +1,4 @@
-import tailwind from '@repo/tailwind-config/tailwind';
+import tailwind from '@roadmap-ui/tailwind-config/tailwind';
 import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import type { Feature, Status } from '../../../packages/types';
 

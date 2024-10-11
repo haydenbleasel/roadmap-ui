@@ -4,7 +4,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@repo/shadcn-ui/components/ui/tooltip';
+} from '@roadmap-ui/shadcn-ui/components/ui/tooltip';
 import {
   CalendarRangeIcon,
   KanbanSquareIcon,

@@ -1,8 +1,8 @@
 'use client';
 
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
-import type { DragEndEvent } from '@repo/kanban';
-import * as Kanban from '@repo/kanban';
+import type { DragEndEvent } from '@roadmap-ui/kanban';
+import * as Kanban from '@roadmap-ui/kanban';
 import { type FC, useState } from 'react';
 
 export const KanbanExampleBasic: FC = () => {

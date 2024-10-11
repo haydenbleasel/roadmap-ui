@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@repo/shadcn-ui/components/ui/button';
+import { Button } from '@roadmap-ui/shadcn-ui/components/ui/button';
 import { CopyIcon } from 'lucide-react';
 import Image from 'next/image';
 import { type FC, useState } from 'react';
@@ -11,7 +11,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@repo/shadcn-ui/components/ui/dropdown-menu';
+} from '@roadmap-ui/shadcn-ui/components/ui/dropdown-menu';
 import { toast } from 'sonner';
 import BunLogo from './bun.svg';
 import NpmLogo from './npm.svg';

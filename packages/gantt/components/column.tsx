@@ -1,4 +1,4 @@
-import { cn } from '@repo/shadcn-ui/lib/utils';
+import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import { useMouse, useThrottle, useWindowScroll } from '@uidotdev/usehooks';
 import { type FC, useContext, useState } from 'react';
 import { GanttContext } from '../contexts/gantt-context';

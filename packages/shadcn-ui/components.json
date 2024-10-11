@@ -10,7 +10,7 @@
     "cssVariables": true
   },
   "aliases": {
-    "components": "@repo/shadcn-ui/components",
-    "utils": "@repo/shadcn-ui/lib/utils"
+    "components": "@roadmap-ui/shadcn-ui/components",
+    "utils": "@roadmap-ui/shadcn-ui/lib/utils"
   }
 }

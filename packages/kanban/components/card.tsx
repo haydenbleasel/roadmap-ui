@@ -1,6 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
-import { cn } from '@repo/shadcn-ui/lib/utils';
-import type { Feature } from '@repo/types';
+import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
+import type { Feature } from '@roadmap-ui/types';
 import type { FC, ReactNode } from 'react';
 
 type KanbanCardProps = Pick<Feature, 'id' | 'name'> & {

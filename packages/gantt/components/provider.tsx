@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@repo/shadcn-ui/lib/utils';
+import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import { getDaysInMonth } from 'date-fns';
 import throttle from 'lodash.throttle';
 import {

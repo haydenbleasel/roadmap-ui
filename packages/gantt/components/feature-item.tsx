@@ -1,6 +1,6 @@
 import { DndContext, MouseSensor, useSensor } from '@dnd-kit/core';
 import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
-import type { Feature } from '@repo/types';
+import type { Feature } from '@roadmap-ui/types';
 import { useMouse } from '@uidotdev/usehooks';
 import { addDays, getDate, getDaysInMonth, isSameDay } from 'date-fns';
 import { type FC, type ReactNode, useContext, useState } from 'react';

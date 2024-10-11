@@ -1,7 +1,7 @@
-import '@repo/tailwind-config/globals.css';
-import { Toaster } from '@repo/shadcn-ui/components/ui/sonner';
-import { TooltipProvider } from '@repo/shadcn-ui/components/ui/tooltip';
-import { cn } from '@repo/shadcn-ui/lib/utils';
+import '@roadmap-ui/tailwind-config/globals.css';
+import { Toaster } from '@roadmap-ui/shadcn-ui/components/ui/sonner';
+import { TooltipProvider } from '@roadmap-ui/shadcn-ui/components/ui/tooltip';
+import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';

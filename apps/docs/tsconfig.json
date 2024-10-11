@@ -17,7 +17,7 @@
     "incremental": true,
     "paths": {
       "@/*": ["./*"],
-      "@repo/shadcn-ui/*": ["../../packages/shadcn-ui/*"]
+      "@roadmap-ui/shadcn-ui/*": ["../../packages/shadcn-ui/*"]
     },
     "plugins": [
       {

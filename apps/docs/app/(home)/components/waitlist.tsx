@@ -1,7 +1,7 @@
 'use client';
 
 import { subscribe } from '@/app/actions/subscribe';
-import { cn } from '@repo/shadcn-ui/lib/utils';
+import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import type { FC } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 

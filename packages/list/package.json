@@ -1,10 +1,10 @@
 {
-  "name": "@repo/list",
+  "name": "@roadmap-ui/list",
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "@repo/types": "workspace:*",
+    "@roadmap-ui/typescript-config": "workspace:*",
+    "@roadmap-ui/types": "workspace:*",
     "@types/react": "^18.3.11",
     "typescript": "^5.6.3"
   },
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@dnd-kit/modifiers": "^7.0.0",
-    "@repo/shadcn-ui": "workspace:*",
+    "@roadmap-ui/shadcn-ui": "workspace:*",
     "lucide-react": "^0.451.0"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/typescript-config/nextjs.json",
+  "extends": "@roadmap-ui/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "plugins": [
@@ -8,7 +8,7 @@
       }
     ],
     "paths": {
-      "@repo/shadcn-ui/*": ["./*"]
+      "@roadmap-ui/shadcn-ui/*": ["./*"]
     }
   },
   "include": [

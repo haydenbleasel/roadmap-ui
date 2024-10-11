@@ -1,7 +1,7 @@
 import { useDraggable } from '@dnd-kit/core';
-import { Card } from '@repo/shadcn-ui/components/ui/card';
-import { cn } from '@repo/shadcn-ui/lib/utils';
-import type { Feature } from '@repo/types';
+import { Card } from '@roadmap-ui/shadcn-ui/components/ui/card';
+import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
+import type { Feature } from '@roadmap-ui/types';
 import { type FC, type ReactNode, useContext, useEffect } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
 import { useGantt } from '../hooks/use-gantt';

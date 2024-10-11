@@ -1,4 +1,4 @@
-import config from '@repo/tailwind-config';
+import config from '@roadmap-ui/tailwind-config';
 import { createPreset } from 'fumadocs-ui/tailwind-plugin';
 
 const preset = createPreset();

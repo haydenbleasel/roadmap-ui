@@ -1,10 +1,10 @@
 {
-  "name": "@repo/table",
+  "name": "@roadmap-ui/table",
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "@repo/types": "workspace:*",
+    "@roadmap-ui/typescript-config": "workspace:*",
+    "@roadmap-ui/types": "workspace:*",
     "@types/react": "^18.3.11",
     "typescript": "^5.6.3"
   },
@@ -12,7 +12,7 @@
     "react": "18.3.1"
   },
   "dependencies": {
-    "@repo/shadcn-ui": "workspace:*",
+    "@roadmap-ui/shadcn-ui": "workspace:*",
     "lucide-react": "^0.451.0"
   }
 }
