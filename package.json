@@ -4,7 +4,8 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "bump-deps": "npx npm-check-updates -u --deep && pnpm install"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.3",
