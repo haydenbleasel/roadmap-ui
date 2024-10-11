@@ -93,13 +93,13 @@ export const FeatureItem: FC<
 > = ({ onMove, children, ...feature }) => {
   const { scrollX } = useGantt();
   const gantt = useContext(GanttContext);
-  const timelineStartDate = new Date(gantt.timelineData[0].year, 0, 1);
+  const timelineStartDate = new Date(gantt.timelineData.at(0)?.year ?? 0, 0, 1);
   const [startAt, setStartAt] = useState<Date>(feature.startAt);
   const [endAt, setEndAt] = useState<Date | null>(feature.endAt);
   const width = getWidth(startAt, endAt, gantt);
   const offset = getOffset(startAt, timelineStartDate, gantt);
   const addRange = getAddRange(gantt.range);
-  const [mousePosition, mouseRef] = useMouse<HTMLDivElement>();
+  const [mousePosition] = useMouse<HTMLDivElement>();
 
   const [previousMouseX, setPreviousMouseX] = useState(0);
   const [previousStartAt, setPreviousStartAt] = useState(startAt);

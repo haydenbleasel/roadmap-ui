@@ -41,7 +41,7 @@ export const Marker: FC<
 > = ({ label, date, id, onRemove, backgroundColor, textColor }) => {
   const gantt = useContext(GanttContext);
   const differenceIn = getDifferenceIn(gantt.range);
-  const timelineStartDate = new Date(gantt.timelineData[0].year, 0, 1);
+  const timelineStartDate = new Date(gantt.timelineData.at(0)?.year ?? 0, 0, 1);
   const offset = differenceIn(date, timelineStartDate);
   const innerOffset = calculateInnerOffset(
     date,

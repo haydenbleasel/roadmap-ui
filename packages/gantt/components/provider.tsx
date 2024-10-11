@@ -82,11 +82,15 @@ export const Provider: FC<ProviderProperties> = ({
 
       if (scrollLeft === 0) {
         // Extend timelineData to the past
-        const firstYear = timelineData[0].year - 1;
+        const firstYear = timelineData[0]?.year;
+
+        if (!firstYear) {
+          return;
+        }
 
         const newTimelineData: TimelineData = [...timelineData];
         newTimelineData.unshift({
-          year: firstYear,
+          year: firstYear - 1,
           quarters: new Array(4).fill(null).map((_, quarterIndex) => ({
             months: new Array(3).fill(null).map((_, monthIndex) => {
               const month = quarterIndex * 3 + monthIndex;
@@ -104,11 +108,15 @@ export const Provider: FC<ProviderProperties> = ({
         setScrollX(scrollRef.current.scrollLeft);
       } else if (scrollLeft + clientWidth >= scrollWidth) {
         // Extend timelineData to the future
-        const lastYear = timelineData[timelineData.length - 1].year + 1;
+        const lastYear = timelineData[timelineData.length - 1]?.year;
+
+        if (!lastYear) {
+          return;
+        }
 
         const newTimelineData: TimelineData = [...timelineData];
         newTimelineData.push({
-          year: lastYear,
+          year: lastYear + 1,
           quarters: new Array(4).fill(null).map((_, quarterIndex) => ({
             months: new Array(3).fill(null).map((_, monthIndex) => {
               const month = quarterIndex * 3 + monthIndex;
