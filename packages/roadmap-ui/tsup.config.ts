@@ -9,4 +9,5 @@ export default defineConfig({
   loader: {
     '.ts': 'tsx',
   },
+  noExternal: ['@repo/gantt', '@repo/types', '@repo/shadcn-ui'],
 });

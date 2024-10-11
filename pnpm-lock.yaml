@@ -191,9 +191,6 @@ importers:
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.11
-      tsup:
-        specifier: ^8.3.0
-        version: 8.3.0(jiti@1.21.6)(postcss@8.4.47)(typescript@5.6.3)(yaml@2.5.0)
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
@@ -250,6 +247,31 @@ importers:
       '@types/react':
         specifier: ^18.3.11
         version: 18.3.11
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
+  packages/roadmap-ui:
+    dependencies:
+      '@repo/gantt':
+        specifier: workspace:*
+        version: link:../gantt
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+    devDependencies:
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^18.3.11
+        version: 18.3.11
+      tsup:
+        specifier: ^8.3.0
+        version: 8.3.0(jiti@1.21.6)(postcss@8.4.47)(typescript@5.6.3)(yaml@2.5.0)
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
