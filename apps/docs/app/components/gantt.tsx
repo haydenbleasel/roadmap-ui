@@ -75,7 +75,7 @@ export const GanttExampleBasic: FC = () => {
     >
       <Gantt.Sidebar>
         {Object.entries(sortedGroupedFeatures).map(([group, features]) => (
-          <Gantt.SidebarGroup key={group} name={group}>
+          <Gantt.SidebarGroup key={group} name="Features">
             {features.map((feature) => (
               <Gantt.SidebarItem
                 key={feature.id}
@@ -168,7 +168,7 @@ export const GanttExampleCustom: FC = () => {
     >
       <Gantt.Sidebar>
         {Object.entries(sortedGroupedFeatures).map(([group, features]) => (
-          <Gantt.SidebarGroup key={group} name={group}>
+          <Gantt.SidebarGroup key={group} name="Features">
             {features.map((feature) => (
               <Gantt.SidebarItem
                 key={feature.id}
