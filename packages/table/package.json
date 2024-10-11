@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "@roadmap-ui/shadcn-ui": "workspace:*",
-    "lucide-react": "^0.451.0"
+    "lucide-react": "^0.452.0"
   }
 }

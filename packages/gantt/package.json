@@ -26,7 +26,7 @@
     "@uidotdev/usehooks": "^2.4.1",
     "date-fns": "^4.1.0",
     "lodash.throttle": "^4.1.1",
-    "lucide-react": "^0.451.0",
+    "lucide-react": "^0.452.0",
     "zustand": "^4.5.5"
   }
 }

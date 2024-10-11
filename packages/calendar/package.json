@@ -15,7 +15,7 @@
     "@dnd-kit/core": "^6.1.0",
     "@roadmap-ui/shadcn-ui": "workspace:*",
     "date-fns": "^4.1.0",
-    "lucide-react": "^0.451.0",
+    "lucide-react": "^0.452.0",
     "zustand": "^4.5.5"
   }
 }

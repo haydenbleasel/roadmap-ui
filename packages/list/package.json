@@ -14,6 +14,6 @@
   "dependencies": {
     "@dnd-kit/modifiers": "^7.0.0",
     "@roadmap-ui/shadcn-ui": "workspace:*",
-    "lucide-react": "^0.451.0"
+    "lucide-react": "^0.452.0"
   }
 }
