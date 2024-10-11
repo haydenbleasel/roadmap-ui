@@ -1,6 +1,5 @@
 import { DndContext, MouseSensor, useSensor } from '@dnd-kit/core';
 import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
-import {} from '@repo/shadcn-ui/components/ui/avatar';
 import type { Feature } from '@repo/types';
 import { useMouse } from '@uidotdev/usehooks';
 import { addDays, getDate, getDaysInMonth, isSameDay } from 'date-fns';
