@@ -1,8 +1,8 @@
 import { cn } from '@repo/shadcn-ui/lib/utils';
-import { type FC, useContext, useRef, useState } from 'react';
+import { useMouse, useThrottle, useWindowScroll } from '@uidotdev/usehooks';
+import { type FC, useContext, useState } from 'react';
 import { GanttContext } from '../contexts/gantt-context';
 import { useGantt } from '../hooks/use-gantt';
-import { useMouse } from '../hooks/use-mouse';
 import { AddFeatureHelper } from './add-feature-helper';
 
 type ColumnProps = {
@@ -13,12 +13,19 @@ type ColumnProps = {
 export const Column: FC<ColumnProps> = ({ index, isColumnSecondary }) => {
   const gantt = useContext(GanttContext);
   const { dragging } = useGantt();
-  const ref = useRef<HTMLDivElement>(null);
-  const mouse = useMouse(ref);
+  const [mousePosition, mouseRef] = useMouse<HTMLDivElement>();
   const [hovering, setHovering] = useState(false);
+  const [windowScroll] = useWindowScroll();
 
   const handleMouseEnter = () => setHovering(true);
   const handleMouseLeave = () => setHovering(false);
+
+  const top = useThrottle(
+    mousePosition.y -
+      (mouseRef.current?.getBoundingClientRect().y ?? 0) -
+      (windowScroll.y ?? 0),
+    10
+  );
 
   return (
     // biome-ignore lint/nursery/noStaticElementInteractions: <explanation>
@@ -27,12 +34,12 @@ export const Column: FC<ColumnProps> = ({ index, isColumnSecondary }) => {
         'group relative h-full overflow-hidden',
         isColumnSecondary?.(index) ? 'bg-secondary' : ''
       )}
-      ref={ref}
+      ref={mouseRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {!dragging && hovering && gantt.onAddItem && gantt.editable ? (
-        <AddFeatureHelper top={mouse.y} />
+        <AddFeatureHelper top={top} />
       ) : null}
     </div>
   );
