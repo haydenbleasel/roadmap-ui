@@ -117,9 +117,6 @@ importers:
 
   packages/calendar:
     dependencies:
-      '@dnd-kit/core':
-        specifier: ^6.1.0
-        version: 6.1.0(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1)
       '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui

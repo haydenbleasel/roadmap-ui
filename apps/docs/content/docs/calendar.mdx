@@ -1,9 +1,69 @@
 ---
 title: Calendar
-description: Show the tasks in a calendar view.
+description: The calendar view displays features on a grid calendar. Specifically it shows the end date of each feature, and groups features by day.
 icon: CalendarRange
 ---
 
 <div className="not-prose w-full bg-white border rounded-xl overflow-hidden">
-  <Calendar />
+  <Calendar.Basic />
 </div>
+
+## Features
+
+- Features are grouped by day
+- Features are color-coded by their status
+- Features are truncated if there are too many to fit in the grid cell
+
+## Subcomponents
+
+The calendar view is made up of the following subcomponents:
+
+| Subcomponent | Description |
+| ------- | ----------- |
+| Provider | The provider of the calendar view. |
+| Month | The month selector. |
+| Header | The header of the calendar view, containing the day column headers. |
+| Body | The body of the calendar view, containing the features. |
+
+## Usage
+
+### Basic Example
+
+This example shows a basic calendar view with a month selector, header, and body.
+
+<div className="not-prose w-full bg-white border rounded-xl overflow-hidden">
+  <Calendar.Basic />
+</div>
+
+```tsx
+import * as Calendar from '@repo/calendar';
+import type { FC } from 'react';
+
+export const Calendar: FC = () => (
+  <Calendar.CalendarProvider>
+    <Calendar.CalendarMonth />
+    <Calendar.CalendarHeader />
+    <Calendar.CalendarBody features={[]} />
+  </Calendar.CalendarProvider>
+);
+```
+
+### Without Month Selector
+
+If you don't need the month selector, you can remove it by not rendering the `CalendarMonth` component.
+
+<div className="not-prose w-full bg-white border rounded-xl overflow-hidden">
+  <Calendar.WithoutMonth />
+</div>
+
+```tsx
+import * as Calendar from '@repo/calendar';
+import type { FC } from 'react';
+
+export const Calendar: FC = () => (
+  <Calendar.CalendarProvider>
+    <Calendar.CalendarHeader />
+    <Calendar.CalendarBody features={[]} />
+  </Calendar.CalendarProvider>
+);
+```

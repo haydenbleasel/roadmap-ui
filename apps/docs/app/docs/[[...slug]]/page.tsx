@@ -1,4 +1,4 @@
-import { CalendarExample } from '@/app/components/calendar';
+import { CalendarBasic, CalendarWithoutMonth } from '@/app/components/calendar';
 import {
   GanttExampleBasic,
   GanttExampleCustom,
@@ -36,7 +36,10 @@ const components = {
     Basic: KanbanExampleBasic,
     Custom: KanbanExampleCustom,
   },
-  Calendar: CalendarExample,
+  Calendar: {
+    Basic: CalendarBasic,
+    WithoutMonth: CalendarWithoutMonth,
+  },
   List: {
     Basic: ListExampleBasic,
     Custom: ListExampleCustom,
