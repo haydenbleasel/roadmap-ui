@@ -9,12 +9,7 @@ export const CalendarExample: FC = () => {
     <Calendar.CalendarProvider onDragEnd={console.log}>
       <Calendar.CalendarMonth />
       <Calendar.CalendarHeader />
-      <Calendar.CalendarBody />
-      <Calendar.CalendarContent>
-        {exampleFeatures.map((feature) => (
-          <Calendar.CalendarCard key={feature.id} {...feature} />
-        ))}
-      </Calendar.CalendarContent>
+      <Calendar.CalendarBody features={exampleFeatures} />
     </Calendar.CalendarProvider>
   );
 };

@@ -1,5 +1,6 @@
 import { cn } from '@repo/shadcn-ui/lib/utils';
-import { getDay, getDaysInMonth } from 'date-fns';
+import type { Feature } from '@repo/types';
+import { getDay, getDaysInMonth, isSameDay } from 'date-fns';
 import type { FC, ReactNode } from 'react';
 import { useCalendar } from '../hooks/use-calendar';
 
@@ -11,7 +12,11 @@ const OutOfBoundsDay: FC<{ day: number }> = ({ day }) => {
   );
 };
 
-export const CalendarBody: FC = () => {
+type CalendarBodyProps = {
+  features: Feature[];
+};
+
+export const CalendarBody: FC<CalendarBodyProps> = ({ features }) => {
   const { month, year } = useCalendar();
   const daysInMonth = getDaysInMonth(new Date(year, month, 1));
   const firstDay = getDay(new Date(year, month, 1));
@@ -34,12 +39,34 @@ export const CalendarBody: FC = () => {
   }
 
   for (let day = 1; day <= daysInMonth; day++) {
+    const featuresForDay = features.filter((feature) => {
+      return isSameDay(new Date(feature.endAt), new Date(year, month, day));
+    });
+
     days.push(
       <div
         key={day}
-        className="relative h-full w-full p-1 text-muted-foreground text-xs"
+        className="relative h-full w-full p-1 text-muted-foreground text-xs flex flex-col gap-1"
       >
         {day}
+        <div>
+          {featuresForDay.slice(0, 3).map((feature) => (
+            <div className="flex items-center gap-2" key={feature.id}>
+              <div
+                className="h-2 w-2 rounded-full shrink-0"
+                style={{
+                  backgroundColor: feature.status.color,
+                }}
+              />
+              <span className="truncate">{feature.name}</span>
+            </div>
+          ))}
+        </div>
+        {featuresForDay.length > 3 && (
+          <span className="text-xs text-muted-foreground block">
+            +{featuresForDay.length - 3} more
+          </span>
+        )}
       </div>
     );
   }
