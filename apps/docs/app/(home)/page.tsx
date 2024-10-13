@@ -3,9 +3,8 @@ import Image from 'next/image';
 import type { FC } from 'react';
 import { GanttExampleCustom } from '../components/gantt';
 import { RoadmapUiIcon } from '../components/icons';
-import { GitHubButton } from './components/github-button';
-import { Installer } from './components/installer';
 import { Navbar } from './components/navbar';
+import { Waitlist } from './components/waitlist';
 import EververseLogo from './eververse.png';
 import ReactLogo from './react.svg';
 
@@ -47,12 +46,13 @@ const HomePage: FC = () => (
         </a>
       </p>
       <div className="mt-4 flex w-full items-center justify-center space-x-4">
-        <Installer />
-        <GitHubButton />
+        <Waitlist />
+        {/* <Installer />
+        <GitHubButton /> */}
       </div>
     </section>
     <section className="container mx-auto">
-      <div className="mt-8 flex h-[500px] w-full flex-col overflow-clip rounded-xl border bg-white">
+      <div className="mt-8 flex h-[600px] w-full flex-col overflow-clip rounded-xl border bg-white">
         <GanttExampleCustom />
       </div>
     </section>

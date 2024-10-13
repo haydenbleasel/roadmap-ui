@@ -53,7 +53,7 @@ export const Navbar: FC = () => (
           <Logo />
         </Link>
 
-        <Link href="/docs" className="text-sm font-medium">
+        {/* <Link href="/docs" className="text-sm font-medium">
           Docs
         </Link>
 
@@ -61,7 +61,7 @@ export const Navbar: FC = () => (
           {docsLinks.map(({ href, icon, title }) => (
             <DocsLink key={href} href={href} icon={icon} title={title} />
           ))}
-        </div>
+        </div> */}
       </nav>
       <div className="flex flex-1 items-center gap-2 md:justify-end">
         <div className="flex items-center gap-px">
