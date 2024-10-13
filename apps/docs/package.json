@@ -33,6 +33,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@repo/types": "workspace:*",
     "@types/mdx": "^2.0.13",
     "@types/node": "22.7.5",
     "@types/react": "^18.3.11",

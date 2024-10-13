@@ -18,10 +18,10 @@ import {
   HoverCardTrigger,
 } from '@repo/shadcn-ui/components/ui/hover-card';
 import { Separator } from '@repo/shadcn-ui/components/ui/separator';
+// import { toast } from 'sonner';
+import type { Feature } from '@repo/types';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
 import { type FC, useState } from 'react';
-// import { toast } from 'sonner';
-import type { Feature } from '../../../../packages/types';
 import { exampleFeatures, exampleMarkers } from '../../lib/content';
 
 const toast = {

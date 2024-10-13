@@ -1,6 +1,6 @@
 import tailwind from '@repo/tailwind-config/tailwind';
+import type { Feature, Marker, Status } from '@repo/types';
 import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
-import type { Feature, Marker, Status } from '../../../packages/types';
 
 const today = new Date();
 
