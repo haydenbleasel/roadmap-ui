@@ -10,15 +10,20 @@ export const TableExampleBasic: FC = () => {
   const columns: Table.ColumnDef<(typeof exampleFeatures)[number]>[] = [
     {
       accessorKey: 'id',
-      header: 'ID',
+      header: ({ column }) => <Table.TableHeader column={column} title="ID" />,
     },
     {
       accessorKey: 'name',
-      header: 'Name',
+      header: ({ column }) => (
+        <Table.TableHeader column={column} title="Name" />
+      ),
     },
     {
+      id: 'status',
       accessorFn: (row) => row.status.id,
-      header: 'Status',
+      header: ({ column }) => (
+        <Table.TableHeader column={column} title="Status" />
+      ),
       cell: ({ row }) => (
         <div
           className="px-2.5 py-0.5 rounded-full inline-flex items-center text-xs"
@@ -33,7 +38,9 @@ export const TableExampleBasic: FC = () => {
     },
     {
       accessorKey: 'startAt',
-      header: 'Start At',
+      header: ({ column }) => (
+        <Table.TableHeader column={column} title="Start At" />
+      ),
       cell: ({ row }) =>
         new Intl.DateTimeFormat('en-US', {
           dateStyle: 'medium',
@@ -41,7 +48,9 @@ export const TableExampleBasic: FC = () => {
     },
     {
       accessorKey: 'endAt',
-      header: 'End At',
+      header: ({ column }) => (
+        <Table.TableHeader column={column} title="End At" />
+      ),
       cell: ({ row }) =>
         new Intl.DateTimeFormat('en-US', {
           dateStyle: 'medium',
