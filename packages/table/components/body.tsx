@@ -2,8 +2,10 @@
 
 import {
   type ColumnDef,
+  type SortingState,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 
@@ -15,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@repo/shadcn-ui/components/ui/table';
+import { useState } from 'react';
 
 interface TableBodyProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -25,10 +28,17 @@ export function TableBody<TData, TValue>({
   columns,
   data,
 }: TableBodyProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    state: {
+      sorting,
+    },
   });
 
   return (
