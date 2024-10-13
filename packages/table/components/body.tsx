@@ -19,11 +19,13 @@ import {
 } from '@repo/shadcn-ui/components/ui/table';
 import { useState } from 'react';
 
+// biome-ignore lint/style/useNamingConvention: Table generics
 interface TableBodyProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
+// biome-ignore lint/style/useNamingConvention: Table generics
 export function TableBody<TData, TValue>({
   columns,
   data,
@@ -40,6 +42,8 @@ export function TableBody<TData, TValue>({
       sorting,
     },
   });
+
+  const { rows } = table.getRowModel();
 
   return (
     <Table>
@@ -62,8 +66,8 @@ export function TableBody<TData, TValue>({
         ))}
       </TableHeader>
       <TableBodyRaw>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
+        {rows?.length ? (
+          rows.map((row) => (
             <TableRow
               key={row.id}
               data-state={row.getIsSelected() && 'selected'}

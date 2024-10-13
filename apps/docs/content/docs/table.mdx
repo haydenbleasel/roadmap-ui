@@ -1,9 +1,103 @@
 ---
 title: Table
-description: Show the tasks in a table view.
+description: Table views are used to display data in a tabular format. They are useful for displaying large amounts of data in a structured way.
 icon: TableProperties
 ---
 
-<div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
+<div className="not-prose w-full bg-white border rounded-xl overflow-auto" style={{ height: '32rem' }}>
   <Table.Basic />
 </div>
+
+## Features
+
+- Customizable columns
+- Sortable columns
+
+## Subcomponents
+
+The Table is made up of the following subcomponents:
+
+| Subcomponent | Description |
+| ------- | ----------- |
+| Provider | The provider of the Table. |
+| Header | The header of the Table. |
+| Body | The body of the Table. |
+
+## Usage
+
+### Basic Example
+
+This example shows a basic Table with a header, body, and footer.
+
+<div className="not-prose w-full bg-white border rounded-xl overflow-auto" style={{ height: '32rem' }}>
+  <Table.Basic />
+</div>
+
+```tsx
+'use client';
+
+import { exampleFeatures } from '@/lib/content';
+import * as Table from '@repo/table';
+import { type FC, useState } from 'react';
+
+export const TableExampleBasic: FC = () => {
+  const [features, setFeatures] = useState(exampleFeatures);
+
+  const columns: Table.ColumnDef<(typeof exampleFeatures)[number]>[] = [
+    {
+      accessorKey: 'id',
+      header: ({ column }) => <Table.TableHeader column={column} title="ID" />,
+    },
+    {
+      accessorKey: 'name',
+      header: ({ column }) => (
+        <Table.TableHeader column={column} title="Name" />
+      ),
+    },
+    {
+      id: 'status',
+      accessorFn: (row) => row.status.id,
+      header: ({ column }) => (
+        <Table.TableHeader column={column} title="Status" />
+      ),
+      cell: ({ row }) => (
+        <div
+          className="px-2.5 py-0.5 rounded-full inline-flex items-center text-xs"
+          style={{
+            backgroundColor: `${row.original.status.color}1A`,
+            color: row.original.status.color,
+          }}
+        >
+          {row.original.status.name}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'startAt',
+      header: ({ column }) => (
+        <Table.TableHeader column={column} title="Start At" />
+      ),
+      cell: ({ row }) =>
+        new Intl.DateTimeFormat('en-US', {
+          dateStyle: 'medium',
+        }).format(row.original.startAt),
+    },
+    {
+      accessorKey: 'endAt',
+      header: ({ column }) => (
+        <Table.TableHeader column={column} title="End At" />
+      ),
+      cell: ({ row }) =>
+        new Intl.DateTimeFormat('en-US', {
+          dateStyle: 'medium',
+        }).format(row.original.endAt),
+    },
+  ];
+
+  return (
+    <Table.TableProvider>
+      <Table.TableBody columns={columns} data={features} />
+    </Table.TableProvider>
+  );
+};
+```
