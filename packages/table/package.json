@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
     "@repo/types": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@types/react": "^18.3.11",
     "typescript": "^5.6.3"
   },
@@ -12,7 +12,9 @@
     "react": "18.3.1"
   },
   "dependencies": {
+    "@repo/types": "workspace:*",
     "@repo/shadcn-ui": "workspace:*",
+    "@tanstack/react-table": "^8.20.5",
     "lucide-react": "^0.452.0"
   }
 }

@@ -41,6 +41,9 @@ importers:
       '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/shadcn-ui
+      '@repo/table':
+        specifier: workspace:*
+        version: link:../../packages/table
       '@repo/tailwind-config':
         specifier: workspace:*
         version: link:../../packages/tailwind-config
@@ -345,6 +348,12 @@ importers:
       '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@tanstack/react-table':
+        specifier: ^8.20.5
+        version: 8.20.5(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1)
       lucide-react:
         specifier: ^0.452.0
         version: 0.452.0(react@18.3.1)
@@ -352,9 +361,6 @@ importers:
         specifier: 18.3.1
         version: 18.3.1
     devDependencies:
-      '@repo/types':
-        specifier: workspace:*
-        version: link:../types
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
@@ -1547,6 +1553,17 @@ packages:
     resolution: {integrity: sha512-AqhlCXl+8grUz8uqExv5OTtgpjuVIwFTSXTrh8y9/pw6q2ek7fJ+Y8ZEVw7EB2DCcuCOtEjf9w3+J3rzts01uA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20'
+
+  '@tanstack/react-table@8.20.5':
+    resolution: {integrity: sha512-WEHopKw3znbUZ61s9i0+i9g8drmDo6asTWbrQh8Us63DAk/M0FkmIqERew6P71HI75ksZ2Pxyuf4vvKh9rAkiA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+
+  '@tanstack/table-core@8.20.5':
+    resolution: {integrity: sha512-P9dF7XbibHph2PFRz8gfBKEXEY/HJPOhym8CHmjF8y3q5mWpKx9xtZapXQUWCgkqvsK0R46Azuz+VaxD4Xl+Tg==}
+    engines: {node: '>=12'}
 
   '@tsconfig/node10@1.0.9':
     resolution: {integrity: sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA==}
@@ -4295,6 +4312,14 @@ snapshots:
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.4.13(ts-node@10.9.1(@types/node@22.7.5)(typescript@5.6.3))
+
+  '@tanstack/react-table@8.20.5(react-dom@19.0.0-rc-f994737d14-20240522(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/table-core': 8.20.5
+      react: 18.3.1
+      react-dom: 19.0.0-rc-f994737d14-20240522(react@18.3.1)
+
+  '@tanstack/table-core@8.20.5': {}
 
   '@tsconfig/node10@1.0.9':
     optional: true

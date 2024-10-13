@@ -9,6 +9,7 @@ import {
   KanbanExampleCustom,
 } from '@/app/components/kanban';
 import { ListExampleBasic, ListExampleCustom } from '@/app/components/list';
+import { TableExampleBasic } from '@/app/components/table';
 import { source } from '@/app/source';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import {
@@ -43,6 +44,9 @@ const components = {
   List: {
     Basic: ListExampleBasic,
     Custom: ListExampleCustom,
+  },
+  Table: {
+    Basic: TableExampleBasic,
   },
 };
 
