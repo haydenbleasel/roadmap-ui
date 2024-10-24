@@ -1,12 +1,17 @@
 import '@roadmap-ui/tailwind-config/globals.css';
+import { source } from '@/app/source';
 import { Toaster } from '@roadmap-ui/shadcn-ui/components/ui/sonner';
 import { TooltipProvider } from '@roadmap-ui/shadcn-ui/components/ui/tooltip';
 import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
+import { DocsLayout } from 'fumadocs-ui/layout';
+import { RootProvider } from 'fumadocs-ui/provider';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { FC, ReactNode } from 'react';
 import { ThemeProvider } from './components/theme-provider';
+import { baseOptions } from './layout.config';
+import 'fumadocs-ui/style.css';
 
 type LayoutProps = {
   children: ReactNode;
@@ -24,7 +29,13 @@ const Layout: FC<LayoutProps> = ({ children }) => (
   >
     <body>
       <ThemeProvider>
-        <TooltipProvider>{children}</TooltipProvider>
+        <TooltipProvider>
+          <RootProvider>
+            <DocsLayout tree={source.pageTree} {...baseOptions}>
+              {children}
+            </DocsLayout>
+          </RootProvider>
+        </TooltipProvider>
         <Toaster />
       </ThemeProvider>
       <Analytics />
