@@ -5,6 +5,7 @@ icon: SquareChartGantt
 ---
 
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
 
 <div className="not-prose w-full bg-white border rounded-xl overflow-hidden" style={{ height: '32rem' }}>
   <Gantt.Basic />
@@ -26,7 +27,13 @@ npm i @roadmap-ui/gantt
 
 ## Subcomponents
 
-The Gantt chart is made up of the following subcomponents:
+The Gantt chart is made up of the following subcomponents.
+
+### Provider
+
+The `Provider` component is the root component of the Gantt chart. It contains the drag-and-drop context and provides the necessary context for the other components.
+
+<AutoTypeTable type="{ zoom?: number; onAddItem?: (date: Date) => void; children: ReactNode; className?: string; }" />
 
 | Subcomponent | Description |
 | ------- | ----------- |
@@ -36,7 +43,7 @@ The Gantt chart is made up of the following subcomponents:
 | FeatureListGroup | A logical group of features. |
 | Header | The header of the timeline with the columns. |
 | Marker | A marker on the timeline e.g. a milestone. |
-| Provider | The provider of the Gantt chart containing the drag-and-drop context. |
+| Provider |  |
 | Sidebar | A container for the sidebar items. |
 | SidebarGroup | A group of sidebar items. |
 | SidebarItem | A single item in the sidebar. |
