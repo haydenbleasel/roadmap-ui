@@ -15,7 +15,7 @@
     "@roadmap-ui/typescript-config": "workspace:*",
     "@roadmap-ui/shadcn-ui": "workspace:*",
     "@types/lodash.throttle": "^4.1.9",
-    "@types/react": "^18.3.11",
+    "@types/react": "^18.3.12",
     "typescript": "^5.6.3"
   },
   "peerDependencies": {

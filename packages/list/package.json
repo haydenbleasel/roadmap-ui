@@ -14,8 +14,8 @@
     "@roadmap-ui/shadcn-ui": "workspace:*",
     "@roadmap-ui/types": "workspace:*",
     "@roadmap-ui/typescript-config": "workspace:*",
-    "@types/react": "^18.3.11",
-    "tsup": "^8.3.0",
+    "@types/react": "^18.3.12",
+    "tsup": "^8.3.5",
     "typescript": "^5.6.3"
   },
   "peerDependencies": {
