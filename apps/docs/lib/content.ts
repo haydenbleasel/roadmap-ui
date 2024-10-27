@@ -1,6 +1,12 @@
 import tailwind from '@roadmap-ui/tailwind-config/tailwind';
 import type { Feature, Marker, Status } from '@roadmap-ui/types';
-import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
+import {
+  addMonths,
+  endOfMonth,
+  startOfMonth,
+  subDays,
+  subMonths,
+} from 'date-fns';
 
 const today = new Date();
 
@@ -37,7 +43,7 @@ export const exampleFeatures: (Feature & {
     id: '1',
     name: 'AI Scene Analysis',
     startAt: startOfMonth(subMonths(today, 6)),
-    endAt: endOfMonth(subMonths(today, 5)),
+    endAt: subDays(endOfMonth(today), 5),
     status: exampleStatuses[0],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
@@ -53,7 +59,7 @@ export const exampleFeatures: (Feature & {
     id: '2',
     name: 'Collaborative Editing',
     startAt: startOfMonth(subMonths(today, 5)),
-    endAt: endOfMonth(subMonths(today, 3)),
+    endAt: subDays(endOfMonth(today), 5),
     status: exampleStatuses[1],
     group: { id: '2', name: 'Collaboration Tools' },
     product: { id: '1', name: 'Video Editor Pro' },
@@ -69,7 +75,7 @@ export const exampleFeatures: (Feature & {
     id: '3',
     name: 'AI-Powered Color Grading',
     startAt: startOfMonth(subMonths(today, 4)),
-    endAt: endOfMonth(subMonths(today, 3)),
+    endAt: subDays(endOfMonth(today), 5),
     status: exampleStatuses[2],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
@@ -85,7 +91,7 @@ export const exampleFeatures: (Feature & {
     id: '4',
     name: 'Real-time Video Chat',
     startAt: startOfMonth(subMonths(today, 3)),
-    endAt: endOfMonth(subMonths(today, 2)),
+    endAt: subDays(endOfMonth(today), 12),
     status: exampleStatuses[0],
     group: { id: '2', name: 'Collaboration Tools' },
     product: { id: '1', name: 'Video Editor Pro' },
@@ -101,7 +107,7 @@ export const exampleFeatures: (Feature & {
     id: '5',
     name: 'AI Voice-to-Text Subtitles',
     startAt: startOfMonth(subMonths(today, 2)),
-    endAt: endOfMonth(subMonths(today, 1)),
+    endAt: subDays(endOfMonth(today), 5),
     status: exampleStatuses[1],
     group: { id: '1', name: 'Core AI Features' },
     product: { id: '1', name: 'Video Editor Pro' },
