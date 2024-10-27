@@ -4,7 +4,7 @@ import { Toaster } from '@roadmap-ui/shadcn-ui/components/ui/sonner';
 import { TooltipProvider } from '@roadmap-ui/shadcn-ui/components/ui/tooltip';
 import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
-import { DocsLayout } from 'fumadocs-ui/layout';
+import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import { RootProvider } from 'fumadocs-ui/provider';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';

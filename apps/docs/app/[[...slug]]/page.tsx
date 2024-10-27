@@ -23,7 +23,7 @@ import { notFound } from 'next/navigation';
 import type { FC } from 'react';
 
 type PageProps = {
-  params: { slug?: string[] };
+  params: Promise<{ slug?: string[] }>;
 };
 
 const components = {
@@ -51,8 +51,9 @@ const components = {
   },
 };
 
-const Page: FC<PageProps> = ({ params }) => {
-  const page = source.getPage(params.slug);
+const Page: FC<PageProps> = async ({ params }) => {
+  const slug = (await params).slug;
+  const page = source.getPage(slug);
 
   if (!page) {
     notFound();
@@ -73,12 +74,9 @@ const Page: FC<PageProps> = ({ params }) => {
 
 export const generateStaticParams = () => source.generateParams();
 
-export const generateMetadata = ({
-  params,
-}: {
-  params: { slug?: string[] };
-}) => {
-  const page = source.getPage(params.slug);
+export const generateMetadata = async ({ params }: PageProps) => {
+  const slug = (await params).slug;
+  const page = source.getPage(slug);
 
   if (!page) {
     notFound();

@@ -5,7 +5,7 @@ import { icons } from 'lucide-react';
 import { createElement } from 'react';
 
 export const source = loader({
-  baseUrl: '/docs',
+  baseUrl: '/',
   source: createMDXSource(docs, meta),
   icon(icon) {
     if (!icon) {

@@ -1,4 +1,4 @@
-import type { HomeLayoutProps } from 'fumadocs-ui/home-layout';
+import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { Logo } from './components/logo';
 
 /**
@@ -8,19 +8,9 @@ import { Logo } from './components/logo';
  * Home Layout: app/(home)/layout.tsx
  * Docs Layout: app/docs/layout.tsx
  */
-export const baseOptions: HomeLayoutProps = {
+export const baseOptions: BaseLayoutProps = {
   nav: {
     title: <Logo />,
     enableSearch: true,
   },
-  links: [
-    {
-      text: 'Home',
-      url: '/',
-    },
-    {
-      text: 'Docs',
-      url: '/docs',
-    },
-  ],
 };
