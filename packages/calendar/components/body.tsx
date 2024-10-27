@@ -14,9 +14,12 @@ const OutOfBoundsDay: FC<{ day: number }> = ({ day }) => {
 
 type CalendarBodyProps = {
   features: Feature[];
+  children: (props: {
+    feature: Feature;
+  }) => ReactNode;
 };
 
-export const CalendarBody: FC<CalendarBodyProps> = ({ features }) => {
+export const CalendarBody: FC<CalendarBodyProps> = ({ features, children }) => {
   const { month, year } = useCalendar();
   const daysInMonth = getDaysInMonth(new Date(year, month, 1));
   const firstDay = getDay(new Date(year, month, 1));
@@ -50,17 +53,7 @@ export const CalendarBody: FC<CalendarBodyProps> = ({ features }) => {
       >
         {day}
         <div>
-          {featuresForDay.slice(0, 3).map((feature) => (
-            <div className="flex items-center gap-2" key={feature.id}>
-              <div
-                className="h-2 w-2 rounded-full shrink-0"
-                style={{
-                  backgroundColor: feature.status.color,
-                }}
-              />
-              <span className="truncate">{feature.name}</span>
-            </div>
-          ))}
+          {featuresForDay.slice(0, 3).map((feature) => children({ feature }))}
         </div>
         {featuresForDay.length > 3 && (
           <span className="text-xs text-muted-foreground block">

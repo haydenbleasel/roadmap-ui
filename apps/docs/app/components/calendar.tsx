@@ -11,13 +11,21 @@ export const CalendarBasic: FC = () => (
       <Calendar.CalendarDatePagination />
     </Calendar.CalendarDate>
     <Calendar.CalendarHeader />
-    <Calendar.CalendarBody features={exampleFeatures} />
+    <Calendar.CalendarBody features={exampleFeatures}>
+      {({ feature }) => (
+        <Calendar.CalendarItem key={feature.id} feature={feature} />
+      )}
+    </Calendar.CalendarBody>
   </Calendar.CalendarProvider>
 );
 
 export const CalendarWithoutMonth: FC = () => (
   <Calendar.CalendarProvider>
     <Calendar.CalendarHeader />
-    <Calendar.CalendarBody features={exampleFeatures} />
+    <Calendar.CalendarBody features={exampleFeatures}>
+      {({ feature }) => (
+        <Calendar.CalendarItem key={feature.id} feature={feature} />
+      )}
+    </Calendar.CalendarBody>
   </Calendar.CalendarProvider>
 );
