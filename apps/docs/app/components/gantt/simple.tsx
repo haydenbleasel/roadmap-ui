@@ -8,17 +8,27 @@ import {
   previewStatuses,
   tailwindConfig,
 } from '@/lib/preview';
-import { Sandpack } from '@codesandbox/sandpack-react';
+import {
+  SandpackCodeEditor,
+  SandpackConsole,
+  SandpackLayout,
+  SandpackPreview,
+  SandpackProvider,
+} from '@codesandbox/sandpack-react';
 import { useTheme } from 'next-themes';
 import type { FC } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../tabs';
 
 export const GanttExampleSimple: FC = () => {
   const theme = useTheme();
 
   return (
-    <Sandpack
+    <SandpackProvider
       theme={theme.theme === 'dark' ? 'dark' : 'light'}
       template="nextjs"
+      options={{
+        visibleFiles: ['lib/content.js', 'pages/index.js'],
+      }}
       customSetup={{
         dependencies: {
           '@roadmap-ui/gantt': 'latest',
@@ -138,6 +148,32 @@ export default function App() {
   );
 };`,
       }}
-    />
+    >
+      <SandpackLayout
+        style={{
+          background: 'transparent',
+          borderRadius: 'var(--radius)',
+          height: '32rem',
+          overflow: 'hidden',
+        }}
+      >
+        <Tabs defaultValue="preview" className="h-full w-full overflow-hidden">
+          <TabsList>
+            <TabsTrigger value="editor">Editor</TabsTrigger>
+            <TabsTrigger value="preview">Preview</TabsTrigger>
+            <TabsTrigger value="console">Console</TabsTrigger>
+          </TabsList>
+          <TabsContent value="editor" className="h-full overflow-auto">
+            <SandpackCodeEditor />
+          </TabsContent>
+          <TabsContent value="preview" className="h-full overflow-auto">
+            <SandpackPreview className="h-full" />
+          </TabsContent>
+          <TabsContent value="console" className="h-full">
+            <SandpackConsole className="h-full" />
+          </TabsContent>
+        </Tabs>
+      </SandpackLayout>
+    </SandpackProvider>
   );
 };
