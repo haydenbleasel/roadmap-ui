@@ -20,7 +20,11 @@ import { useTheme } from 'next-themes';
 import type { FC } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
 
-export const Sandpack: FC<{ code: string }> = ({ code }) => {
+export const Sandpack: FC<{
+  code: string;
+  files?: Record<string, string>;
+  dependencies?: Record<string, string>;
+}> = ({ code, files, dependencies }) => {
   const theme = useTheme();
 
   return (
@@ -29,6 +33,7 @@ export const Sandpack: FC<{ code: string }> = ({ code }) => {
       template="nextjs"
       customSetup={{
         dependencies: {
+          ...dependencies,
           '@roadmap-ui/gantt': 'latest',
           '@dnd-kit/core': '^6.1.0',
           '@dnd-kit/modifiers': '^7.0.0',
@@ -44,6 +49,7 @@ export const Sandpack: FC<{ code: string }> = ({ code }) => {
         },
       }}
       files={{
+        ...files,
         'tailwind.config.js': tailwindConfig,
         'styles.css': globalsCss,
         'postcss.config.js': postcssConfig,

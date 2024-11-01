@@ -525,7 +525,12 @@ export const globalsCss = `@tailwind base;
   body {
     @apply bg-background text-foreground;
   }
-}`;
+}
+
+html, body, #__next {
+  height: 100%;
+}
+`;
 
 export const postcssConfig = `module.exports = {
   plugins: {
