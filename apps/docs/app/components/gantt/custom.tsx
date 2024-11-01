@@ -1,24 +1,12 @@
-'use client';
+import { Sandpack } from '../sandpack';
 
+export const GanttExampleCustom = () => (
+  <Sandpack
+    code={`import { useState } from 'react';
+import { exampleFeatures, exampleMarkers } from '../lib/content';
 import * as Gantt from '@roadmap-ui/gantt';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@roadmap-ui/shadcn-ui/components/ui/avatar';
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from '@roadmap-ui/shadcn-ui/components/ui/context-menu';
-import groupBy from 'lodash.groupBy';
-import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
-import { type FC, useState } from 'react';
-import { toast } from 'sonner';
-import { exampleFeatures, exampleMarkers } from '../../../lib/content';
 
-export const GanttExampleCustom: FC = () => {
+export default function App() {
   const [features, setFeatures] = useState(exampleFeatures);
 
   const groupedFeatures: Record<string, typeof features> = groupBy(
@@ -33,18 +21,18 @@ export const GanttExampleCustom: FC = () => {
   );
 
   const handleViewFeature = (id: string) =>
-    toast.success(`Feature selected: ${id}`);
+    console.log(\`Feature selected: \${id}\`);
 
-  const handleCopyLink = (id: string) => toast.success(`Copy link: ${id}`);
+  const handleCopyLink = (id: string) => console.log(\`Copy link: \${id}\`);
 
   const handleRemoveFeature = (id: string) =>
     setFeatures((prev) => prev.filter((feature) => feature.id !== id));
 
   const handleRemoveMarker = (id: string) =>
-    toast.success(`Remove marker: ${id}`);
+    console.log(\`Remove marker: \${id}\`);
 
   const handleCreateMarker = (date: Date) =>
-    toast.success(`Create marker: ${date.toISOString()}`);
+    console.log(\`Create marker: \${date.toISOString()}\`);
 
   const handleMoveFeature = (id: string, startAt: Date, endAt: Date | null) => {
     if (!endAt) {
@@ -57,11 +45,11 @@ export const GanttExampleCustom: FC = () => {
       )
     );
 
-    toast.success(`Move feature: ${id} from ${startAt} to ${endAt}`);
+    console.log(\`Move feature: \${id} from \${startAt} to \${endAt}\`);
   };
 
   const handleAddFeature = (date: Date) =>
-    toast.success(`Add feature: ${date.toISOString()}`);
+    console.log(\`Add feature: \${date.toISOString()}\`);
 
   return (
     <Gantt.Provider onAddItem={handleAddFeature} range="monthly" zoom={100}>
@@ -151,3 +139,6 @@ export const GanttExampleCustom: FC = () => {
     </Gantt.Provider>
   );
 };
+`}
+  />
+);

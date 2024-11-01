@@ -72,6 +72,7 @@ export const exampleMarkers = ${previewMarkers};`,
           height: '32rem',
           overflow: 'hidden',
         }}
+        className="not-prose"
       >
         <Tabs defaultValue="preview" className="h-full w-full overflow-hidden">
           <TabsList>

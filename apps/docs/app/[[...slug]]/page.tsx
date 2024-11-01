@@ -17,6 +17,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { FC } from 'react';
 import { GanttExample } from '../components/gantt';
+import { GanttExampleBasic } from '../components/gantt/basic';
 import { GanttExampleCustom } from '../components/gantt/custom';
 import { GanttExampleSimple } from '../components/gantt/simple';
 
@@ -28,6 +29,7 @@ const components = {
   ...defaultMdxComponents,
   Gantt: {
     Example: GanttExample,
+    Basic: GanttExampleBasic,
     Simple: GanttExampleSimple,
     Custom: GanttExampleCustom,
   },
