@@ -12,6 +12,7 @@ import type { FC, ReactNode } from 'react';
 import { ThemeProvider } from './components/theme-provider';
 import { baseOptions } from './layout.config';
 import 'fumadocs-ui/style.css';
+import { SandPackStyles } from './components/sandpack-styles';
 
 type LayoutProps = {
   children: ReactNode;
@@ -27,6 +28,9 @@ const Layout: FC<LayoutProps> = ({ children }) => (
     )}
     suppressHydrationWarning
   >
+    <head>
+      <SandPackStyles />
+    </head>
     <body>
       <ThemeProvider>
         <TooltipProvider>

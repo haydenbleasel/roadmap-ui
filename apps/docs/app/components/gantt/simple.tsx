@@ -1,15 +1,66 @@
 'use client';
 
-import { exampleFeatures, exampleMarkers } from '@/lib/content';
-import * as Gantt from '@roadmap-ui/gantt';
-import type { Feature } from '@roadmap-ui/types';
-import { type FC, useState } from 'react';
+import {
+  globalsCss,
+  postcssConfig,
+  previewFeatures,
+  previewMarkers,
+  previewStatuses,
+  tailwindConfig,
+} from '@/lib/preview';
+import { Sandpack } from '@codesandbox/sandpack-react';
+import { useTheme } from 'next-themes';
+import type { FC } from 'react';
 
 export const GanttExampleSimple: FC = () => {
+  const theme = useTheme();
+
+  return (
+    <Sandpack
+      theme={theme.theme === 'dark' ? 'dark' : 'light'}
+      template="nextjs"
+      customSetup={{
+        dependencies: {
+          '@roadmap-ui/gantt': 'latest',
+          '@dnd-kit/core': '^6.1.0',
+          '@dnd-kit/modifiers': '^7.0.0',
+          '@uidotdev/usehooks': '^2.4.1',
+          autoprefixer: '^10.4.19',
+          'date-fns': '^4.1.0',
+          'lodash.throttle': '^4.1.1',
+          'lucide-react': '^0.453.0',
+          postcss: '^8.4.47',
+          tailwindcss: '^3.4.11',
+          zustand: '^5.0.1',
+          'tailwindcss-animate': '^1.0.7',
+        },
+      }}
+      files={{
+        'tailwind.config.js': tailwindConfig,
+        'styles.css': globalsCss,
+        'postcss.config.js': postcssConfig,
+        'lib/content.js': `import {
+  addMonths,
+  endOfMonth,
+  startOfMonth,
+  subDays,
+  subMonths,
+} from 'date-fns';
+
+const today = new Date();
+
+const previewStatuses = ${previewStatuses};
+
+export const exampleFeatures = ${previewFeatures};
+
+export const exampleMarkers = ${previewMarkers};`,
+        'pages/index.js': `import { useState } from 'react';
+import { exampleFeatures, exampleMarkers } from '../lib/content';
+import * as Gantt from '@roadmap-ui/gantt';
+
+export default function App() {
   const [features, setFeatures] = useState(exampleFeatures);
-  const groupedFeatures: Record<string, Feature[]> = {
-    features,
-  };
+  const groupedFeatures = { features };
 
   const sortedGroupedFeatures = Object.fromEntries(
     Object.entries(groupedFeatures).sort(([nameA], [nameB]) =>
@@ -17,16 +68,16 @@ export const GanttExampleSimple: FC = () => {
     )
   );
 
-  const handleViewFeature = (id: string) =>
-    console.log(`Feature selected: ${id}`);
+  const handleViewFeature = (id) =>
+    console.log(\`Feature selected: \${id}\`);
 
-  const handleRemoveMarker = (id: string) =>
-    console.log(`Remove marker: ${id}`);
+  const handleRemoveMarker = (id) =>
+    console.log(\`Remove marker: \${id}\`);
 
-  const handleCreateMarker = (date: Date) =>
-    console.log(`Create marker: ${date.toISOString()}`);
+  const handleCreateMarker = (date) =>
+    console.log(\`Create marker: \${date.toISOString()}\`);
 
-  const handleMoveFeature = (id: string, startAt: Date, endAt: Date | null) => {
+  const handleMoveFeature = (id, startAt, endAt) => {
     if (!endAt) {
       return;
     }
@@ -37,11 +88,11 @@ export const GanttExampleSimple: FC = () => {
       )
     );
 
-    console.log(`Move feature: ${id} from ${startAt} to ${endAt}`);
+    console.log(\`Move feature: \${id} from \${startAt} to \${endAt}\`);
   };
 
-  const handleAddFeature = (date: Date) =>
-    console.log(`Add feature: ${date.toISOString()}`);
+  const handleAddFeature = (date) =>
+    console.log(\`Add feature: \${date.toISOString()}\`);
 
   return (
     <Gantt.Provider onAddItem={handleAddFeature} range="monthly" zoom={100}>
@@ -84,5 +135,9 @@ export const GanttExampleSimple: FC = () => {
         <Gantt.CreateMarkerTrigger onCreateMarker={handleCreateMarker} />
       </Gantt.Timeline>
     </Gantt.Provider>
+  );
+};`,
+      }}
+    />
   );
 };
