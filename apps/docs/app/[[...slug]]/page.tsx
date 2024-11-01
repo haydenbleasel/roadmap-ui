@@ -1,10 +1,5 @@
 import { CalendarBasic, CalendarWithoutMonth } from '@/app/components/calendar';
 import {
-  GanttExampleBasic,
-  GanttExampleCustom,
-  GanttExampleSimple,
-} from '@/app/components/gantt';
-import {
   KanbanExampleBasic,
   KanbanExampleCustom,
 } from '@/app/components/kanban';
@@ -21,6 +16,9 @@ import {
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { FC } from 'react';
+import { GanttExample } from '../components/gantt';
+import { GanttExampleCustom } from '../components/gantt/custom';
+import { GanttExampleSimple } from '../components/gantt/simple';
 
 type PageProps = {
   params: Promise<{ slug?: string[] }>;
@@ -29,9 +27,9 @@ type PageProps = {
 const components = {
   ...defaultMdxComponents,
   Gantt: {
-    Basic: GanttExampleBasic,
-    Custom: GanttExampleCustom,
+    Example: GanttExample,
     Simple: GanttExampleSimple,
+    Custom: GanttExampleCustom,
   },
   Kanban: {
     Basic: KanbanExampleBasic,
