@@ -9,6 +9,7 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
+    "@codesandbox/sandpack-react": "^2.19.9",
     "@octokit/rest": "^21.0.2",
     "@roadmap-ui/calendar": "workspace:*",
     "@roadmap-ui/gantt": "workspace:*",
