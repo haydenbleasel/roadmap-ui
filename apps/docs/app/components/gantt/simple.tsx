@@ -11,6 +11,7 @@ import {
 import {
   SandpackCodeEditor,
   SandpackConsole,
+  SandpackFileExplorer,
   SandpackLayout,
   SandpackPreview,
   SandpackProvider,
@@ -26,9 +27,6 @@ export const GanttExampleSimple: FC = () => {
     <SandpackProvider
       theme={theme.theme === 'dark' ? 'dark' : 'light'}
       template="nextjs"
-      options={{
-        visibleFiles: ['lib/content.js', 'pages/index.js'],
-      }}
       customSetup={{
         dependencies: {
           '@roadmap-ui/gantt': 'latest',
@@ -163,8 +161,12 @@ export default function App() {
             <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="console">Console</TabsTrigger>
           </TabsList>
-          <TabsContent value="editor" className="h-full overflow-auto">
-            <SandpackCodeEditor />
+          <TabsContent
+            value="editor"
+            className="h-full overflow-auto flex divide-x"
+          >
+            <SandpackFileExplorer style={{ width: '15rem' }} />
+            <SandpackCodeEditor showTabs={false} />
           </TabsContent>
           <TabsContent value="preview" className="h-full overflow-auto">
             <SandpackPreview className="h-full" />
