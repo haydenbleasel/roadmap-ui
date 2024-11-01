@@ -24,6 +24,6 @@
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/modifiers": "^7.0.0",
-    "lucide-react": "^0.453.0"
+    "lucide-react": "^0.454.0"
   }
 }

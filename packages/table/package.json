@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.5",
-    "lucide-react": "^0.453.0",
+    "lucide-react": "^0.454.0",
     "zustand": "^5.0.0"
   }
 }

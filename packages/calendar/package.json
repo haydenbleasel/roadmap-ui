@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
-    "lucide-react": "^0.453.0",
+    "lucide-react": "^0.454.0",
     "zustand": "^5.0.0"
   }
 }
