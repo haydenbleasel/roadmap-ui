@@ -16,6 +16,4 @@ export type Marker = {
   id: string;
   date: Date;
   label: string;
-  backgroundColor: string;
-  textColor: string;
 };
