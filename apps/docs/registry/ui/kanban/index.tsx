@@ -8,8 +8,21 @@ import {
 } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
-import type { Feature, Status } from '@roadmap-ui/types';
 import type { ReactNode } from 'react';
+
+type Status = {
+  id: string;
+  name: string;
+  color: string;
+};
+
+type Feature = {
+  id: string;
+  name: string;
+  startAt: Date;
+  endAt: Date;
+  status: Status;
+};
 
 export type KanbanBoardProps = {
   id: Status['id'];

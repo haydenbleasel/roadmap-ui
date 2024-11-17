@@ -1,11 +1,24 @@
 'use client';
 
 import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
-import type { Feature } from '@roadmap-ui/types';
 import { format, getDay, getDaysInMonth, isSameDay } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { type CalendarState, useCalendar } from './use-calendar';
+
+type Status = {
+  id: string;
+  name: string;
+  color: string;
+};
+
+type Feature = {
+  id: string;
+  name: string;
+  startAt: Date;
+  endAt: Date;
+  status: Status;
+};
 
 export type OutOfBoundsDayProps = {
   day: number;

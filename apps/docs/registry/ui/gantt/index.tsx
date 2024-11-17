@@ -15,8 +15,6 @@ import {
   ContextMenuTrigger,
 } from '@roadmap-ui/shadcn-ui/components/ui/context-menu';
 import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
-import type { Marker as MarkerType } from '@roadmap-ui/types';
-import type { Feature } from '@roadmap-ui/types';
 import { useMouse, useThrottle, useWindowScroll } from '@uidotdev/usehooks';
 import { formatDate, getDate } from 'date-fns';
 import { formatDistance, isSameDay } from 'date-fns';
@@ -53,6 +51,26 @@ import type {
   RefObject,
 } from 'react';
 import { useGantt } from './use-gantt';
+
+type Status = {
+  id: string;
+  name: string;
+  color: string;
+};
+
+type Feature = {
+  id: string;
+  name: string;
+  startAt: Date;
+  endAt: Date;
+  status: Status;
+};
+
+type MarkerType = {
+  id: string;
+  date: Date;
+  label: string;
+};
 
 type Range = 'daily' | 'monthly' | 'quarterly';
 
