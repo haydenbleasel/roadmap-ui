@@ -17,8 +17,12 @@ export const ui: Registry = [
     devDependencies: [],
     files: [
       {
-        path: 'ui/roadmap-ui/gantt.tsx',
+        path: 'ui/calendar/index.tsx',
         type: 'registry:ui',
+      },
+      {
+        path: 'ui/calendar/use-calendar.ts',
+        type: 'registry:hook',
       },
     ],
   },
