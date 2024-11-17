@@ -13,13 +13,6 @@
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/modifiers": "^7.0.0",
     "@octokit/rest": "^21.0.2",
-    "@roadmap-ui/calendar": "workspace:*",
-    "@roadmap-ui/gantt": "workspace:*",
-    "@roadmap-ui/kanban": "workspace:*",
-    "@roadmap-ui/list": "workspace:*",
-    "@roadmap-ui/shadcn-ui": "workspace:*",
-    "@roadmap-ui/table": "workspace:*",
-    "@roadmap-ui/tailwind-config": "workspace:*",
     "@uidotdev/usehooks": "^2.4.1",
     "@vercel/analytics": "^1.3.2",
     "date-fns": "^4.1.0",
@@ -37,12 +30,11 @@
     "react-dom": "^18.3.1",
     "resend": "^4.0.0",
     "sonner": "^1.7.0",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "ultracite": "4.1.6",
-    "@roadmap-ui/types": "workspace:*",
     "@types/lodash.groupby": "^4.6.9",
     "@types/lodash.throttle": "^4.1.9",
     "@types/mdx": "^2.0.13",
@@ -52,7 +44,8 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "shadcn-ui": "github:shadcn-ui/ui",
-    "tailwindcss": "^3.4.14",
-    "typescript": "^5.6.3"
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.6.3",
+    "ultracite": "4.1.6"
   }
 }

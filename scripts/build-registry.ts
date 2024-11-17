@@ -2,7 +2,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import type { registryItemFileSchema } from 'shadcn-ui/apps/www/registry/schema';
 import type { z } from 'zod';
-import { ui } from '../registry/registry-components';
+import { ui } from '../registry';
 
 const REGISTRY_BASE_PATH = 'registry';
 const PUBLIC_FOLDER_BASE_PATH = 'public/registry';
