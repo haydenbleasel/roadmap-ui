@@ -84,6 +84,10 @@ export const ui: Registry = [
         path: 'ui/table/index.tsx',
         type: 'registry:ui',
       },
+      {
+        path: 'ui/table/use-table.ts',
+        type: 'registry:hook',
+      },
     ],
   },
 ];
