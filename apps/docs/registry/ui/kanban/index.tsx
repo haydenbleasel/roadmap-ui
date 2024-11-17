@@ -9,13 +9,15 @@ import {
 import type { DragEndEvent } from '@dnd-kit/core';
 import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import type { Feature, Status } from '@roadmap-ui/types';
-import type { FC, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-export const KanbanBoard: FC<{
+export type KanbanBoardProps = {
   id: Status['id'];
   children: ReactNode;
   className?: string;
-}> = ({ id, children, className }) => {
+};
+
+export const KanbanBoard = ({ id, children, className }: KanbanBoardProps) => {
   const { isOver, setNodeRef } = useDroppable({ id });
 
   return (
@@ -32,14 +34,21 @@ export const KanbanBoard: FC<{
   );
 };
 
-export const KanbanCard: FC<
-  Pick<Feature, 'id' | 'name'> & {
-    index: number;
-    parent: string;
-    children?: ReactNode;
-    className?: string;
-  }
-> = ({ id, name, index, parent, children, className }) => {
+export type KanbanCardProps = Pick<Feature, 'id' | 'name'> & {
+  index: number;
+  parent: string;
+  children?: ReactNode;
+  className?: string;
+};
+
+export const KanbanCard = ({
+  id,
+  name,
+  index,
+  parent,
+  children,
+  className,
+}: KanbanCardProps) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id,
@@ -67,14 +76,16 @@ export const KanbanCard: FC<
   );
 };
 
-export const KanbanCards: FC<{
+export type KanbanCardsProps = {
   children: ReactNode;
   className?: string;
-}> = ({ children, className }) => (
+};
+
+export const KanbanCards = ({ children, className }: KanbanCardsProps) => (
   <div className={cn('flex flex-1 flex-col gap-2', className)}>{children}</div>
 );
 
-export const KanbanHeader: FC<
+export type KanbanHeaderProps =
   | {
       children: ReactNode;
     }
@@ -82,8 +93,9 @@ export const KanbanHeader: FC<
       name: Status['name'];
       color: Status['color'];
       className?: string;
-    }
-> = (props) =>
+    };
+
+export const KanbanHeader = (props: KanbanHeaderProps) =>
   'children' in props ? (
     props.children
   ) : (
@@ -96,11 +108,17 @@ export const KanbanHeader: FC<
     </div>
   );
 
-export const KanbanProvider: FC<{
+export type KanbanProviderProps = {
   children: ReactNode;
   onDragEnd: (event: DragEndEvent) => void;
   className?: string;
-}> = ({ children, onDragEnd, className }) => (
+};
+
+export const KanbanProvider = ({
+  children,
+  onDragEnd,
+  className,
+}: KanbanProviderProps) => (
   <DndContext collisionDetection={rectIntersection} onDragEnd={onDragEnd}>
     <div className={cn('flex items-stretch gap-4', className)}>{children}</div>
   </DndContext>

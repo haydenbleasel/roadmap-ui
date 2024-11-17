@@ -5,23 +5,28 @@ import type { Feature } from '@roadmap-ui/types';
 import { format, getDay, getDaysInMonth, isSameDay } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
-import type { FC } from 'react';
 import { type CalendarState, useCalendar } from './use-calendar';
 
-const OutOfBoundsDay: FC<{ day: number }> = ({ day }) => (
+export type OutOfBoundsDayProps = {
+  day: number;
+};
+
+export const OutOfBoundsDay = ({ day }: OutOfBoundsDayProps) => (
   <div className="relative h-full w-full bg-secondary p-1 text-muted-foreground text-xs">
     {day}
   </div>
 );
 
-const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+export const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-export const CalendarBody: FC<{
+export type CalendarBodyProps = {
   features: Feature[];
   children: (props: {
     feature: Feature;
   }) => ReactNode;
-}> = ({ features, children }) => {
+};
+
+export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
   const { month, year } = useCalendar();
   const daysInMonth = getDaysInMonth(new Date(year, month, 1));
   const firstDay = getDay(new Date(year, month, 1));
@@ -102,14 +107,14 @@ export const CalendarBody: FC<{
   );
 };
 
-export const CalendarDateLabel: FC = () => {
+export const CalendarDateLabel = () => {
   const { month, year } = useCalendar();
   const monthName = format(new Date(year, month), 'MMMM');
 
   return <p className="font-medium text-sm">{`${monthName}, ${year}`}</p>;
 };
 
-export const CalendarDatePagination: FC = () => {
+export const CalendarDatePagination = () => {
   const { month, year, setMonth, setYear } = useCalendar();
 
   const handlePreviousMonth = () => {
@@ -142,13 +147,15 @@ export const CalendarDatePagination: FC = () => {
   );
 };
 
-export const CalendarDate: FC<{
+export type CalendarDateProps = {
   children: ReactNode;
-}> = ({ children }) => (
+};
+
+export const CalendarDate = ({ children }: CalendarDateProps) => (
   <div className="flex items-center justify-between p-3">{children}</div>
 );
 
-export const CalendarHeader: FC = () => (
+export const CalendarHeader = () => (
   <div className="grid flex-grow grid-cols-7">
     {daysOfWeek.map((day) => (
       <div key={day} className="p-3 text-right text-muted-foreground text-xs">
@@ -158,9 +165,11 @@ export const CalendarHeader: FC = () => (
   </div>
 );
 
-export const CalendarItem: FC<{
+export type CalendarItemProps = {
   feature: Feature;
-}> = ({ feature }) => (
+};
+
+export const CalendarItem = ({ feature }: CalendarItemProps) => (
   <div className="flex items-center gap-2" key={feature.id}>
     <div
       className="h-2 w-2 shrink-0 rounded-full"
@@ -172,9 +181,14 @@ export const CalendarItem: FC<{
   </div>
 );
 
-export const CalendarProvider: FC<{
+export type CalendarProviderProps = {
   children: ReactNode;
   className?: string;
-}> = ({ children, className }) => (
+};
+
+export const CalendarProvider = ({
+  children,
+  className,
+}: CalendarProviderProps) => (
   <div className={cn('relative flex flex-col', className)}>{children}</div>
 );

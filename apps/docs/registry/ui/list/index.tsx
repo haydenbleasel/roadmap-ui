@@ -2,6 +2,7 @@
 
 import {
   DndContext,
+  type DragEndEvent,
   rectIntersection,
   useDraggable,
   useDroppable,
@@ -9,20 +10,20 @@ import {
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import type { Feature, Status } from '@roadmap-ui/types';
-import type { FC, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-type ListGroupProperties = Status & {
+export type ListGroupProps = Status & {
   children: ReactNode;
   className?: string;
 };
 
-export const ListGroup: FC<ListGroupProperties> = ({
+export const ListGroup = ({
   id,
   name,
   color,
   children,
   className,
-}) => {
+}: ListGroupProps) => {
   const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
@@ -47,21 +48,21 @@ export const ListGroup: FC<ListGroupProperties> = ({
   );
 };
 
-type ListItemProps = Pick<Feature, 'id' | 'name'> & {
+export type ListItemProps = Pick<Feature, 'id' | 'name'> & {
   readonly index: number;
   readonly parent: string;
   readonly children?: ReactNode;
   readonly className?: string;
 };
 
-export const ListItem: FC<ListItemProps> = ({
+export const ListItem = ({
   id,
   name,
   index,
   parent,
   children,
   className,
-}) => {
+}: ListItemProps) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id,
@@ -89,17 +90,17 @@ export const ListItem: FC<ListItemProps> = ({
   );
 };
 
-type ListProviderProps = {
+export type ListProviderProps = {
   children: ReactNode;
   onDragEnd: (event: DragEndEvent) => void;
   className?: string;
 };
 
-export const ListProvider: FC<ListProviderProps> = ({
+export const ListProvider = ({
   children,
   onDragEnd,
   className,
-}) => (
+}: ListProviderProps) => (
   <DndContext
     collisionDetection={rectIntersection}
     onDragEnd={onDragEnd}
