@@ -42,7 +42,7 @@ export const ui: Registry = [
     devDependencies: ['@types/lodash.throttle'],
     files: [
       {
-        path: 'ui/roadmap-ui/gantt.tsx',
+        path: 'ui/gantt/index.tsx',
         type: 'registry:ui',
       },
     ],
@@ -55,7 +55,7 @@ export const ui: Registry = [
     devDependencies: [],
     files: [
       {
-        path: 'ui/roadmap-ui/gantt.tsx',
+        path: 'ui/kanban/index.tsx',
         type: 'registry:ui',
       },
     ],
@@ -68,7 +68,7 @@ export const ui: Registry = [
     devDependencies: [],
     files: [
       {
-        path: 'ui/roadmap-ui/gantt.tsx',
+        path: 'ui/list/index.tsx',
         type: 'registry:ui',
       },
     ],
@@ -76,12 +76,12 @@ export const ui: Registry = [
   {
     name: 'table',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['button', 'dropdown-menu', 'table'],
     dependencies: ['@tanstack/react-table', 'lucide-react', 'zustand'],
     devDependencies: [],
     files: [
       {
-        path: 'ui/roadmap-ui/gantt.tsx',
+        path: 'ui/table/index.tsx',
         type: 'registry:ui',
       },
     ],
