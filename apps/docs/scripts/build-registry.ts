@@ -9,12 +9,6 @@ const PUBLIC_FOLDER_BASE_PATH = 'public/registry';
 const COMPONENT_FOLDER_PATH = 'components';
 
 type File = z.infer<typeof registryItemFileSchema>;
-const FolderToComponentTypeMap = {
-  block: 'registry:block',
-  component: 'registry:component',
-  hooks: 'registry:hook',
-  ui: 'registry:ui',
-};
 
 async function writeFileRecursive(filePath: string, data: string) {
   const dir = path.dirname(filePath); // Extract the directory path
@@ -33,20 +27,18 @@ async function writeFileRecursive(filePath: string, data: string) {
 }
 
 const getComponentFiles = async (files: File[]) => {
-  const filesArrayPromises = (files ?? []).map(async (file) => {
-    if (typeof file === 'string') {
-      const filePath = `${REGISTRY_BASE_PATH}/${file}`;
-      const fileContent = await fs.readFile(filePath, 'utf-8');
-      return {
-        type: FolderToComponentTypeMap[
-          file.split('/')[0] as keyof typeof FolderToComponentTypeMap
-        ],
-        content: fileContent,
-        path: file,
-        target: `${COMPONENT_FOLDER_PATH}/${file}`,
-      };
-    }
+  const filesArrayPromises = files.map(async (file) => {
+    const filePath = path.join(REGISTRY_BASE_PATH, file.path);
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+
+    return {
+      type: file.type,
+      path: file.path,
+      content: fileContent,
+      target: `${COMPONENT_FOLDER_PATH}/${file}`,
+    };
   });
+
   const filesArray = await Promise.all(filesArrayPromises);
 
   return filesArray;
@@ -54,10 +46,12 @@ const getComponentFiles = async (files: File[]) => {
 
 const main = async () => {
   // make a json file and put it in public folder
-  for (let i = 0; i < ui.length; i++) {
-    const component = ui[i];
-    const files = component.files;
-    if (!files) throw new Error('No files found for component');
+  for (const component of ui) {
+    const { files } = component;
+
+    if (!files) {
+      throw new Error('No files found for component');
+    }
 
     const filesArray = await getComponentFiles(files);
 
