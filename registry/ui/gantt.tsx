@@ -87,7 +87,7 @@ export type Feature = {
   status: Status;
 };
 
-export type MarkerType = {
+export type MarkerProps = {
   id: string;
   date: Date;
   label: string;
@@ -978,7 +978,7 @@ const calculateInnerOffset = (
 };
 
 export const Marker: FC<
-  MarkerType & {
+  MarkerProps & {
     onRemove?: (id: string) => void;
     className?: string;
   }
