@@ -30,13 +30,12 @@ const getComponentFiles = async (files: File[]) => {
   const filesArrayPromises = files.map(async (file) => {
     const filePath = path.join(REGISTRY_BASE_PATH, file.path);
     const fileContent = await fs.readFile(filePath, 'utf-8');
-    const name = file.path.replace(/\/index\.tsx$/, '.tsx');
 
     return {
       type: file.type,
       path: file.path,
       content: fileContent,
-      target: `${COMPONENT_FOLDER_PATH}/${name}`,
+      target: `${COMPONENT_FOLDER_PATH}/${file.path}`,
     };
   });
 
