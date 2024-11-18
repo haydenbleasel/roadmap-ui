@@ -17,7 +17,7 @@ export const ui: Registry = [
     devDependencies: [],
     files: [
       {
-        path: 'ui/calendar/index.tsx',
+        path: 'ui/calendar.tsx',
         type: 'registry:ui',
       },
     ],
@@ -38,7 +38,7 @@ export const ui: Registry = [
     devDependencies: ['@types/lodash.throttle'],
     files: [
       {
-        path: 'ui/gantt/index.tsx',
+        path: 'ui/gantt.tsx',
         type: 'registry:ui',
       },
     ],
@@ -51,7 +51,7 @@ export const ui: Registry = [
     devDependencies: [],
     files: [
       {
-        path: 'ui/kanban/index.tsx',
+        path: 'ui/kanban.tsx',
         type: 'registry:ui',
       },
     ],
@@ -64,7 +64,7 @@ export const ui: Registry = [
     devDependencies: [],
     files: [
       {
-        path: 'ui/list/index.tsx',
+        path: 'ui/list.tsx',
         type: 'registry:ui',
       },
     ],
