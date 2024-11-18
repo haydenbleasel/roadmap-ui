@@ -88,7 +88,8 @@ const config = {
       },
     },
   },
-  plugins: [animate, preset],
+  plugins: [animate],
+  presets: [preset],
 } satisfies Config;
 
 export default config;
