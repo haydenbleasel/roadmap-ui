@@ -1,0 +1,19 @@
+{
+  "name": "list",
+  "type": "registry:ui",
+  "registryDependencies": [],
+  "dependencies": [
+    "@dnd-kit/core",
+    "@dnd-kit/modifiers",
+    "lucide-react"
+  ],
+  "devDependencies": [],
+  "files": [
+    {
+      "type": "registry:ui",
+      "path": "ui/list/index.tsx",
+      "content": "'use client';\n\nimport {\n  DndContext,\n  type DragEndEvent,\n  rectIntersection,\n  useDraggable,\n  useDroppable,\n} from '@dnd-kit/core';\nimport { restrictToVerticalAxis } from '@dnd-kit/modifiers';\nimport { cn } from '@roadmap-ui/shadcn-ui/lib/utils';\nimport type { ReactNode } from 'react';\n\ntype Status = {\n  id: string;\n  name: string;\n  color: string;\n};\n\ntype Feature = {\n  id: string;\n  name: string;\n  startAt: Date;\n  endAt: Date;\n  status: Status;\n};\n\nexport type ListGroupProps = Status & {\n  children: ReactNode;\n  className?: string;\n};\n\nexport const ListGroup = ({\n  id,\n  name,\n  color,\n  children,\n  className,\n}: ListGroupProps) => {\n  const { setNodeRef, isOver } = useDroppable({ id });\n\n  return (\n    <div\n      className={cn(\n        'bg-secondary transition-colors',\n        isOver && 'bg-foreground/10',\n        className\n      )}\n    >\n      <div className=\"flex shrink-0 items-center gap-2 bg-foreground/5 p-3\">\n        <div\n          className=\"h-2 w-2 rounded-full\"\n          style={{ backgroundColor: color }}\n        />\n        <p className=\"m-0 font-semibold text-sm\">{name}</p>\n      </div>\n      <div className=\"flex flex-1 flex-col gap-2 p-3\" ref={setNodeRef}>\n        {children}\n      </div>\n    </div>\n  );\n};\n\nexport type ListItemProps = Pick<Feature, 'id' | 'name'> & {\n  readonly index: number;\n  readonly parent: string;\n  readonly children?: ReactNode;\n  readonly className?: string;\n};\n\nexport const ListItem = ({\n  id,\n  name,\n  index,\n  parent,\n  children,\n  className,\n}: ListItemProps) => {\n  const { attributes, listeners, setNodeRef, transform, isDragging } =\n    useDraggable({\n      id,\n      data: { index, parent },\n    });\n\n  return (\n    <div\n      className={cn(\n        'flex cursor-grab items-center gap-2 rounded-md border bg-background p-2 shadow-sm',\n        isDragging && 'cursor-grabbing',\n        className\n      )}\n      style={{\n        transform: transform\n          ? `translateX(${transform.x}px) translateY(${transform.y}px)`\n          : 'none',\n      }}\n      {...listeners}\n      {...attributes}\n      ref={setNodeRef}\n    >\n      {children ?? <p className=\"m-0 font-medium text-sm\">{name}</p>}\n    </div>\n  );\n};\n\nexport type ListProviderProps = {\n  children: ReactNode;\n  onDragEnd: (event: DragEndEvent) => void;\n  className?: string;\n};\n\nexport const ListProvider = ({\n  children,\n  onDragEnd,\n  className,\n}: ListProviderProps) => (\n  <DndContext\n    collisionDetection={rectIntersection}\n    onDragEnd={onDragEnd}\n    modifiers={[restrictToVerticalAxis]}\n  >\n    <div className={cn('flex flex-col', className)}>{children}</div>\n  </DndContext>\n);\n",
+      "target": "components/[object Object]"
+    }
+  ]
+}
