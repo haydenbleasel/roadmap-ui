@@ -73,21 +73,4 @@ export const ui: Registry = [
       },
     ],
   },
-  {
-    name: 'table',
-    type: 'registry:ui',
-    registryDependencies: ['button', 'dropdown-menu', 'table'],
-    dependencies: ['@tanstack/react-table', 'lucide-react', 'zustand'],
-    devDependencies: [],
-    files: [
-      {
-        path: 'ui/table/index.tsx',
-        type: 'registry:ui',
-      },
-      {
-        path: 'ui/table/use-table.ts',
-        type: 'registry:hook',
-      },
-    ],
-  },
 ];
