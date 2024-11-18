@@ -12,7 +12,7 @@ export const GanttExampleCustom = () => (
     }}
     code={`import { useState } from 'react';
 import { exampleFeatures, exampleMarkers } from '../lib/content';
-import * as Gantt from '@roadmap-ui/gantt';
+import * as Gantt from '@/components/ui/gantt';
 import { Avatar, AvatarImage, AvatarFallback } from '../shadcn-ui/components/ui/avatar';
 import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem } from '../shadcn-ui/components/ui/context-menu';
 import groupBy from 'lodash.groupby';

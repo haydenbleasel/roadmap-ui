@@ -6,7 +6,7 @@ export const GanttExampleSimple = () => (
   <Sandpack
     code={`import { useState } from 'react';
 import { exampleFeatures, exampleMarkers } from '../lib/content';
-import * as Gantt from '@roadmap-ui/gantt';
+import * as Gantt from '@@/components/ui/gantt';
 
 export default function App() {
   const [features, setFeatures] = useState(exampleFeatures);

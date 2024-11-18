@@ -34,7 +34,6 @@ export const Sandpack: FC<{
       customSetup={{
         dependencies: {
           ...dependencies,
-          '@roadmap-ui/gantt': 'latest',
           '@dnd-kit/core': '^6.1.0',
           '@dnd-kit/modifiers': '^7.0.0',
           '@uidotdev/usehooks': '^2.4.1',

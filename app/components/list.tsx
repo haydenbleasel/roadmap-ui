@@ -1,13 +1,9 @@
 'use client';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
-import type { DragEndEvent } from '@roadmap-ui/list';
-import * as List from '@roadmap-ui/list';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@roadmap-ui/shadcn-ui/components/ui/avatar';
+import * as List from '@/registry/ui/list';
+import type { DragEndEvent } from '@dnd-kit/core';
 import { type FC, useState } from 'react';
 
 export const ListExampleBasic: FC = () => {

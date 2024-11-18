@@ -1,8 +1,8 @@
-import '@roadmap-ui/tailwind-config/globals.css';
+import './styles/globals.css';
 import { source } from '@/app/source';
-import { Toaster } from '@roadmap-ui/shadcn-ui/components/ui/sonner';
-import { TooltipProvider } from '@roadmap-ui/shadcn-ui/components/ui/tooltip';
-import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
+import { Toaster } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import { RootProvider } from 'fumadocs-ui/provider';

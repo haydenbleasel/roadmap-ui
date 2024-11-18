@@ -1,13 +1,9 @@
 'use client';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
-import type { DragEndEvent } from '@roadmap-ui/kanban';
-import * as Kanban from '@roadmap-ui/kanban';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@roadmap-ui/shadcn-ui/components/ui/avatar';
+import * as Kanban from '@/registry/ui/kanban';
+import type { DragEndEvent } from '@dnd-kit/core';
 import { useState } from 'react';
 import type { FC } from 'react';
 

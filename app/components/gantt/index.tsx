@@ -1,17 +1,13 @@
 'use client';
 
-import * as Gantt from '@roadmap-ui/gantt';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@roadmap-ui/shadcn-ui/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '@roadmap-ui/shadcn-ui/components/ui/context-menu';
+} from '@/components/ui/context-menu';
+import * as Gantt from '@/registry/ui/gantt';
 import groupBy from 'lodash.groupBy';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
 import { type FC, useState } from 'react';

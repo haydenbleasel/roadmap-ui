@@ -1,4 +1,4 @@
-import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
+import { cn } from '@/lib/utils';
 import type { FC, SVGProps } from 'react';
 
 export const RoadmapUiIcon: FC<SVGProps<SVGSVGElement>> = ({

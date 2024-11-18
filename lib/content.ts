@@ -1,5 +1,4 @@
-import tailwind from '@roadmap-ui/tailwind-config/tailwind';
-import type { Feature, Marker, Status } from '@roadmap-ui/types';
+import tailwind from '@/lib/tailwind';
 import {
   addMonths,
   endOfMonth,
@@ -10,35 +9,13 @@ import {
 
 const today = new Date();
 
-export const exampleStatuses: Status[] = [
+export const exampleStatuses = [
   { id: '1', name: 'Planned', color: tailwind.theme.colors.gray[500] },
   { id: '2', name: 'In Progress', color: tailwind.theme.colors.amber[500] },
   { id: '3', name: 'Done', color: tailwind.theme.colors.emerald[500] },
 ];
 
-export const exampleFeatures: (Feature & {
-  group: {
-    id: string;
-    name: string;
-  };
-  product: {
-    id: string;
-    name: string;
-  };
-  owner: {
-    id: string;
-    image: string;
-    name: string;
-  };
-  initiative: {
-    id: string;
-    name: string;
-  };
-  release: {
-    id: string;
-    name: string;
-  };
-})[] = [
+export const exampleFeatures = [
   {
     id: '1',
     name: 'AI Scene Analysis',
@@ -361,7 +338,7 @@ export const exampleFeatures: (Feature & {
   },
 ];
 
-export const exampleMarkers: Marker[] = [
+export const exampleMarkers = [
   {
     id: '1',
     date: startOfMonth(subMonths(today, 3)),

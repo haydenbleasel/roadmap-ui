@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
+import { cn } from '@/lib/utils';
 import {
   type ButtonHTMLAttributes,
   type HTMLAttributes,

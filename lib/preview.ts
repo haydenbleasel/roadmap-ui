@@ -1,4 +1,4 @@
-import tailwind from '@roadmap-ui/tailwind-config/tailwind';
+import tailwind from '@/lib/tailwind';
 
 export const previewStatuses = `[
   { id: '1', name: 'Planned', color: "${tailwind.theme.colors.gray[500]}" },
@@ -380,7 +380,6 @@ export const tailwindConfig = `module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@roadmap-ui/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   prefix: '',
   theme: {
