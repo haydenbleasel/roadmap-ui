@@ -73,13 +73,13 @@ export const useGantt = create<GanttState>()(
   }))
 );
 
-type Status = {
+export type Status = {
   id: string;
   name: string;
   color: string;
 };
 
-type Feature = {
+export type Feature = {
   id: string;
   name: string;
   startAt: Date;
@@ -87,15 +87,15 @@ type Feature = {
   status: Status;
 };
 
-type MarkerType = {
+export type MarkerType = {
   id: string;
   date: Date;
   label: string;
 };
 
-type Range = 'daily' | 'monthly' | 'quarterly';
+export type Range = 'daily' | 'monthly' | 'quarterly';
 
-type TimelineData = {
+export type TimelineData = {
   year: number;
   quarters: {
     months: {
@@ -104,7 +104,7 @@ type TimelineData = {
   }[];
 }[];
 
-type GanttContextProps = {
+export type GanttContextProps = {
   zoom: number;
   range: Range;
   columnWidth: number;
@@ -267,7 +267,7 @@ export const DailyHeader: FC = () => {
   );
 };
 
-type GanttContentHeaderProps = {
+export type GanttContentHeaderProps = {
   renderHeaderItem: (index: number) => ReactNode;
   title: string;
   columns: number;
@@ -363,7 +363,7 @@ const headers: Record<Range, FC> = {
   quarterly: QuarterlyHeader,
 };
 
-type HeaderProps = {
+export type HeaderProps = {
   className?: string;
 };
 
@@ -383,13 +383,13 @@ export const Header: FC<HeaderProps> = ({ className }) => {
   );
 };
 
-type SidebarItemProperties = {
+export type SidebarItemProps = {
   feature: Feature;
   onSelectItem: (id: string) => void;
   className?: string;
 };
 
-export const SidebarItem: FC<SidebarItemProperties> = ({
+export const SidebarItem: FC<SidebarItemProps> = ({
   feature,
   onSelectItem,
   className,
@@ -456,13 +456,13 @@ export const SidebarHeader: FC = () => (
   </div>
 );
 
-type SidebarGroupProperties = {
+export type SidebarGroupProps = {
   children: ReactNode;
   name: string;
   className?: string;
 };
 
-export const SidebarGroup: FC<SidebarGroupProperties> = ({
+export const SidebarGroup: FC<SidebarGroupProps> = ({
   children,
   name,
   className,
@@ -478,12 +478,12 @@ export const SidebarGroup: FC<SidebarGroupProperties> = ({
   </div>
 );
 
-type SidebarProperties = {
+export type SidebarProps = {
   children: ReactNode;
   className?: string;
 };
 
-export const Sidebar: FC<SidebarProperties> = ({ children, className }) => (
+export const Sidebar: FC<SidebarProps> = ({ children, className }) => (
   <div
     data-roadmap-ui="gantt-sidebar"
     className={cn(
@@ -496,7 +496,7 @@ export const Sidebar: FC<SidebarProperties> = ({ children, className }) => (
   </div>
 );
 
-type AddFeatureHelperProps = {
+export type AddFeatureHelperProps = {
   top: number;
   className?: string;
 };
@@ -1033,7 +1033,7 @@ export const Marker: FC<
   );
 };
 
-export type ProviderProperties = {
+export type ProviderProps = {
   range?: Range;
   zoom?: number;
   onAddItem?: (date: Date) => void;
@@ -1041,7 +1041,7 @@ export type ProviderProperties = {
   className?: string;
 };
 
-export const Provider: FC<ProviderProperties> = ({
+export const Provider: FC<ProviderProps> = ({
   zoom = 100,
   range = 'monthly',
   onAddItem,
@@ -1198,7 +1198,7 @@ export const Provider: FC<ProviderProperties> = ({
   );
 };
 
-type TimelineProps = {
+export type TimelineProps = {
   children: ReactNode;
   className?: string;
 };
@@ -1214,7 +1214,7 @@ export const Timeline: FC<TimelineProps> = ({ children, className }) => (
   </div>
 );
 
-type TodayProps = {
+export type TodayProps = {
   className?: string;
 };
 
