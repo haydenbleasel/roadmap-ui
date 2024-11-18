@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prebuild": "bun scripts/build-registry.ts",
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
