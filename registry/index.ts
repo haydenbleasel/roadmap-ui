@@ -45,6 +45,10 @@ export const ui: Registry = [
         path: 'ui/gantt/index.tsx',
         type: 'registry:ui',
       },
+      {
+        path: 'ui/gantt/use-gantt.ts',
+        type: 'registry:hook',
+      },
     ],
   },
   {
