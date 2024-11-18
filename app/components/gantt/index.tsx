@@ -8,7 +8,7 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 import * as Gantt from '@/registry/ui/gantt';
-import groupBy from 'lodash.groupBy';
+import groupBy from 'lodash.groupby';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
 import { type FC, useState } from 'react';
 import { toast } from 'sonner';
