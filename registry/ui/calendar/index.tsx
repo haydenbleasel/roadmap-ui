@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
+import { cn } from '@/lib/utils';
 import { format, getDay, getDaysInMonth, isSameDay } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import type { ReactNode } from 'react';

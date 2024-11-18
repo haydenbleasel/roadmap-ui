@@ -1,5 +1,13 @@
 'use client';
 
+import { Card } from '@/components/ui/card';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '@/components/ui/context-menu';
+import { cn } from '@/lib/utils';
 import {
   DndContext,
   MouseSensor,
@@ -7,14 +15,6 @@ import {
   useSensor,
 } from '@dnd-kit/core';
 import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
-import { Card } from '@roadmap-ui/shadcn-ui/components/ui/card';
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from '@roadmap-ui/shadcn-ui/components/ui/context-menu';
-import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import { useMouse, useThrottle, useWindowScroll } from '@uidotdev/usehooks';
 import { formatDate, getDate } from 'date-fns';
 import { formatDistance, isSameDay } from 'date-fns';

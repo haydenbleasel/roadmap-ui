@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import {
   DndContext,
   type DragEndEvent,
@@ -8,7 +9,6 @@ import {
   useDroppable,
 } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { cn } from '@roadmap-ui/shadcn-ui/lib/utils';
 import type { ReactNode } from 'react';
 
 type Status = {
