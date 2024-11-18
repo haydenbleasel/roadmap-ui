@@ -216,6 +216,89 @@ const createInitialTimelineData = (today: Date) => {
   return data;
 };
 
+const getOffset = (
+  date: Date,
+  timelineStartDate: Date,
+  context: GanttContextProps
+) => {
+  const parsedColumnWidth = (context.columnWidth * context.zoom) / 100;
+  const differenceIn = getDifferenceIn(context.range);
+  const startOf = getStartOf(context.range);
+  const fullColumns = differenceIn(startOf(date), timelineStartDate);
+
+  if (context.range === 'daily') {
+    return parsedColumnWidth * fullColumns;
+  }
+
+  const partialColumns = date.getDate();
+  const daysInMonth = getDaysInMonth(date);
+  const pixelsPerDay = parsedColumnWidth / daysInMonth;
+
+  return fullColumns * parsedColumnWidth + partialColumns * pixelsPerDay;
+};
+
+const getWidth = (
+  startAt: Date,
+  endAt: Date | null,
+  context: GanttContextProps
+) => {
+  const parsedColumnWidth = (context.columnWidth * context.zoom) / 100;
+
+  if (!endAt) {
+    return parsedColumnWidth * 2;
+  }
+
+  const differenceIn = getDifferenceIn(context.range);
+
+  if (context.range === 'daily') {
+    const delta = differenceIn(endAt, startAt);
+
+    return parsedColumnWidth * (delta ? delta : 1);
+  }
+
+  const daysInStartMonth = getDaysInMonth(startAt);
+  const pixelsPerDayInStartMonth = parsedColumnWidth / daysInStartMonth;
+
+  if (isSameDay(startAt, endAt)) {
+    return pixelsPerDayInStartMonth;
+  }
+
+  const innerDifferenceIn = getInnerDifferenceIn(context.range);
+  const startOf = getStartOf(context.range);
+
+  if (isSameDay(startOf(startAt), startOf(endAt))) {
+    return innerDifferenceIn(endAt, startAt) * pixelsPerDayInStartMonth;
+  }
+
+  const startRangeOffset = daysInStartMonth - getDate(startAt);
+  const endRangeOffset = getDate(endAt);
+  const fullRangeOffset = differenceIn(startOf(endAt), startOf(startAt));
+  const daysInEndMonth = getDaysInMonth(endAt);
+  const pixelsPerDayInEndMonth = parsedColumnWidth / daysInEndMonth;
+
+  return (
+    (fullRangeOffset - 1) * parsedColumnWidth +
+    startRangeOffset * pixelsPerDayInStartMonth +
+    endRangeOffset * pixelsPerDayInEndMonth
+  );
+};
+
+const calculateInnerOffset = (
+  date: Date,
+  range: Range,
+  columnWidth: number
+) => {
+  const startOf = getStartOf(range);
+  const endOf = getEndOf(range);
+  const differenceIn = getInnerDifferenceIn(range);
+  const startOfRange = startOf(date);
+  const endOfRange = endOf(date);
+  const totalRangeDays = differenceIn(endOfRange, startOfRange);
+  const dayOfMonth = date.getDate();
+
+  return (dayOfMonth / totalRangeDays) * columnWidth;
+};
+
 const GanttContext = createContext<GanttContextProps>({
   zoom: 100,
   range: 'monthly',
@@ -228,44 +311,6 @@ const GanttContext = createContext<GanttContextProps>({
   timelineData: [],
   ref: null,
 });
-
-export const DailyHeader: FC = () => {
-  const gantt = useContext(GanttContext);
-
-  return gantt.timelineData.map((year) =>
-    year.quarters
-      .flatMap((quarter) => quarter.months)
-      .map((month, index) => (
-        <div className="relative flex flex-col" key={`${year.year}-${index}`}>
-          <GanttContentHeader
-            title={format(new Date(year.year, index, 1), 'MMMM yyyy')}
-            columns={month.days}
-            renderHeaderItem={(item: number) => (
-              <div className="flex items-center justify-center gap-1">
-                <p>
-                  {format(addDays(new Date(year.year, index, 1), item), 'd')}
-                </p>
-                <p className="text-muted-foreground">
-                  {format(
-                    addDays(new Date(year.year, index, 1), item),
-                    'EEEEE'
-                  )}
-                </p>
-              </div>
-            )}
-          />
-          <Columns
-            columns={month.days}
-            isColumnSecondary={(item: number) =>
-              [0, 6].includes(
-                addDays(new Date(year.year, index, 1), item).getDay()
-              )
-            }
-          />
-        </div>
-      ))
-  );
-};
 
 export type GanttContentHeaderProps = {
   renderHeaderItem: (index: number) => ReactNode;
@@ -314,7 +359,45 @@ export const GanttContentHeader: FC<GanttContentHeaderProps> = ({
   );
 };
 
-export const MonthlyHeader: FC = () => {
+const DailyHeader: FC = () => {
+  const gantt = useContext(GanttContext);
+
+  return gantt.timelineData.map((year) =>
+    year.quarters
+      .flatMap((quarter) => quarter.months)
+      .map((month, index) => (
+        <div className="relative flex flex-col" key={`${year.year}-${index}`}>
+          <GanttContentHeader
+            title={format(new Date(year.year, index, 1), 'MMMM yyyy')}
+            columns={month.days}
+            renderHeaderItem={(item: number) => (
+              <div className="flex items-center justify-center gap-1">
+                <p>
+                  {format(addDays(new Date(year.year, index, 1), item), 'd')}
+                </p>
+                <p className="text-muted-foreground">
+                  {format(
+                    addDays(new Date(year.year, index, 1), item),
+                    'EEEEE'
+                  )}
+                </p>
+              </div>
+            )}
+          />
+          <Columns
+            columns={month.days}
+            isColumnSecondary={(item: number) =>
+              [0, 6].includes(
+                addDays(new Date(year.year, index, 1), item).getDay()
+              )
+            }
+          />
+        </div>
+      ))
+  );
+};
+
+const MonthlyHeader: FC = () => {
   const gantt = useContext(GanttContext);
 
   return gantt.timelineData.map((year) => (
@@ -333,7 +416,7 @@ export const MonthlyHeader: FC = () => {
   ));
 };
 
-export const QuarterlyHeader: FC = () => {
+const QuarterlyHeader: FC = () => {
   const gantt = useContext(GanttContext);
 
   return gantt.timelineData.map((year) =>
@@ -541,7 +624,7 @@ export const AddFeatureHelper: FC<AddFeatureHelperProps> = ({
   );
 };
 
-type ColumnProps = {
+export type ColumnProps = {
   index: number;
   isColumnSecondary?: (item: number) => boolean;
 };
@@ -581,7 +664,7 @@ export const Column: FC<ColumnProps> = ({ index, isColumnSecondary }) => {
   );
 };
 
-type ColumnsProps = {
+export type ColumnsProps = {
   columns: number;
   isColumnSecondary?: (item: number) => boolean;
 };
@@ -607,7 +690,7 @@ export const Columns: FC<ColumnsProps> = ({ columns, isColumnSecondary }) => {
   );
 };
 
-type CreateMarkerTriggerProps = {
+export type CreateMarkerTriggerProps = {
   onCreateMarker: (date: Date) => void;
   className?: string;
 };
@@ -657,7 +740,7 @@ export const CreateMarkerTrigger: FC<CreateMarkerTriggerProps> = ({
   );
 };
 
-type FeatureDragHelperProps = {
+export type FeatureDragHelperProps = {
   featureId: Feature['id'];
   direction: 'left' | 'right';
   date: Date | null;
@@ -711,7 +794,7 @@ export const FeatureDragHelper: FC<FeatureDragHelperProps> = ({
   );
 };
 
-type FeatureItemCardProps = Pick<Feature, 'id'> & {
+export type FeatureItemCardProps = Pick<Feature, 'id'> & {
   children?: ReactNode;
 };
 
@@ -739,80 +822,18 @@ export const FeatureItemCard: FC<FeatureItemCardProps> = ({ id, children }) => {
   );
 };
 
-const getOffset = (
-  date: Date,
-  timelineStartDate: Date,
-  context: GanttContextProps
-) => {
-  const parsedColumnWidth = (context.columnWidth * context.zoom) / 100;
-  const differenceIn = getDifferenceIn(context.range);
-  const startOf = getStartOf(context.range);
-  const fullColumns = differenceIn(startOf(date), timelineStartDate);
-
-  if (context.range === 'daily') {
-    return parsedColumnWidth * fullColumns;
-  }
-
-  const partialColumns = date.getDate();
-  const daysInMonth = getDaysInMonth(date);
-  const pixelsPerDay = parsedColumnWidth / daysInMonth;
-
-  return fullColumns * parsedColumnWidth + partialColumns * pixelsPerDay;
+export type FeatureItemProps = Feature & {
+  onMove?: (id: string, startDate: Date, endDate: Date | null) => void;
+  children?: ReactNode;
+  className?: string;
 };
 
-const getWidth = (
-  startAt: Date,
-  endAt: Date | null,
-  context: GanttContextProps
-) => {
-  const parsedColumnWidth = (context.columnWidth * context.zoom) / 100;
-
-  if (!endAt) {
-    return parsedColumnWidth * 2;
-  }
-
-  const differenceIn = getDifferenceIn(context.range);
-
-  if (context.range === 'daily') {
-    const delta = differenceIn(endAt, startAt);
-
-    return parsedColumnWidth * (delta ? delta : 1);
-  }
-
-  const daysInStartMonth = getDaysInMonth(startAt);
-  const pixelsPerDayInStartMonth = parsedColumnWidth / daysInStartMonth;
-
-  if (isSameDay(startAt, endAt)) {
-    return pixelsPerDayInStartMonth;
-  }
-
-  const innerDifferenceIn = getInnerDifferenceIn(context.range);
-  const startOf = getStartOf(context.range);
-
-  if (isSameDay(startOf(startAt), startOf(endAt))) {
-    return innerDifferenceIn(endAt, startAt) * pixelsPerDayInStartMonth;
-  }
-
-  const startRangeOffset = daysInStartMonth - getDate(startAt);
-  const endRangeOffset = getDate(endAt);
-  const fullRangeOffset = differenceIn(startOf(endAt), startOf(startAt));
-  const daysInEndMonth = getDaysInMonth(endAt);
-  const pixelsPerDayInEndMonth = parsedColumnWidth / daysInEndMonth;
-
-  return (
-    (fullRangeOffset - 1) * parsedColumnWidth +
-    startRangeOffset * pixelsPerDayInStartMonth +
-    endRangeOffset * pixelsPerDayInEndMonth
-  );
-};
-
-export const FeatureItem: FC<
-  Feature & {
-    onMove?: (id: string, startDate: Date, endDate: Date | null) => void;
-    children?: ReactNode;
-    className?: string;
-  }
-> = ({ onMove, children, className, ...feature }) => {
+export const FeatureItem: FC<FeatureItemProps> = ({
+  onMove,
+  children,
+  className,
+  ...feature
+}) => {
   const { scrollX } = useGantt();
   const gantt = useContext(GanttContext);
   const timelineStartDate = new Date(gantt.timelineData.at(0)?.year ?? 0, 0, 1);
@@ -930,7 +951,7 @@ export const FeatureItem: FC<
   );
 };
 
-type FeatureListGroupProps = {
+export type FeatureListGroupProps = {
   children: ReactNode;
   className?: string;
 };
@@ -947,7 +968,7 @@ export const FeatureListGroup: FC<FeatureListGroupProps> = ({
   </div>
 );
 
-type FeatureListProps = {
+export type FeatureListProps = {
   className?: string;
   children: ReactNode;
 };
@@ -960,22 +981,6 @@ export const FeatureList: FC<FeatureListProps> = ({ className, children }) => (
     {children}
   </div>
 );
-
-const calculateInnerOffset = (
-  date: Date,
-  range: Range,
-  columnWidth: number
-) => {
-  const startOf = getStartOf(range);
-  const endOf = getEndOf(range);
-  const differenceIn = getInnerDifferenceIn(range);
-  const startOfRange = startOf(date);
-  const endOfRange = endOf(date);
-  const totalRangeDays = differenceIn(endOfRange, startOfRange);
-  const dayOfMonth = date.getDate();
-
-  return (dayOfMonth / totalRangeDays) * columnWidth;
-};
 
 export const Marker: FC<
   MarkerProps & {
