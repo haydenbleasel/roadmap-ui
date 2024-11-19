@@ -4,16 +4,14 @@ description: The calendar view displays features on a grid calendar. Specificall
 icon: CalendarRange
 ---
 
-import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
-
 <div className="not-prose w-full bg-white border rounded-xl overflow-hidden">
-  <Calendar.Basic />
+  <Calendar />
 </div>
 
 ## Installation
 
-```package-install
-npm i @roadmap-ui/calendar
+```sh title="Terminal"
+npx shadcn@latest add https://roadmap-ui.com/registry/calendar.json
 ```
 
 ## Features
@@ -26,52 +24,44 @@ npm i @roadmap-ui/calendar
 
 The Calendar component is made up of the following subcomponents:
 
-| Subcomponent | Description |
-| ------- | ----------- |
-| Provider | The provider of the calendar view. |
-| Month | The month selector. |
-| Header | The header of the calendar view, containing the day column headers. |
-| Body | The body of the calendar view, containing the features. |
+### CalendarProvider
 
-## Usage
+The `CalendarProvider` component is used to provide the features to the calendar.
 
-### Basic Example
+<AutoTypeTable path="registry/ui/calendar.tsx" name="CalendarProviderProps" />
 
-This example shows a basic calendar view with a month selector, header, and body.
+### CalendarDate
 
-<div className="not-prose w-full bg-white border rounded-xl overflow-hidden">
-  <Calendar.Basic />
-</div>
+The `CalendarDate` component is used to display the date of the calendar.
 
-```tsx
-<Calendar.CalendarProvider>
-  <Calendar.CalendarDate>
-    <Calendar.CalendarDateLabel />
-    <Calendar.CalendarDatePagination />
-  </Calendar.CalendarDate>
-  <Calendar.CalendarHeader />
-  <Calendar.CalendarBody features={[]}>
-    {({ feature }) => <Calendar.CalendarItem key={feature.id} feature={feature} />}
-  </Calendar.CalendarBody>
-</Calendar.CalendarProvider>
+<AutoTypeTable path="registry/ui/calendar.tsx" name="CalendarDateProps" />
 
-```
+### CalendarDateLabel
 
-### Without Month Selector
+The `CalendarDateLabel` component is used to display the date of the calendar.
 
-If you don't need the month selector, you can remove it by not rendering the `CalendarMonth` component.
+<AutoTypeTable path="registry/ui/calendar.tsx" name="CalendarDateLabelProps" />
 
-<div className="not-prose w-full bg-white border rounded-xl overflow-hidden">
-  <Calendar.WithoutMonth />
-</div>
+### CalendarDatePagination
 
-```tsx
-<Calendar.CalendarProvider>
-  <Calendar.CalendarHeader />
-  <Calendar.CalendarBody features={[]}>
-    {({ feature }) => (
-      <Calendar.CalendarItem key={feature.id} feature={feature} />
-    )}
-  </Calendar.CalendarBody>
-</Calendar.CalendarProvider>
-```
+The `CalendarDatePagination` component is used to display the pagination of the calendar.
+
+<AutoTypeTable path="registry/ui/calendar.tsx" name="CalendarDatePaginationProps" />
+
+### CalendarHeader
+
+The `CalendarHeader` component is used to display the header of the calendar.
+
+<AutoTypeTable path="registry/ui/calendar.tsx" name="CalendarHeaderProps" />
+
+### CalendarBody
+
+The `CalendarBody` component is used to display the body of the calendar.
+
+<AutoTypeTable path="registry/ui/calendar.tsx" name="CalendarBodyProps" />
+
+### CalendarItem
+
+The `CalendarItem` component is used to display a single item in the calendar.
+
+<AutoTypeTable path="registry/ui/calendar.tsx" name="CalendarItemProps" />

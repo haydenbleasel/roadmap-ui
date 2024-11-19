@@ -12,7 +12,7 @@ export const ui: Registry = [
   {
     name: 'calendar',
     type: 'registry:ui',
-    registryDependencies: ['context-menu'],
+    registryDependencies: ['button'],
     dependencies: ['date-fns', 'lucide-react', 'zustand'],
     devDependencies: [],
     files: [
@@ -25,7 +25,7 @@ export const ui: Registry = [
   {
     name: 'gantt',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['card', 'context-menu'],
     dependencies: [
       '@dnd-kit/core',
       '@dnd-kit/modifiers',

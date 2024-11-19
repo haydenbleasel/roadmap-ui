@@ -1,4 +1,4 @@
-import { CalendarBasic, CalendarWithoutMonth } from '@/app/components/calendar';
+import { CalendarExample } from '@/app/components/calendar';
 import { GanttExample } from '@/app/components/gantt';
 import { KanbanExample } from '@/app/components/kanban';
 import { ListExampleBasic, ListExampleCustom } from '@/app/components/list';
@@ -25,10 +25,7 @@ const components = {
   AutoTypeTable,
   Gantt: GanttExample,
   Kanban: KanbanExample,
-  Calendar: {
-    Basic: CalendarBasic,
-    WithoutMonth: CalendarWithoutMonth,
-  },
+  Calendar: CalendarExample,
   List: {
     Basic: ListExampleBasic,
     Custom: ListExampleCustom,

@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { format, getDay, getDaysInMonth, isSameDay } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
@@ -137,14 +138,28 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
   );
 };
 
-export const CalendarDateLabel = () => {
+export type CalendarDateLabelProps = {
+  className?: string;
+};
+
+export const CalendarDateLabel = ({ className }: CalendarDateLabelProps) => {
   const { month, year } = useCalendar();
   const monthName = format(new Date(year, month), 'MMMM');
 
-  return <p className="font-medium text-sm">{`${monthName}, ${year}`}</p>;
+  return (
+    <p
+      className={cn('font-medium text-sm', className)}
+    >{`${monthName}, ${year}`}</p>
+  );
 };
 
-export const CalendarDatePagination = () => {
+export type CalendarDatePaginationProps = {
+  className?: string;
+};
+
+export const CalendarDatePagination = ({
+  className,
+}: CalendarDatePaginationProps) => {
   const { month, year, setMonth, setYear } = useCalendar();
 
   const handlePreviousMonth = () => {
@@ -166,13 +181,13 @@ export const CalendarDatePagination = () => {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <button type="button" onClick={() => handlePreviousMonth()}>
+    <div className={cn('flex items-center gap-2', className)}>
+      <Button onClick={() => handlePreviousMonth()} variant="ghost" size="icon">
         <ChevronLeftIcon size={16} />
-      </button>
-      <button type="button" onClick={() => handleNextMonth()}>
+      </Button>
+      <Button onClick={() => handleNextMonth()} variant="ghost" size="icon">
         <ChevronRightIcon size={16} />
-      </button>
+      </Button>
     </div>
   );
 };
@@ -185,8 +200,12 @@ export const CalendarDate = ({ children }: CalendarDateProps) => (
   <div className="flex items-center justify-between p-3">{children}</div>
 );
 
-export const CalendarHeader = () => (
-  <div className="grid flex-grow grid-cols-7">
+export type CalendarHeaderProps = {
+  className?: string;
+};
+
+export const CalendarHeader = ({ className }: CalendarHeaderProps) => (
+  <div className={cn('grid flex-grow grid-cols-7', className)}>
     {daysOfWeek.map((day) => (
       <div key={day} className="p-3 text-right text-muted-foreground text-xs">
         {day}
@@ -197,10 +216,11 @@ export const CalendarHeader = () => (
 
 export type CalendarItemProps = {
   feature: Feature;
+  className?: string;
 };
 
-export const CalendarItem = ({ feature }: CalendarItemProps) => (
-  <div className="flex items-center gap-2" key={feature.id}>
+export const CalendarItem = ({ feature, className }: CalendarItemProps) => (
+  <div className={cn('flex items-center gap-2', className)} key={feature.id}>
     <div
       className="h-2 w-2 shrink-0 rounded-full"
       style={{
