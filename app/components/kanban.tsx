@@ -1,64 +1,13 @@
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import * as Kanban from '@/components/ui/kanban';
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
-import * as Kanban from '@/registry/ui/kanban';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { useState } from 'react';
 import type { FC } from 'react';
 
-export const KanbanExampleBasic: FC = () => {
-  const [features, setFeatures] = useState(exampleFeatures);
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-
-    if (!over) {
-      return;
-    }
-
-    const status = exampleStatuses.find((status) => status.name === over.id);
-
-    if (!status) {
-      return;
-    }
-
-    setFeatures(
-      features.map((feature) => {
-        if (feature.id === active.id) {
-          return { ...feature, status };
-        }
-
-        return feature;
-      })
-    );
-  };
-
-  return (
-    <Kanban.KanbanProvider onDragEnd={handleDragEnd}>
-      {exampleStatuses.map((status) => (
-        <Kanban.KanbanBoard key={status.id} id={status.name}>
-          <Kanban.KanbanHeader name={status.name} color={status.color} />
-          <Kanban.KanbanCards>
-            {features
-              .filter((feature) => feature.status.name === status.name)
-              .map((feature, index) => (
-                <Kanban.KanbanCard
-                  key={feature.id}
-                  id={feature.id}
-                  name={feature.name}
-                  parent={status.name}
-                  index={index}
-                />
-              ))}
-          </Kanban.KanbanCards>
-        </Kanban.KanbanBoard>
-      ))}
-    </Kanban.KanbanProvider>
-  );
-};
-
-export const KanbanExampleCustom: FC = () => {
+export const KanbanExample: FC = () => {
   const [features, setFeatures] = useState(exampleFeatures);
 
   const handleDragEnd = (event: DragEndEvent) => {

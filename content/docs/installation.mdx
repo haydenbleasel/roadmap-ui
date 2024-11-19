@@ -3,26 +3,24 @@ title: Installation
 description: How to install and set up Roadmap UI in your project
 ---
 
-import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
-
 ## Prerequisites
 
 Before installing Roadmap UI, make sure you have the following prerequisites:
 
 - [Node.js](https://nodejs.org/en/download/), version 18 or later
 - A [React](https://reactjs.org/docs/getting-started.html) project, version 18 or later
+- [shadcn/ui](https://ui.shadcn.com/) installed in your project (CSS Variables only)
 
 ## Installation
 
-You can install Roadmap UI packages using your favorite package manager. For instance, here's how you can install all the packages at once:
+You can install Roadmap UI components using the `shadcn` CLI, like so:
 
-```package-install
-npm i @roadmap-ui/calendar @roadmap-ui/gantt @roadmap-ui/kanban @roadmap-ui/list @roadmap-ui/table
-npm i -D @roadmap-ui/types
+```sh title="Terminal"
+npx shadcn@latest add https://roadmap-ui.com/registry/gantt.json
 ```
 
 ## Usage
 
-After installing Roadmap UI, you can start using its components in your React application.
+After installing a Roadmap UI component, you can start using it in your React application.
 
 For example, check out the [Gantt Chart](/gantt) component.

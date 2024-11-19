@@ -10,13 +10,13 @@ import {
 import type { DragEndEvent } from '@dnd-kit/core';
 import type { ReactNode } from 'react';
 
-type Status = {
+export type Status = {
   id: string;
   name: string;
   color: string;
 };
 
-type Feature = {
+export type Feature = {
   id: string;
   name: string;
   startAt: Date;

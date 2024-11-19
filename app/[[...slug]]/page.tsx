@@ -1,11 +1,9 @@
 import { CalendarBasic, CalendarWithoutMonth } from '@/app/components/calendar';
 import { GanttExample } from '@/app/components/gantt';
-import {
-  KanbanExampleBasic,
-  KanbanExampleCustom,
-} from '@/app/components/kanban';
+import { KanbanExample } from '@/app/components/kanban';
 import { ListExampleBasic, ListExampleCustom } from '@/app/components/list';
 import { source } from '@/app/source';
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import {
   DocsBody,
@@ -24,11 +22,9 @@ type PageProps = {
 
 const components = {
   ...defaultMdxComponents,
+  AutoTypeTable,
   Gantt: GanttExample,
-  Kanban: {
-    Basic: KanbanExampleBasic,
-    Custom: KanbanExampleCustom,
-  },
+  Kanban: KanbanExample,
   Calendar: {
     Basic: CalendarBasic,
     WithoutMonth: CalendarWithoutMonth,
