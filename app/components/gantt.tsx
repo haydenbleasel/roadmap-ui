@@ -21,7 +21,7 @@ import {
   GanttSidebarItem,
   GanttTimeline,
   GanttToday,
-} from '@/registry/ui/gantt';
+} from '@/registry/block/gantt';
 import groupBy from 'lodash.groupby';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
 import { type FC, useState } from 'react';

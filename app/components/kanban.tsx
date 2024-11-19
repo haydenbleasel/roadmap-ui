@@ -8,7 +8,7 @@ import {
   KanbanCards,
   KanbanHeader,
   KanbanProvider,
-} from '@/registry/ui/kanban';
+} from '@/registry/block/kanban';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { format } from 'date-fns';
 import { useState } from 'react';

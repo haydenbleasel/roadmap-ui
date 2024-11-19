@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
-import * as List from '@/registry/ui/list';
+import * as List from '@/registry/block/list';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { type FC, useState } from 'react';
 

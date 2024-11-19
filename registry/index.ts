@@ -11,20 +11,20 @@ import type { Registry } from 'shadcn-ui/apps/www/registry/schema';
 export const ui: Registry = [
   {
     name: 'calendar',
-    type: 'registry:block',
+    type: 'registry:component',
     registryDependencies: ['button'],
     dependencies: ['date-fns', 'lucide-react', 'zustand'],
     devDependencies: [],
     files: [
       {
-        path: 'ui/calendar.tsx',
-        type: 'registry:block',
+        path: 'block/calendar.tsx',
+        type: 'registry:component',
       },
     ],
   },
   {
     name: 'gantt',
-    type: 'registry:block',
+    type: 'registry:component',
     registryDependencies: ['card', 'context-menu'],
     dependencies: [
       '@dnd-kit/core',
@@ -38,34 +38,34 @@ export const ui: Registry = [
     devDependencies: ['@types/lodash.throttle'],
     files: [
       {
-        path: 'ui/gantt.tsx',
-        type: 'registry:block',
+        path: 'block/gantt.tsx',
+        type: 'registry:component',
       },
     ],
   },
   {
     name: 'kanban',
-    type: 'registry:block',
+    type: 'registry:component',
     registryDependencies: [],
     dependencies: ['@dnd-kit/core'],
     devDependencies: [],
     files: [
       {
-        path: 'ui/kanban.tsx',
-        type: 'registry:block',
+        path: 'block/kanban.tsx',
+        type: 'registry:component',
       },
     ],
   },
   {
     name: 'list',
-    type: 'registry:block',
+    type: 'registry:component',
     registryDependencies: [],
     dependencies: ['@dnd-kit/core', '@dnd-kit/modifiers', 'lucide-react'],
     devDependencies: [],
     files: [
       {
-        path: 'ui/list.tsx',
-        type: 'registry:block',
+        path: 'block/list.tsx',
+        type: 'registry:component',
       },
     ],
   },
