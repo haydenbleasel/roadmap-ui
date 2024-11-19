@@ -2,9 +2,7 @@ import { createPreset } from 'fumadocs-ui/tailwind-plugin';
 import type { Config } from 'tailwindcss';
 import animate from 'tailwindcss-animate';
 
-const preset = createPreset({
-  preset: 'neutral',
-});
+const preset = createPreset();
 
 const config = {
   darkMode: ['class'],
