@@ -11,20 +11,20 @@ import type { Registry } from 'shadcn-ui/apps/www/registry/schema';
 export const ui: Registry = [
   {
     name: 'calendar',
-    type: 'registry:ui',
+    type: 'registry:block',
     registryDependencies: ['button'],
     dependencies: ['date-fns', 'lucide-react', 'zustand'],
     devDependencies: [],
     files: [
       {
         path: 'ui/calendar.tsx',
-        type: 'registry:ui',
+        type: 'registry:block',
       },
     ],
   },
   {
     name: 'gantt',
-    type: 'registry:ui',
+    type: 'registry:block',
     registryDependencies: ['card', 'context-menu'],
     dependencies: [
       '@dnd-kit/core',
@@ -39,33 +39,33 @@ export const ui: Registry = [
     files: [
       {
         path: 'ui/gantt.tsx',
-        type: 'registry:ui',
+        type: 'registry:block',
       },
     ],
   },
   {
     name: 'kanban',
-    type: 'registry:ui',
+    type: 'registry:block',
     registryDependencies: [],
     dependencies: ['@dnd-kit/core'],
     devDependencies: [],
     files: [
       {
         path: 'ui/kanban.tsx',
-        type: 'registry:ui',
+        type: 'registry:block',
       },
     ],
   },
   {
     name: 'list',
-    type: 'registry:ui',
+    type: 'registry:block',
     registryDependencies: [],
     dependencies: ['@dnd-kit/core', '@dnd-kit/modifiers', 'lucide-react'],
     devDependencies: [],
     files: [
       {
         path: 'ui/list.tsx',
-        type: 'registry:ui',
+        type: 'registry:block',
       },
     ],
   },
