@@ -7,12 +7,12 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+import { exampleFeatures, exampleMarkers } from '@/lib/content';
 import * as Gantt from '@/registry/ui/gantt';
 import groupBy from 'lodash.groupby';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
 import { type FC, useState } from 'react';
 import { toast } from 'sonner';
-import { exampleFeatures, exampleMarkers } from '../../../lib/content';
 
 export const GanttExample: FC = () => {
   const [features, setFeatures] = useState(exampleFeatures);
