@@ -3,7 +3,6 @@ import { GanttExample } from '@/app/components/gantt';
 import { KanbanExample } from '@/app/components/kanban';
 import { ListExampleBasic, ListExampleCustom } from '@/app/components/list';
 import { source } from '@/app/source';
-import { AutoTypeTable } from 'fumadocs-typescript/ui';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import {
   DocsBody,
@@ -22,7 +21,6 @@ type PageProps = {
 
 const components = {
   ...defaultMdxComponents,
-  AutoTypeTable,
   Gantt: GanttExample,
   Kanban: KanbanExample,
   Calendar: CalendarExample,
