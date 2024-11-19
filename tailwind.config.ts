@@ -15,6 +15,7 @@ const config = {
     './src/**/*.{ts,tsx}',
     './content/**/*.mdx',
     './lib/**/*.ts',
+    './registry/**/*.{ts,tsx}',
 
     './node_modules/fumadocs-ui/dist/**/*.js',
   ],
