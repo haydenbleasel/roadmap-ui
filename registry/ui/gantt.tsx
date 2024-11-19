@@ -73,21 +73,21 @@ export const useGantt = create<GanttState>()(
   }))
 );
 
-export type Status = {
+export type GanttStatus = {
   id: string;
   name: string;
   color: string;
 };
 
-export type Feature = {
+export type GanttFeature = {
   id: string;
   name: string;
   startAt: Date;
   endAt: Date;
-  status: Status;
+  status: GanttStatus;
 };
 
-export type MarkerProps = {
+export type GanttMarkerProps = {
   id: string;
   date: Date;
   label: string;
@@ -384,7 +384,7 @@ const DailyHeader: FC = () => {
               </div>
             )}
           />
-          <Columns
+          <GanttColumns
             columns={month.days}
             isColumnSecondary={(item: number) =>
               [0, 6].includes(
@@ -409,7 +409,7 @@ const MonthlyHeader: FC = () => {
           <p>{format(new Date(year.year, item, 1), 'MMM')}</p>
         )}
       />
-      <Columns
+      <GanttColumns
         columns={year.quarters.flatMap((quarter) => quarter.months).length}
       />
     </div>
@@ -434,7 +434,7 @@ const QuarterlyHeader: FC = () => {
             </p>
           )}
         />
-        <Columns columns={quarter.months.length} />
+        <GanttColumns columns={quarter.months.length} />
       </div>
     ))
   );
@@ -446,11 +446,11 @@ const headers: Record<Range, FC> = {
   quarterly: QuarterlyHeader,
 };
 
-export type HeaderProps = {
+export type GanttHeaderProps = {
   className?: string;
 };
 
-export const Header: FC<HeaderProps> = ({ className }) => {
+export const GanttHeader: FC<GanttHeaderProps> = ({ className }) => {
   const gantt = useContext(GanttContext);
   const Header = headers[gantt.range];
 
@@ -466,13 +466,13 @@ export const Header: FC<HeaderProps> = ({ className }) => {
   );
 };
 
-export type SidebarItemProps = {
-  feature: Feature;
+export type GanttSidebarItemProps = {
+  feature: GanttFeature;
   onSelectItem: (id: string) => void;
   className?: string;
 };
 
-export const SidebarItem: FC<SidebarItemProps> = ({
+export const GanttSidebarItem: FC<GanttSidebarItemProps> = ({
   feature,
   onSelectItem,
   className,
@@ -528,7 +528,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({
   );
 };
 
-export const SidebarHeader: FC = () => (
+export const GanttSidebarHeader: FC = () => (
   <div
     className="sticky top-0 z-10 flex shrink-0 items-end justify-between gap-2.5 border-border/50 border-b bg-backdrop/90 p-2.5 font-medium text-muted-foreground text-xs backdrop-blur-sm"
     style={{ height: 'var(--gantt-header-height)' }}
@@ -539,13 +539,13 @@ export const SidebarHeader: FC = () => (
   </div>
 );
 
-export type SidebarGroupProps = {
+export type GanttSidebarGroupProps = {
   children: ReactNode;
   name: string;
   className?: string;
 };
 
-export const SidebarGroup: FC<SidebarGroupProps> = ({
+export const GanttSidebarGroup: FC<GanttSidebarGroupProps> = ({
   children,
   name,
   className,
@@ -561,12 +561,15 @@ export const SidebarGroup: FC<SidebarGroupProps> = ({
   </div>
 );
 
-export type SidebarProps = {
+export type GanttSidebarProps = {
   children: ReactNode;
   className?: string;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ children, className }) => (
+export const GanttSidebar: FC<GanttSidebarProps> = ({
+  children,
+  className,
+}) => (
   <div
     data-roadmap-ui="gantt-sidebar"
     className={cn(
@@ -579,12 +582,12 @@ export const Sidebar: FC<SidebarProps> = ({ children, className }) => (
   </div>
 );
 
-export type AddFeatureHelperProps = {
+export type GanttAddFeatureHelperProps = {
   top: number;
   className?: string;
 };
 
-export const AddFeatureHelper: FC<AddFeatureHelperProps> = ({
+export const GanttAddFeatureHelper: FC<GanttAddFeatureHelperProps> = ({
   top,
   className,
 }) => {
@@ -624,12 +627,15 @@ export const AddFeatureHelper: FC<AddFeatureHelperProps> = ({
   );
 };
 
-export type ColumnProps = {
+export type GanttColumnProps = {
   index: number;
   isColumnSecondary?: (item: number) => boolean;
 };
 
-export const Column: FC<ColumnProps> = ({ index, isColumnSecondary }) => {
+export const GanttColumn: FC<GanttColumnProps> = ({
+  index,
+  isColumnSecondary,
+}) => {
   const gantt = useContext(GanttContext);
   const { dragging } = useGantt();
   const [mousePosition, mouseRef] = useMouse<HTMLDivElement>();
@@ -664,12 +670,15 @@ export const Column: FC<ColumnProps> = ({ index, isColumnSecondary }) => {
   );
 };
 
-export type ColumnsProps = {
+export type GanttColumnsProps = {
   columns: number;
   isColumnSecondary?: (item: number) => boolean;
 };
 
-export const Columns: FC<ColumnsProps> = ({ columns, isColumnSecondary }) => {
+export const GanttColumns: FC<GanttColumnsProps> = ({
+  columns,
+  isColumnSecondary,
+}) => {
   const id = useId();
 
   return (
@@ -690,12 +699,12 @@ export const Columns: FC<ColumnsProps> = ({ columns, isColumnSecondary }) => {
   );
 };
 
-export type CreateMarkerTriggerProps = {
+export type GanttCreateMarkerTriggerProps = {
   onCreateMarker: (date: Date) => void;
   className?: string;
 };
 
-export const CreateMarkerTrigger: FC<CreateMarkerTriggerProps> = ({
+export const GanttCreateMarkerTrigger: FC<GanttCreateMarkerTriggerProps> = ({
   onCreateMarker,
   className,
 }) => {
@@ -740,13 +749,13 @@ export const CreateMarkerTrigger: FC<CreateMarkerTriggerProps> = ({
   );
 };
 
-export type FeatureDragHelperProps = {
-  featureId: Feature['id'];
+export type GanttFeatureDragHelperProps = {
+  featureId: GanttFeature['id'];
   direction: 'left' | 'right';
   date: Date | null;
 };
 
-export const FeatureDragHelper: FC<FeatureDragHelperProps> = ({
+export const GanttFeatureDragHelper: FC<GanttFeatureDragHelperProps> = ({
   direction,
   featureId,
   date,
@@ -794,11 +803,14 @@ export const FeatureDragHelper: FC<FeatureDragHelperProps> = ({
   );
 };
 
-export type FeatureItemCardProps = Pick<Feature, 'id'> & {
+export type GanttFeatureItemCardProps = Pick<GanttFeature, 'id'> & {
   children?: ReactNode;
 };
 
-export const FeatureItemCard: FC<FeatureItemCardProps> = ({ id, children }) => {
+export const GanttFeatureItemCard: FC<GanttFeatureItemCardProps> = ({
+  id,
+  children,
+}) => {
   const { setDragging } = useGantt();
   const { attributes, listeners, setNodeRef } = useDraggable({ id });
   const isPressed = Boolean(attributes['aria-pressed']);
@@ -822,13 +834,13 @@ export const FeatureItemCard: FC<FeatureItemCardProps> = ({ id, children }) => {
   );
 };
 
-export type FeatureItemProps = Feature & {
+export type GanttFeatureItemProps = GanttFeature & {
   onMove?: (id: string, startDate: Date, endDate: Date | null) => void;
   children?: ReactNode;
   className?: string;
 };
 
-export const FeatureItem: FC<FeatureItemProps> = ({
+export const GanttFeatureItem: FC<GanttFeatureItemProps> = ({
   onMove,
   children,
   className,
@@ -951,12 +963,12 @@ export const FeatureItem: FC<FeatureItemProps> = ({
   );
 };
 
-export type FeatureListGroupProps = {
+export type GanttFeatureListGroupProps = {
   children: ReactNode;
   className?: string;
 };
 
-export const FeatureListGroup: FC<FeatureListGroupProps> = ({
+export const GanttFeatureListGroup: FC<GanttFeatureListGroupProps> = ({
   children,
   className,
 }) => (
@@ -968,12 +980,15 @@ export const FeatureListGroup: FC<FeatureListGroupProps> = ({
   </div>
 );
 
-export type FeatureListProps = {
+export type GanttFeatureListProps = {
   className?: string;
   children: ReactNode;
 };
 
-export const FeatureList: FC<FeatureListProps> = ({ className, children }) => (
+export const GanttFeatureList: FC<GanttFeatureListProps> = ({
+  className,
+  children,
+}) => (
   <div
     className={cn('absolute top-0 left-0 h-full w-max space-y-4', className)}
     style={{ marginTop: 'var(--gantt-header-height)' }}
@@ -982,8 +997,8 @@ export const FeatureList: FC<FeatureListProps> = ({ className, children }) => (
   </div>
 );
 
-export const Marker: FC<
-  MarkerProps & {
+export const GanttMarker: FC<
+  GanttMarkerProps & {
     onRemove?: (id: string) => void;
     className?: string;
   }
@@ -1038,7 +1053,7 @@ export const Marker: FC<
   );
 };
 
-export type ProviderProps = {
+export type GanttProviderProps = {
   range?: Range;
   zoom?: number;
   onAddItem?: (date: Date) => void;
@@ -1046,7 +1061,7 @@ export type ProviderProps = {
   className?: string;
 };
 
-export const Provider: FC<ProviderProps> = ({
+export const GanttProvider: FC<GanttProviderProps> = ({
   zoom = 100,
   range = 'monthly',
   onAddItem,
@@ -1203,12 +1218,15 @@ export const Provider: FC<ProviderProps> = ({
   );
 };
 
-export type TimelineProps = {
+export type GanttTimelineProps = {
   children: ReactNode;
   className?: string;
 };
 
-export const Timeline: FC<TimelineProps> = ({ children, className }) => (
+export const GanttTimeline: FC<GanttTimelineProps> = ({
+  children,
+  className,
+}) => (
   <div
     className={cn(
       'relative flex h-full w-max flex-none overflow-clip',
@@ -1219,11 +1237,11 @@ export const Timeline: FC<TimelineProps> = ({ children, className }) => (
   </div>
 );
 
-export type TodayProps = {
+export type GanttTodayProps = {
   className?: string;
 };
 
-export const Today: FC<TodayProps> = ({ className }) => {
+export const GanttToday: FC<GanttTodayProps> = ({ className }) => {
   const label = 'Today';
   const date = new Date();
   const gantt = useContext(GanttContext);
