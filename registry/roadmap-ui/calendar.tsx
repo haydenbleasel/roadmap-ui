@@ -1,10 +1,24 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { format, getDay, getDaysInMonth, isSameDay } from 'date-fns';
+import { getDay, getDaysInMonth, isSameDay } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { type ReactNode, useState } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -24,13 +38,13 @@ export const useCalendar = create<CalendarState>()(
   }))
 );
 
-type Status = {
+export type Status = {
   id: string;
   name: string;
   color: string;
 };
 
-type Feature = {
+export type Feature = {
   id: string;
   name: string;
   startAt: Date;
@@ -40,6 +54,94 @@ type Feature = {
 
 export type OutOfBoundsDayProps = {
   day: number;
+};
+
+type ComboboxProps = {
+  value: string;
+  setValue: (value: string) => void;
+  data: {
+    value: string;
+    label: string;
+  }[];
+  labels: {
+    button: string;
+    empty: string;
+    search: string;
+  };
+  className?: string;
+};
+
+export const monthsForLocale = (
+  localeName = 'en-US',
+  monthFormat: Intl.DateTimeFormatOptions['month'] = 'long'
+) => {
+  const format = new Intl.DateTimeFormat(localeName, { month: monthFormat })
+    .format;
+
+  return [...new Array(12).keys()].map((m) =>
+    format(new Date(Date.UTC(2021, (m + 1) % 12)))
+  );
+};
+
+const Combobox = ({
+  value,
+  setValue,
+  data,
+  labels,
+  className,
+}: ComboboxProps) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          aria-expanded={open}
+          className={cn('w-40 justify-between', className)}
+        >
+          {value
+            ? data.find((item) => item.value === value)?.label
+            : labels.button}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-40 p-0">
+        <Command
+          filter={(value, search) => {
+            const label = data.find((item) => item.value === value)?.label;
+
+            return label?.toLowerCase().includes(search.toLowerCase()) ? 1 : 0;
+          }}
+        >
+          <CommandInput placeholder={labels.search} />
+          <CommandList>
+            <CommandEmpty>{labels.empty}</CommandEmpty>
+            <CommandGroup>
+              {data.map((item) => (
+                <CommandItem
+                  key={item.value}
+                  value={item.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? '' : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      'mr-2 h-4 w-4',
+                      value === item.value ? 'opacity-100' : 'opacity-0'
+                    )}
+                  />
+                  {item.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
 };
 
 export const OutOfBoundsDay = ({ day }: OutOfBoundsDayProps) => (
@@ -138,18 +240,75 @@ export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
   );
 };
 
-export type CalendarDateLabelProps = {
+export type CalendarDatePickerProps = {
+  className?: string;
+  children: ReactNode;
+};
+
+export const CalendarDatePicker = ({
+  className,
+  children,
+}: CalendarDatePickerProps) => (
+  <div className={cn('flex items-center gap-1', className)}>{children}</div>
+);
+
+export type CalendarMonthPickerProps = {
   className?: string;
 };
 
-export const CalendarDateLabel = ({ className }: CalendarDateLabelProps) => {
-  const { month, year } = useCalendar();
-  const monthName = format(new Date(year, month), 'MMMM');
+export const CalendarMonthPicker = ({
+  className,
+}: CalendarMonthPickerProps) => {
+  const { month, setMonth } = useCalendar();
 
   return (
-    <p
-      className={cn('font-medium text-sm', className)}
-    >{`${monthName}, ${year}`}</p>
+    <Combobox
+      className={className}
+      value={month.toString()}
+      setValue={(value) =>
+        setMonth(Number.parseInt(value) as CalendarState['month'])
+      }
+      data={monthsForLocale().map((month, index) => ({
+        value: index.toString(),
+        label: month,
+      }))}
+      labels={{
+        button: 'Select month',
+        empty: 'No month found',
+        search: 'Search month',
+      }}
+    />
+  );
+};
+
+export type CalendarYearPickerProps = {
+  className?: string;
+  start: number;
+  end: number;
+};
+
+export const CalendarYearPicker = ({
+  className,
+  start,
+  end,
+}: CalendarYearPickerProps) => {
+  const { year, setYear } = useCalendar();
+
+  return (
+    <Combobox
+      className={className}
+      value={year.toString()}
+      setValue={(value) => setYear(Number.parseInt(value))}
+      data={Array.from({ length: end - start + 1 }, (_, i) => ({
+        value: (start + i).toString(),
+        label: (start + i).toString(),
+      }))}
+      labels={{
+        button: 'Select year',
+        empty: 'No year found',
+        search: 'Search year',
+      }}
+    />
   );
 };
 

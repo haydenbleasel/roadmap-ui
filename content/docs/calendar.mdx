@@ -31,18 +31,33 @@ import { exampleFeatures } from '@/lib/content';
 import {
   CalendarBody,
   CalendarDate,
-  CalendarDateLabel,
   CalendarDatePagination,
+  CalendarDatePicker,
   CalendarHeader,
   CalendarItem,
+  CalendarMonthPicker,
   CalendarProvider,
+  CalendarYearPicker,
 } from '@/registry/roadmap-ui/calendar';
 import type { FC } from 'react';
+
+const earliestYear = exampleFeatures
+  .map((feature) => feature.startAt.getFullYear())
+  .sort()
+  .at(0) ?? new Date().getFullYear();
+
+const latestYear = exampleFeatures
+  .map((feature) => feature.endAt.getFullYear())
+  .sort()
+  .at(-1) ?? new Date().getFullYear();
 
 export const CalendarExample: FC = () => (
   <CalendarProvider>
     <CalendarDate>
-      <CalendarDateLabel />
+      <CalendarDatePicker>
+        <CalendarMonthPicker />
+        <CalendarYearPicker start={earliestYear} end={latestYear} />
+      </CalendarDatePicker>
       <CalendarDatePagination />
     </CalendarDate>
     <CalendarHeader />
@@ -69,11 +84,23 @@ The `CalendarDate` component is used to display the date of the calendar.
 
 <AutoTypeTable path="registry/roadmap-ui/calendar.tsx" name="CalendarDateProps" />
 
-### CalendarDateLabel
+### CalendarDatePicker
 
-The `CalendarDateLabel` component is used to display the date of the calendar.
+The `CalendarDatePicker` component is used to contain the date picker of the calendar.
 
-<AutoTypeTable path="registry/roadmap-ui/calendar.tsx" name="CalendarDateLabelProps" />
+<AutoTypeTable path="registry/roadmap-ui/calendar.tsx" name="CalendarDatePickerProps" />
+
+### CalendarMonthPicker
+
+The `CalendarMonthPicker` component is used to display the month picker of the calendar.
+
+<AutoTypeTable path="registry/roadmap-ui/calendar.tsx" name="CalendarMonthPickerProps" />
+
+### CalendarYearPicker
+
+The `CalendarYearPicker` component is used to display the year picker of the calendar.
+
+<AutoTypeTable path="registry/roadmap-ui/calendar.tsx" name="CalendarYearPickerProps" />
 
 ### CalendarDatePagination
 

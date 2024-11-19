@@ -12,7 +12,7 @@ export const ui: Registry = [
   {
     name: 'calendar',
     type: 'registry:component',
-    registryDependencies: ['button'],
+    registryDependencies: ['button', 'command', 'popover'],
     dependencies: ['date-fns', 'lucide-react', 'zustand'],
     devDependencies: [],
     files: [
