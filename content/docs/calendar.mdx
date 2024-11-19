@@ -22,6 +22,37 @@ npx shadcn@latest add https://roadmap-ui.com/registry/calendar.json
 - Features are color-coded by their status
 - Features are truncated if there are too many to fit in the grid cell
 
+## Code
+
+```tsx title="calendar.tsx"
+'use client';
+
+import { exampleFeatures } from '@/lib/content';
+import {
+  CalendarBody,
+  CalendarDate,
+  CalendarDateLabel,
+  CalendarDatePagination,
+  CalendarHeader,
+  CalendarItem,
+  CalendarProvider,
+} from '@/registry/roadmap-ui/calendar';
+import type { FC } from 'react';
+
+export const CalendarExample: FC = () => (
+  <CalendarProvider>
+    <CalendarDate>
+      <CalendarDateLabel />
+      <CalendarDatePagination />
+    </CalendarDate>
+    <CalendarHeader />
+    <CalendarBody features={exampleFeatures}>
+      {({ feature }) => <CalendarItem key={feature.id} feature={feature} />}
+    </CalendarBody>
+  </CalendarProvider>
+);
+```
+
 ## Subcomponents
 
 The Calendar component is made up of the following subcomponents:

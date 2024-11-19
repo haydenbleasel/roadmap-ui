@@ -6,16 +6,14 @@ icon: List
 
 import { AutoTypeTable } from 'fumadocs-typescript/ui';
 
-import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
-
 <div className="not-prose w-full bg-white border rounded-xl overflow-auto" style={{ height: '32rem' }}>
-  <List.Basic />
+  <List />
 </div>
 
 ## Installation
 
-```package-install
-npm i @roadmap-ui/list
+```sh title="Terminal"
+npx shadcn@latest add https://roadmap-ui.com/registry/list.json
 ```
 
 ## Features
@@ -23,94 +21,103 @@ npm i @roadmap-ui/list
 - Drag and drop items between groups
 - Customize the item contents
 
+## Code
+
+```tsx title="list.tsx"
+'use client';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { exampleFeatures, exampleStatuses } from '@/lib/content';
+import { ListGroup, ListItem, ListProvider } from '@/registry/roadmap-ui/list';
+import type { DragEndEvent } from '@dnd-kit/core';
+import { type FC, useState } from 'react';
+
+export const ListExample: FC = () => {
+  const [features, setFeatures] = useState(exampleFeatures);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) {
+      return;
+    }
+
+    const status = exampleStatuses.find((status) => status.name === over.id);
+
+    if (!status) {
+      return;
+    }
+
+    setFeatures(
+      features.map((feature) => {
+        if (feature.id === active.id) {
+          return { ...feature, status };
+        }
+
+        return feature;
+      })
+    );
+  };
+
+  return (
+    <ListProvider onDragEnd={handleDragEnd}>
+      {exampleStatuses.map((status) => (
+        <ListGroup
+          key={status.name}
+          id={status.name}
+          name={status.name}
+          color={status.color}
+        >
+          {features
+            .filter((feature) => feature.status.name === status.name)
+            .map((feature, index) => (
+              <ListItem
+                key={feature.id}
+                id={feature.id}
+                name={feature.name}
+                parent={feature.status.name}
+                index={index}
+              >
+                <div
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: feature.status.color }}
+                />
+                <p className="m-0 flex-1 font-medium text-sm">{feature.name}</p>
+                {feature.owner && (
+                  <Avatar className="h-4 w-4 shrink-0">
+                    <AvatarImage src={feature.owner.image} />
+                    <AvatarFallback>
+                      {feature.owner.name?.slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
+                )}
+              </ListItem>
+            ))}
+        </ListGroup>
+      ))}
+    </ListProvider>
+  );
+};
+```
+
 ## Subcomponents
 
 The list view is made up of the following subcomponents:
 
-| Subcomponent | Description |
-| ------- | ----------- |
-| Provider | The provider of the list view. |
-| Group | A group of items. |
-| Item | A single item in the list. |
+### ListProvider
 
-## Usage
+The `ListProvider` component is used to provide the features to the list.
 
-### Basic Example
+<AutoTypeTable path="registry/roadmap-ui/list.tsx" name="ListProviderProps" />
 
-This example shows a basic list view with a list of features.
+### ListGroup
 
-<div className="not-prose w-full bg-white border rounded-xl overflow-auto" style={{ height: '32rem' }}>
-  <List.Basic />
-</div>
+The `ListGroup` component is used to display a group of items.
 
-```tsx
-<List.ListProvider onDragEnd={handleDragEnd}>
-  {exampleStatuses.map((status) => (
-    <List.ListGroup
-      key={status.name}
-      id={status.name}
-      name={status.name}
-      color={status.color}
-    >
-      {features
-        .filter((feature) => feature.status.name === status.name)
-        .map((feature, index) => (
-          <List.ListItem
-            key={feature.id}
-            id={feature.id}
-            name={feature.name}
-            parent={feature.status.name}
-            index={index}
-          />
-        ))}
-    </List.ListGroup>
-  ))}
-</List.ListProvider>
-```
+<AutoTypeTable path="registry/roadmap-ui/list.tsx" name="ListGroupProps" />
 
-### Custom Example
+### ListItem
 
-This example shows a list view with a list of features, where each feature has a custom rendering.
+The `ListItem` component is used to display an item.
 
-<div className="not-prose w-full bg-white border rounded-xl overflow-auto" style={{ height: '32rem' }}>
-  <List.Custom />
-</div>
-
-```tsx
-<List.ListProvider onDragEnd={handleDragEnd}>
-  {exampleStatuses.map((status) => (
-    <List.ListGroup
-      key={status.name}
-      id={status.name}
-      name={status.name}
-      color={status.color}
-    >
-      {features
-        .filter((feature) => feature.status.name === status.name)
-        .map((feature, index) => (
-          <List.ListItem
-            key={feature.id}
-            id={feature.id}
-            name={feature.name}
-            parent={feature.status.name}
-            index={index}
-          >
-            <div
-              className="h-2 w-2 shrink-0 rounded-full"
-              style={{ backgroundColor: feature.status.color }}
-            />
-            <p className="m-0 font-medium text-sm flex-1">{feature.name}</p>
-            {feature.owner && (
-              <Avatar className="h-4 w-4 shrink-0">
-                <AvatarImage src={feature.owner.image} />
-                <AvatarFallback>
-                  {feature.owner.name?.slice(0, 2)}
-                </AvatarFallback>
-              </Avatar>
-            )}
-          </List.ListItem>
-        ))}
-    </List.ListGroup>
-  ))}
-</List.ListProvider>
-```
+<AutoTypeTable path="registry/roadmap-ui/list.tsx" name="ListItemProps" />
