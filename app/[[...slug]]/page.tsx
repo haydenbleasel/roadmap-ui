@@ -16,6 +16,7 @@ import {
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { FC } from 'react';
+import { TableExample } from '../components/table';
 
 type PageProps = {
   params: Promise<{ slug?: string[] }>;
@@ -36,6 +37,7 @@ const components = {
     Basic: ListExampleBasic,
     Custom: ListExampleCustom,
   },
+  Table: TableExample,
 };
 
 const Page: FC<PageProps> = async ({ params }) => {
