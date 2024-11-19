@@ -1,8 +1,14 @@
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import * as Kanban from '@/components/ui/kanban';
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
+import {
+  KanbanBoard,
+  KanbanCard,
+  KanbanCards,
+  KanbanHeader,
+  KanbanProvider,
+} from '@/registry/ui/kanban';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { useState } from 'react';
 import type { FC } from 'react';
@@ -35,15 +41,15 @@ export const KanbanExample: FC = () => {
   };
 
   return (
-    <Kanban.KanbanProvider onDragEnd={handleDragEnd}>
+    <KanbanProvider onDragEnd={handleDragEnd}>
       {exampleStatuses.map((status) => (
-        <Kanban.KanbanBoard key={status.name} id={status.name}>
-          <Kanban.KanbanHeader name={status.name} color={status.color} />
-          <Kanban.KanbanCards>
+        <KanbanBoard key={status.name} id={status.name}>
+          <KanbanHeader name={status.name} color={status.color} />
+          <KanbanCards>
             {features
               .filter((feature) => feature.status.name === status.name)
               .map((feature, index) => (
-                <Kanban.KanbanCard
+                <KanbanCard
                   key={feature.id}
                   id={feature.id}
                   name={feature.name}
@@ -65,11 +71,11 @@ export const KanbanExample: FC = () => {
                       </AvatarFallback>
                     </Avatar>
                   )}
-                </Kanban.KanbanCard>
+                </KanbanCard>
               ))}
-          </Kanban.KanbanCards>
-        </Kanban.KanbanBoard>
+          </KanbanCards>
+        </KanbanBoard>
       ))}
-    </Kanban.KanbanProvider>
+    </KanbanProvider>
   );
 };

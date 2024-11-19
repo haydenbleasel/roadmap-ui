@@ -577,7 +577,7 @@ export const GanttSidebar: FC<GanttSidebarProps> = ({
       className
     )}
   >
-    <SidebarHeader />
+    <GanttSidebarHeader />
     <div className="space-y-4">{children}</div>
   </div>
 );
@@ -664,7 +664,7 @@ export const GanttColumn: FC<GanttColumnProps> = ({
       onMouseLeave={handleMouseLeave}
     >
       {!dragging && hovering && gantt.onAddItem ? (
-        <AddFeatureHelper top={top} />
+        <GanttAddFeatureHelper top={top} />
       ) : null}
     </div>
   );
@@ -689,7 +689,7 @@ export const GanttColumns: FC<GanttColumnsProps> = ({
       }}
     >
       {Array.from({ length: columns }).map((_, index) => (
-        <Column
+        <GanttColumn
           key={`${id}-${index}`}
           index={index}
           isColumnSecondary={isColumnSecondary}
@@ -924,7 +924,7 @@ export const GanttFeatureItem: FC<GanttFeatureItemProps> = ({
             onDragMove={handleLeftDragMove}
             onDragEnd={onDragEnd}
           >
-            <FeatureDragHelper
+            <GanttFeatureDragHelper
               direction="left"
               featureId={feature.id}
               date={startAt}
@@ -938,11 +938,11 @@ export const GanttFeatureItem: FC<GanttFeatureItemProps> = ({
           onDragMove={handleItemDragMove}
           onDragEnd={onDragEnd}
         >
-          <FeatureItemCard id={feature.id}>
+          <GanttFeatureItemCard id={feature.id}>
             {children ?? (
               <p className="flex-1 truncate text-xs">{feature.name}</p>
             )}
-          </FeatureItemCard>
+          </GanttFeatureItemCard>
         </DndContext>
         {onMove && (
           <DndContext
@@ -951,7 +951,7 @@ export const GanttFeatureItem: FC<GanttFeatureItemProps> = ({
             onDragMove={handleRightDragMove}
             onDragEnd={onDragEnd}
           >
-            <FeatureDragHelper
+            <GanttFeatureDragHelper
               direction="right"
               featureId={feature.id}
               date={endAt ?? addRange(startAt, 2)}

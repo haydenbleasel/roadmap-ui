@@ -8,7 +8,20 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 import { exampleFeatures, exampleMarkers } from '@/lib/content';
-import * as Gantt from '@/registry/ui/gantt';
+import {
+  GanttCreateMarkerTrigger,
+  GanttFeatureItem,
+  GanttFeatureList,
+  GanttFeatureListGroup,
+  GanttHeader,
+  GanttMarker,
+  GanttProvider,
+  GanttSidebar,
+  GanttSidebarGroup,
+  GanttSidebarItem,
+  GanttTimeline,
+  GanttToday,
+} from '@/registry/ui/gantt';
 import groupBy from 'lodash.groupby';
 import { EyeIcon, LinkIcon, TrashIcon } from 'lucide-react';
 import { type FC, useState } from 'react';
@@ -60,25 +73,25 @@ export const GanttExample: FC = () => {
     toast.success(`Add feature: ${date.toISOString()}`);
 
   return (
-    <Gantt.Provider onAddItem={handleAddFeature} range="monthly" zoom={100}>
-      <Gantt.Sidebar>
+    <GanttProvider onAddItem={handleAddFeature} range="monthly" zoom={100}>
+      <GanttSidebar>
         {Object.entries(sortedGroupedFeatures).map(([group, features]) => (
-          <Gantt.SidebarGroup key={group} name={group}>
+          <GanttSidebarGroup key={group} name={group}>
             {features.map((feature) => (
-              <Gantt.SidebarItem
+              <GanttSidebarItem
                 key={feature.id}
                 feature={feature}
                 onSelectItem={handleViewFeature}
               />
             ))}
-          </Gantt.SidebarGroup>
+          </GanttSidebarGroup>
         ))}
-      </Gantt.Sidebar>
-      <Gantt.Timeline>
-        <Gantt.Header />
-        <Gantt.FeatureList>
+      </GanttSidebar>
+      <GanttTimeline>
+        <GanttHeader />
+        <GanttFeatureList>
           {Object.entries(sortedGroupedFeatures).map(([group, features]) => (
-            <Gantt.FeatureListGroup key={group}>
+            <GanttFeatureListGroup key={group}>
               {features.map((feature) => (
                 <div className="flex" key={feature.id}>
                   <ContextMenu>
@@ -87,7 +100,7 @@ export const GanttExample: FC = () => {
                         type="button"
                         onClick={() => handleViewFeature(feature.id)}
                       >
-                        <Gantt.FeatureItem
+                        <GanttFeatureItem
                           onMove={handleMoveFeature}
                           {...feature}
                         >
@@ -102,7 +115,7 @@ export const GanttExample: FC = () => {
                               </AvatarFallback>
                             </Avatar>
                           )}
-                        </Gantt.FeatureItem>
+                        </GanttFeatureItem>
                       </button>
                     </ContextMenuTrigger>
                     <ContextMenuContent>
@@ -131,19 +144,19 @@ export const GanttExample: FC = () => {
                   </ContextMenu>
                 </div>
               ))}
-            </Gantt.FeatureListGroup>
+            </GanttFeatureListGroup>
           ))}
-        </Gantt.FeatureList>
+        </GanttFeatureList>
         {exampleMarkers.map((marker) => (
-          <Gantt.Marker
+          <GanttMarker
             key={marker.id}
             {...marker}
             onRemove={handleRemoveMarker}
           />
         ))}
-        <Gantt.Today />
-        <Gantt.CreateMarkerTrigger onCreateMarker={handleCreateMarker} />
-      </Gantt.Timeline>
-    </Gantt.Provider>
+        <GanttToday />
+        <GanttCreateMarkerTrigger onCreateMarker={handleCreateMarker} />
+      </GanttTimeline>
+    </GanttProvider>
   );
 };
