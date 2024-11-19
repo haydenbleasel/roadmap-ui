@@ -5,7 +5,7 @@ import type { z } from 'zod';
 import { ui } from '../registry';
 
 const REGISTRY_BASE_PATH = 'registry';
-const PUBLIC_FOLDER_BASE_PATH = 'public/registry';
+const PUBLIC_FOLDER_BASE_PATH = 'public';
 const COMPONENT_FOLDER_PATH = 'components';
 
 type File = z.infer<typeof registryItemFileSchema>;
