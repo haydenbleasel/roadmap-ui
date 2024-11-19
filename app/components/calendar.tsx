@@ -1,7 +1,7 @@
 'use client';
 
 import { exampleFeatures } from '@/lib/content';
-import * as Calendar from '@/registry/block/calendar';
+import * as Calendar from '@/registry/roadmap-ui/calendar';
 import type { FC } from 'react';
 
 export const CalendarExample: FC = () => (

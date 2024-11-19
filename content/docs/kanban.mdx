@@ -34,7 +34,7 @@ import {
   KanbanCards,
   KanbanHeader,
   KanbanProvider,
-} from '@/registry/block/kanban';
+} from '@/registry/roadmap-ui/kanban';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { format } from 'date-fns';
 import { useState } from 'react';
@@ -123,28 +123,28 @@ The Kanban component is made up of the following subcomponents:
 
 The `Provider` component is the root component of the Kanban board. It contains the drag-and-drop context and provides the necessary context for the other components.
 
-<AutoTypeTable path="registry/block/kanban.tsx" name="KanbanProviderProps" />
+<AutoTypeTable path="registry/roadmap-ui/kanban.tsx" name="KanbanProviderProps" />
 
 ### Board
 
 The `Board` component is a container for the columns of the Kanban board.
 
-<AutoTypeTable path="registry/block/kanban.tsx" name="KanbanBoardProps" />
+<AutoTypeTable path="registry/roadmap-ui/kanban.tsx" name="KanbanBoardProps" />
 
 ### Header
 
 The `Header` component is a container for the column headers of the Kanban board.
 
-<AutoTypeTable path="registry/block/kanban.tsx" name="KanbanHeaderProps" />
+<AutoTypeTable path="registry/roadmap-ui/kanban.tsx" name="KanbanHeaderProps" />
 
 ### Cards
 
 The `Cards` component is a container for the cards of the Kanban board.
 
-<AutoTypeTable path="registry/block/kanban.tsx" name="KanbanCardsProps" />
+<AutoTypeTable path="registry/roadmap-ui/kanban.tsx" name="KanbanCardsProps" />
 
 ### Card
 
 The `Card` component is a single card in the Kanban board.
 
-<AutoTypeTable path="registry/block/kanban.tsx" name="KanbanCardProps" />
+<AutoTypeTable path="registry/roadmap-ui/kanban.tsx" name="KanbanCardProps" />
