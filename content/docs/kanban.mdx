@@ -26,8 +26,15 @@ npx shadcn@latest add https://roadmap-ui.com/registry/kanban.json
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { exampleFeatures, exampleStatuses } from '@/lib/content';
-import * as Kanban from '@/registry/ui/kanban';
+import {
+  KanbanBoard,
+  KanbanCard,
+  KanbanCards,
+  KanbanHeader,
+  KanbanProvider,
+} from '@/registry/ui/kanban';
 import type { DragEndEvent } from '@dnd-kit/core';
+import { format } from 'date-fns';
 import { useState } from 'react';
 import type { FC } from 'react';
 
@@ -59,42 +66,49 @@ export const KanbanExample: FC = () => {
   };
 
   return (
-    <Kanban.KanbanProvider onDragEnd={handleDragEnd}>
+    <KanbanProvider onDragEnd={handleDragEnd}>
       {exampleStatuses.map((status) => (
-        <Kanban.KanbanBoard key={status.name} id={status.name}>
-          <Kanban.KanbanHeader name={status.name} color={status.color} />
-          <Kanban.KanbanCards>
+        <KanbanBoard key={status.name} id={status.name}>
+          <KanbanHeader name={status.name} color={status.color} />
+          <KanbanCards>
             {features
               .filter((feature) => feature.status.name === status.name)
               .map((feature, index) => (
-                <Kanban.KanbanCard
+                <KanbanCard
                   key={feature.id}
                   id={feature.id}
                   name={feature.name}
                   parent={status.name}
                   index={index}
                 >
-                  <div
-                    className="h-2 w-2 shrink-0 rounded-full"
-                    style={{ backgroundColor: feature.status.color }}
-                  />
-                  <p className="m-0 flex-1 font-medium text-sm">
-                    {feature.name}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex flex-col gap-1">
+                      <p className="m-0 flex-1 font-medium text-sm">
+                        {feature.name}
+                      </p>
+                      <p className="m-0 text-xs text-muted-foreground">
+                        {feature.initiative.name}
+                      </p>
+                    </div>
+                    {feature.owner && (
+                      <Avatar className="h-4 w-4 shrink-0">
+                        <AvatarImage src={feature.owner.image} />
+                        <AvatarFallback>
+                          {feature.owner.name?.slice(0, 2)}
+                        </AvatarFallback>
+                      </Avatar>
+                    )}
+                  </div>
+                  <p className="m-0text-xs text-muted-foreground">
+                    {format(feature.startAt, 'MMM d')} -{' '}
+                    {format(feature.endAt, 'MMM d, yyyy')}
                   </p>
-                  {feature.owner && (
-                    <Avatar className="h-4 w-4 shrink-0">
-                      <AvatarImage src={feature.owner.image} />
-                      <AvatarFallback>
-                        {feature.owner.name?.slice(0, 2)}
-                      </AvatarFallback>
-                    </Avatar>
-                  )}
-                </Kanban.KanbanCard>
+                </KanbanCard>
               ))}
-          </Kanban.KanbanCards>
-        </Kanban.KanbanBoard>
+          </KanbanCards>
+        </KanbanBoard>
       ))}
-    </Kanban.KanbanProvider>
+    </KanbanProvider>
   );
 };
 ```
@@ -107,28 +121,28 @@ The Kanban component is made up of the following subcomponents:
 
 The `Provider` component is the root component of the Kanban board. It contains the drag-and-drop context and provides the necessary context for the other components.
 
-<AutoTypeTable path="components/ui/kanban.tsx" name="KanbanProviderProps" />
+<AutoTypeTable path="registry/ui/kanban.tsx" name="KanbanProviderProps" />
 
 ### Board
 
 The `Board` component is a container for the columns of the Kanban board.
 
-<AutoTypeTable path="components/ui/kanban.tsx" name="KanbanBoardProps" />
+<AutoTypeTable path="registry/ui/kanban.tsx" name="KanbanBoardProps" />
 
 ### Header
 
 The `Header` component is a container for the column headers of the Kanban board.
 
-<AutoTypeTable path="components/ui/kanban.tsx" name="KanbanHeaderProps" />
+<AutoTypeTable path="registry/ui/kanban.tsx" name="KanbanHeaderProps" />
 
 ### Cards
 
 The `Cards` component is a container for the cards of the Kanban board.
 
-<AutoTypeTable path="components/ui/kanban.tsx" name="KanbanCardsProps" />
+<AutoTypeTable path="registry/ui/kanban.tsx" name="KanbanCardsProps" />
 
 ### Card
 
 The `Card` component is a single card in the Kanban board.
 
-<AutoTypeTable path="components/ui/kanban.tsx" name="KanbanCardProps" />
+<AutoTypeTable path="registry/ui/kanban.tsx" name="KanbanCardProps" />

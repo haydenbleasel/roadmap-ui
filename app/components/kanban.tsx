@@ -10,6 +10,7 @@ import {
   KanbanProvider,
 } from '@/registry/ui/kanban';
 import type { DragEndEvent } from '@dnd-kit/core';
+import { format } from 'date-fns';
 import { useState } from 'react';
 import type { FC } from 'react';
 
@@ -56,21 +57,28 @@ export const KanbanExample: FC = () => {
                   parent={status.name}
                   index={index}
                 >
-                  <div
-                    className="h-2 w-2 shrink-0 rounded-full"
-                    style={{ backgroundColor: feature.status.color }}
-                  />
-                  <p className="m-0 flex-1 font-medium text-sm">
-                    {feature.name}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex flex-col gap-1">
+                      <p className="m-0 flex-1 font-medium text-sm">
+                        {feature.name}
+                      </p>
+                      <p className="m-0 text-xs text-muted-foreground">
+                        {feature.initiative.name}
+                      </p>
+                    </div>
+                    {feature.owner && (
+                      <Avatar className="h-4 w-4 shrink-0">
+                        <AvatarImage src={feature.owner.image} />
+                        <AvatarFallback>
+                          {feature.owner.name?.slice(0, 2)}
+                        </AvatarFallback>
+                      </Avatar>
+                    )}
+                  </div>
+                  <p className="m-0text-xs text-muted-foreground">
+                    {format(feature.startAt, 'MMM d')} -{' '}
+                    {format(feature.endAt, 'MMM d, yyyy')}
                   </p>
-                  {feature.owner && (
-                    <Avatar className="h-4 w-4 shrink-0">
-                      <AvatarImage src={feature.owner.image} />
-                      <AvatarFallback>
-                        {feature.owner.name?.slice(0, 2)}
-                      </AvatarFallback>
-                    </Avatar>
-                  )}
                 </KanbanCard>
               ))}
           </KanbanCards>
