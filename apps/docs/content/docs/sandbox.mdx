@@ -1,0 +1,88 @@
+---
+title: Sandbox
+description: The sandbox component allows you to preview and test components in a sandbox environment.
+icon: Codesandbox
+---
+
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
+
+<PoweredBy packages={[
+  { name: 'Sandpack', url: 'https://sandpack.codesandbox.io/' },
+]} />
+
+<Preview name="sandbox" code={`'use client';
+
+import {
+  SandboxCodeEditor,
+  SandboxConsole,
+  SandboxLayout,
+  SandboxPreview,
+  SandboxProvider,
+  SandboxTabs,
+  SandboxTabsContent,
+  SandboxTabsList,
+  SandboxTabsTrigger,
+} from '@/components/ui/kibo-ui/sandbox';
+
+const Example = () => (
+  <SandboxProvider>
+    <SandboxLayout>
+      <SandboxTabs
+        defaultValue="preview"
+        className="not-prose group relative w-full overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm"
+      >
+        <div className="flex flex-row items-center justify-between border-b bg-fd-muted p-2">
+          <SandboxTabsList className="h-auto w-full justify-start rounded-none bg-transparent">
+            <SandboxTabsTrigger
+              value="code"
+              className="flex flex-row items-center gap-1.5"
+            >
+              <CodeIcon size={14} />
+              Code
+            </SandboxTabsTrigger>
+            <SandboxTabsTrigger
+              value="preview"
+              className="flex flex-row items-center gap-1.5"
+            >
+              <AppWindowIcon size={14} />
+              Preview
+            </SandboxTabsTrigger>
+            <SandboxTabsTrigger
+              value="console"
+              className="flex flex-row items-center gap-1.5"
+            >
+              <TerminalIcon size={14} />
+              Console
+            </SandboxTabsTrigger>
+          </SandboxTabsList>
+        </div>
+        <SandboxTabsContent
+          value="code"
+          className="m-0 max-h-96 overflow-y-auto"
+        >
+          <SandboxCodeEditor className="min-h-96" />
+        </SandboxTabsContent>
+        <SandboxTabsContent
+          value="preview"
+          className="m-0 max-h-96 overflow-y-auto"
+        >
+          <SandboxPreview
+            showOpenInCodeSandbox={false}
+            showRefreshButton={false}
+            className="min-h-96"
+          />
+        </SandboxTabsContent>
+        <SandboxTabsContent
+          value="console"
+          className="m-0 max-h-96 overflow-y-auto"
+        >
+          <SandboxConsole className="min-h-96" />
+        </SandboxTabsContent>
+      </SandboxTabs>
+    </SandboxLayout>
+  </SandboxProvider>
+);
+
+export default Example;`} />
+
+## Props
