@@ -50,7 +50,7 @@
     "sonner": "^1.7.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "ts-morph": "24.0.0",
+    "ts-morph": "25.0.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
