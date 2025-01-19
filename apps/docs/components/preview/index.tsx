@@ -184,8 +184,9 @@ export const Preview = async ({
   }
 
   return (
-    <PreviewProvider
+    <SandboxProvider
       template="react-ts"
+      theme={resolvedTheme as 'light' | 'dark'}
       // options={{ bundlerURL: 'https://sandpack-bundler.codesandbox.io' }}
       options={{
         externalResources: [
@@ -217,67 +218,60 @@ export const Preview = async ({
       }}
       files={files}
     >
-      <SandpackLayout className="!rounded-none !border-none !bg-transparent">
-        <Tabs
+      <SandboxLayout className="!rounded-none !border-none !bg-transparent">
+        <SandboxTabs
           defaultValue="preview"
           className="not-prose group relative w-full overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm"
         >
           <div className="flex flex-row items-center justify-between border-b bg-fd-muted p-2">
-            <TabsList className="h-auto w-full justify-start rounded-none bg-transparent">
-              <TabsTrigger
+            <SandboxTabsList className="h-auto w-full justify-start rounded-none bg-transparent">
+              <SandboxTabsTrigger
                 value="code"
                 className="flex flex-row items-center gap-1.5"
               >
                 <CodeIcon size={14} />
                 Code
-              </TabsTrigger>
-              <TabsTrigger
+              </SandboxTabsTrigger>
+              <SandboxTabsTrigger
                 value="preview"
                 className="flex flex-row items-center gap-1.5"
               >
                 <AppWindowIcon size={14} />
                 Preview
-              </TabsTrigger>
-              <TabsTrigger
+              </SandboxTabsTrigger>
+              <SandboxTabsTrigger
                 value="console"
                 className="flex flex-row items-center gap-1.5"
               >
                 <TerminalIcon size={14} />
                 Console
-              </TabsTrigger>
-            </TabsList>
+              </SandboxTabsTrigger>
+            </SandboxTabsList>
           </div>
-          <TabsContent
+          <SandboxTabsContent
             value="code"
-            className="m-0 h-full max-h-96 overflow-hidden"
+            className="m-0 max-h-96 overflow-y-auto"
           >
-            <ResizablePanelGroup direction="horizontal">
-              <ResizablePanel
-                className="!overflow-y-auto h-full"
-                defaultSize={25}
-                minSize={20}
-                maxSize={40}
-              >
-                <SandpackFileExplorer autoHiddenFiles />
-              </ResizablePanel>
-              <ResizableHandle withHandle />
-              <ResizablePanel className="!overflow-y-auto h-full">
-                <SandpackCodeEditor showTabs={false} />
-              </ResizablePanel>
-            </ResizablePanelGroup>
-          </TabsContent>
-          <TabsContent value="preview" className="m-0 max-h-96 overflow-y-auto">
-            <SandpackPreview
+            <SandboxCodeEditor className="min-h-96" />
+          </SandboxTabsContent>
+          <SandboxTabsContent
+            value="preview"
+            className="m-0 max-h-96 overflow-y-auto"
+          >
+            <SandboxPreview
               showOpenInCodeSandbox={false}
               showRefreshButton={false}
               className="min-h-96"
             />
-          </TabsContent>
-          <TabsContent value="console" className="m-0 max-h-96 overflow-y-auto">
-            <SandpackConsole className="min-h-96" />
-          </TabsContent>
-        </Tabs>
-      </SandpackLayout>
-    </PreviewProvider>
+          </SandboxTabsContent>
+          <SandboxTabsContent
+            value="console"
+            className="m-0 max-h-96 overflow-y-auto"
+          >
+            <SandboxConsole className="min-h-96" />
+          </SandboxTabsContent>
+        </SandboxTabs>
+      </SandboxLayout>
+    </SandboxProvider>
   );
 };

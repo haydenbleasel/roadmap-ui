@@ -9,7 +9,6 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
-    "@codesandbox/sandpack-react": "^2.19.10",
     "@logtail/next": "^0.1.7",
     "@next/bundle-analyzer": "^15.1.5",
     "@next/third-parties": "^15.1.5",
@@ -23,6 +22,7 @@
     "@repo/gantt": "workspace:*",
     "@repo/kanban": "workspace:*",
     "@repo/list": "workspace:*",
+    "@repo/sandbox": "workspace:*",
     "@repo/shadcn-ui": "workspace:*",
     "@repo/spinner": "workspace:*",
     "@repo/table": "workspace:*",
