@@ -31,7 +31,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "fumadocs-core": "14.7.4",
+    "fumadocs-core": "14.7.5",
     "fumadocs-mdx": "11.3.1",
     "fumadocs-typescript": "^3.0.2",
     "fumadocs-ui": "14.7.4",
