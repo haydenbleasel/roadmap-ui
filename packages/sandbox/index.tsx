@@ -1,6 +1,7 @@
 import {
   SandpackCodeEditor,
   SandpackConsole,
+  SandpackFileExplorer,
   SandpackLayout,
   SandpackPreview,
   SandpackProvider,
@@ -163,3 +164,5 @@ export const SandboxCodeEditor = SandpackCodeEditor;
 export const SandboxConsole = SandpackConsole;
 
 export const SandboxPreview = SandpackPreview;
+
+export const SandboxFileExplorer = SandpackFileExplorer;
