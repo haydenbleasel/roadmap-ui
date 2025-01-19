@@ -11,7 +11,7 @@
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.19.10",
     "@logtail/next": "^0.1.7",
-    "@next/bundle-analyzer": "^15.1.4",
+    "@next/bundle-analyzer": "^15.1.5",
     "@next/third-parties": "^15.1.4",
     "@prisma/nextjs-monorepo-workaround-plugin": "^6.2.1",
     "@radix-ui/react-slot": "^1.1.1",
