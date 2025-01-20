@@ -41,7 +41,7 @@ const buildRegistry = async (pkg: string) => {
       ].includes(dep)
   );
 
-  const contentPath = join(cwd, 'packages', pkg, 'index.ts');
+  const contentPath = join(cwd, 'packages', pkg, 'index.tsx');
   const content = await fs.readFile(contentPath, 'utf-8');
 
   const registryDependencies = (
@@ -59,8 +59,8 @@ const buildRegistry = async (pkg: string) => {
       devDependencies,
       files: [
         {
-          path: 'index.tsx',
           type: 'registry:component',
+          path: 'index.tsx',
           content,
           target: `${COMPONENT_FOLDER_PATH}/index.tsx`,
         },
