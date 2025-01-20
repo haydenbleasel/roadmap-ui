@@ -1,0 +1,218 @@
+---
+title: Dropzone
+description: Dropzone is a component that allows you to drag-and-drop files into a container to process them.
+icon: ImageUp
+---
+
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
+
+<PoweredBy packages={[
+  { name: 'react-dropzone', url: 'https://react-dropzone.js.org/' },
+  { name: 'Lucide', url: 'https://lucide.dev/' },
+]} />
+
+<Preview name="dropzone" code={`'use client';
+
+import { useState } from 'react';
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from '@/components/ui/kibo-ui/dropzone';
+
+const Example = () => {
+  const [files, setFiles] = useState<File[] | undefined>();
+
+  const handleDrop = (files: File[]) => {
+    console.log(files);
+    setFiles(files);
+  };
+
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-secondary p-8">
+      <Dropzone
+        onDrop={handleDrop}
+        src={files}
+        onError={console.error}
+      >
+        <DropzoneEmptyState />
+        <DropzoneContent />
+      </Dropzone>
+    </div>
+  );
+}
+
+export default Example;`} />
+
+## Installation
+
+<Installer packageName="dropzone" />
+
+## Features
+
+- Drag and drop items between groups
+- Customize the item contents
+
+## Examples
+
+### With max and min sizes
+
+<Preview name="dropzone" code={`'use client';
+
+import { useState } from 'react';
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from '@/components/ui/kibo-ui/dropzone';
+
+const Example = () => {
+  const [files, setFiles] = useState<File[] | undefined>();
+
+  const handleDrop = (files: File[]) => {
+    console.log(files);
+    setFiles(files);
+  };
+
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-secondary p-8">
+      <Dropzone
+        onDrop={handleDrop}
+        src={files}
+        minSize={1024}
+        maxSize={1024 * 1024 * 10}
+        onError={console.error}
+      >
+        <DropzoneEmptyState />
+        <DropzoneContent />
+      </Dropzone>
+    </div>
+  );
+}
+
+export default Example;`} />
+
+### Multiple files
+
+<Preview name="dropzone" code={`'use client';
+
+import { useState } from 'react';
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from '@/components/ui/kibo-ui/dropzone';
+
+const Example = () => {
+  const [files, setFiles] = useState<File[] | undefined>();
+
+  const handleDrop = (files: File[]) => {
+    console.log(files);
+    setFiles(files);
+  };
+
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-secondary p-8">
+      <Dropzone
+        onDrop={handleDrop}
+        src={files}
+        maxFiles={3}
+        onError={console.error}
+      >
+        <DropzoneEmptyState />
+        <DropzoneContent />
+      </Dropzone>
+    </div>
+  );
+}
+
+export default Example;`} />
+
+### Images only
+
+<Preview name="dropzone" code={`'use client';
+
+import { useState } from 'react';
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from '@/components/ui/kibo-ui/dropzone';
+
+const Example = () => {
+  const [files, setFiles] = useState<File[] | undefined>();
+
+  const handleDrop = (files: File[]) => {
+    console.log(files);
+    setFiles(files);
+  };
+
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-secondary p-8">
+      <Dropzone
+        accept={{ 'image/*': [] }}
+        onDrop={handleDrop}
+        src={files}
+        onError={console.error}
+      >
+        <DropzoneEmptyState />
+        <DropzoneContent />
+      </Dropzone>
+    </div>
+  );
+}
+
+export default Example;`} />
+
+### With custom empty state
+
+<Preview name="dropzone" code={`'use client';
+
+import { useState } from 'react';
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from '@/components/ui/kibo-ui/dropzone';
+
+const Example = () => {
+  const [files, setFiles] = useState<File[] | undefined>();
+
+  const handleDrop = (files: File[]) => {
+    console.log(files);
+    setFiles(files);
+  };
+
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-secondary p-8">
+      <Dropzone
+        onDrop={handleDrop}
+        src={files}
+        onError={console.error}
+      >
+        <DropzoneEmptyState>
+          <p>Drop your files here</p>
+        </DropzoneEmptyState>
+        <DropzoneContent />
+      </Dropzone>
+    </div>
+  );
+}
+
+export default Example;`} />
+
+## Props
+
+The dropzone component is made up of the following subcomponents:
+
+### Dropzone
+
+<AutoTypeTable path="node_modules/@repo/dropzone/index.tsx" name="DropzoneProps" />
+
+### DropzoneEmptyState
+
+<AutoTypeTable path="node_modules/@repo/dropzone/index.tsx" name="DropzoneEmptyStateProps" />
+
+### DropzoneContent
+
+<AutoTypeTable path="node_modules/@repo/dropzone/index.tsx" name="DropzoneContentProps" />
