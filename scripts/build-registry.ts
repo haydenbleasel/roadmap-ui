@@ -12,7 +12,6 @@ const packages = packagesDir
   .map((dir) => dir.name);
 
 const PUBLIC_FOLDER_BASE_PATH = 'apps/docs/public/registry';
-const COMPONENT_FOLDER_PATH = 'ui';
 
 const writeFileRecursive = async (filePath: string, data: string) => {
   const dir = path.dirname(filePath);
@@ -52,17 +51,20 @@ const buildRegistry = async (pkg: string) => {
 
   const json = JSON.stringify(
     {
+      $schema: 'https://ui.shadcn.com/schema/registry.json',
+      homepage: `https://www.kibo-ui.com/${pkg}`,
       name: pkg,
-      type: 'registry:component',
+      type: 'registry:ui',
+      author: 'Hayden Bleasel <hello@haydenbleasel.com>',
       registryDependencies,
       dependencies,
       devDependencies,
       files: [
         {
-          type: 'registry:component',
+          type: 'registry:ui',
           path: 'index.tsx',
           content,
-          target: `${COMPONENT_FOLDER_PATH}/index.tsx`,
+          target: `kibo-ui/${pkg}.tsx`,
         },
       ],
     },
