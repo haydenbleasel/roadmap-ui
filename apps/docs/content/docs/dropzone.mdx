@@ -31,6 +31,10 @@ const Example = () => {
   return (
     <div className="flex h-screen w-full items-center justify-center bg-secondary p-8">
       <Dropzone
+        maxSize={1024 * 1024 * 10}
+        minSize={1024}
+        maxFiles={10}
+        accept={{ 'image/*': [] }}
         onDrop={handleDrop}
         src={files}
         onError={console.error}
@@ -208,6 +212,60 @@ const Example = () => {
           </div>
         </DropzoneEmptyState>
         <DropzoneContent />
+      </Dropzone>
+    </div>
+  );
+}
+
+export default Example;`} />
+
+### Showing an image preview
+
+<Preview name="dropzone" code={`'use client';
+
+import { useState } from 'react';
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from '@/components/ui/kibo-ui/dropzone';
+import { UploadIcon } from 'lucide-react';
+
+const Example = () => {
+  const [files, setFiles] = useState<File[] | undefined>();
+  const [filePreview, setFilePreview] = useState<string | undefined>();
+
+  const handleDrop = (files: File[]) => {
+    console.log(files);
+    setFiles(files);
+
+    if (files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (e) => setFilePreview(e.target?.result);
+      reader.readAsDataURL(files[0]);
+    }
+  };
+
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-secondary p-8">
+      <Dropzone
+        onDrop={handleDrop}
+        src={files}
+        onError={console.error}
+        accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
+      >
+        <DropzoneEmptyState />
+        <DropzoneContent>
+          {filePreview && (
+            <div className="w-full h-[102px]">
+              <img
+                src={filePreview}
+                alt="Image preview"
+                className="absolute w-full h-full top-0 left-0 object-cover"
+              />
+            </div>
+          )}
+        </DropzoneContent>
       </Dropzone>
     </div>
   );

@@ -84,7 +84,7 @@ export const Dropzone = ({
         disabled={disabled}
         variant="outline"
         className={cn(
-          'h-auto w-full flex-col p-8',
+          'relative h-auto w-full flex-col overflow-hidden p-8',
           isDragActive && 'outline-none ring-1 ring-ring',
           className
         )}
@@ -111,6 +111,8 @@ export type DropzoneContentProps = {
   children?: ReactNode;
 };
 
+const maxLabelItems = 3;
+
 export const DropzoneContent = ({ children }: DropzoneContentProps) => {
   const { src } = useDropzoneContext();
 
@@ -127,10 +129,14 @@ export const DropzoneContent = ({ children }: DropzoneContentProps) => {
       <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
         <UploadIcon size={16} />
       </div>
-      <p className="my-2 truncate font-medium text-sm">
-        {new Intl.ListFormat('en').format(src.map((file) => file.name))}
+      <p className="my-2 w-full truncate font-medium text-sm">
+        {src.length > maxLabelItems
+          ? `${new Intl.ListFormat('en').format(
+              src.slice(0, maxLabelItems).map((file) => file.name)
+            )} and ${src.length - maxLabelItems} more`
+          : new Intl.ListFormat('en').format(src.map((file) => file.name))}
       </p>
-      <p className="text-muted-foreground text-xs">
+      <p className="w-full text-muted-foreground text-xs">
         Drag and drop or click to replace
       </p>
     </>
@@ -172,10 +178,10 @@ export const DropzoneEmptyState = ({ children }: DropzoneEmptyStateProps) => {
       <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
         <UploadIcon size={16} />
       </div>
-      <p className="my-2 font-medium text-sm">
+      <p className="my-2 w-full truncate font-medium text-sm">
         Upload {maxFiles === 1 ? 'a file' : 'files'}
       </p>
-      <p className="text-muted-foreground text-xs">
+      <p className="w-full truncate text-muted-foreground text-xs">
         Drag and drop or click to upload
       </p>
       {caption && <p className="text-muted-foreground text-xs">{caption}.</p>}
