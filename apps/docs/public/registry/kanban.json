@@ -1,6 +1,9 @@
 {
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "homepage": "https://www.kibo-ui.com/kanban",
   "name": "kanban",
-  "type": "registry:component",
+  "type": "registry:ui",
+  "author": "Hayden Bleasel <hello@haydenbleasel.com>",
   "registryDependencies": [
     "card"
   ],
@@ -13,10 +16,10 @@
   "devDependencies": [],
   "files": [
     {
-      "type": "registry:component",
+      "type": "registry:ui",
       "path": "index.tsx",
       "content": "'use client';\n\nimport { Card } from '@/components/ui/card';\nimport { cn } from '@/lib/utils';\nimport {\n  DndContext,\n  rectIntersection,\n  useDraggable,\n  useDroppable,\n} from '@dnd-kit/core';\nimport type { DragEndEvent } from '@dnd-kit/core';\nimport type { ReactNode } from 'react';\n\nexport type { DragEndEvent } from '@dnd-kit/core';\n\nexport type Status = {\n  id: string;\n  name: string;\n  color: string;\n};\n\nexport type Feature = {\n  id: string;\n  name: string;\n  startAt: Date;\n  endAt: Date;\n  status: Status;\n};\n\nexport type KanbanBoardProps = {\n  id: Status['id'];\n  children: ReactNode;\n  className?: string;\n};\n\nexport const KanbanBoard = ({ id, children, className }: KanbanBoardProps) => {\n  const { isOver, setNodeRef } = useDroppable({ id });\n\n  return (\n    <div\n      className={cn(\n        'flex h-full min-h-40 flex-col gap-2 rounded-md border bg-secondary p-2 text-xs shadow-sm outline outline-2 transition-all',\n        isOver ? 'outline-primary' : 'outline-transparent',\n        className\n      )}\n      ref={setNodeRef}\n    >\n      {children}\n    </div>\n  );\n};\n\nexport type KanbanCardProps = Pick<Feature, 'id' | 'name'> & {\n  index: number;\n  parent: string;\n  children?: ReactNode;\n  className?: string;\n};\n\nexport const KanbanCard = ({\n  id,\n  name,\n  index,\n  parent,\n  children,\n  className,\n}: KanbanCardProps) => {\n  const { attributes, listeners, setNodeRef, transform, isDragging } =\n    useDraggable({\n      id,\n      data: { index, parent },\n    });\n\n  return (\n    <Card\n      className={cn(\n        'rounded-md p-3 shadow-sm',\n        isDragging && 'cursor-grabbing',\n        className\n      )}\n      style={{\n        transform: transform\n          ? `translateX(${transform.x}px) translateY(${transform.y}px)`\n          : 'none',\n      }}\n      {...listeners}\n      {...attributes}\n      ref={setNodeRef}\n    >\n      {children ?? <p className=\"m-0 font-medium text-sm\">{name}</p>}\n    </Card>\n  );\n};\n\nexport type KanbanCardsProps = {\n  children: ReactNode;\n  className?: string;\n};\n\nexport const KanbanCards = ({ children, className }: KanbanCardsProps) => (\n  <div className={cn('flex flex-1 flex-col gap-2', className)}>{children}</div>\n);\n\nexport type KanbanHeaderProps =\n  | {\n      children: ReactNode;\n    }\n  | {\n      name: Status['name'];\n      color: Status['color'];\n      className?: string;\n    };\n\nexport const KanbanHeader = (props: KanbanHeaderProps) =>\n  'children' in props ? (\n    props.children\n  ) : (\n    <div className={cn('flex shrink-0 items-center gap-2', props.className)}>\n      <div\n        className=\"h-2 w-2 rounded-full\"\n        style={{ backgroundColor: props.color }}\n      />\n      <p className=\"m-0 font-semibold text-sm\">{props.name}</p>\n    </div>\n  );\n\nexport type KanbanProviderProps = {\n  children: ReactNode;\n  onDragEnd: (event: DragEndEvent) => void;\n  className?: string;\n};\n\nexport const KanbanProvider = ({\n  children,\n  onDragEnd,\n  className,\n}: KanbanProviderProps) => (\n  <DndContext collisionDetection={rectIntersection} onDragEnd={onDragEnd}>\n    <div\n      className={cn('grid w-full auto-cols-fr grid-flow-col gap-4', className)}\n    >\n      {children}\n    </div>\n  </DndContext>\n);\n",
-      "target": "ui/index.tsx"
+      "target": "kibo-ui/kanban.tsx"
     }
   ]
 }
