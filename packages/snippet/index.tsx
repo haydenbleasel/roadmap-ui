@@ -20,18 +20,16 @@ export const Snippet = ({ className, ...props }: SnippetProps) => (
       className
     )}
     {...props}
-  >
-    {props.children}
-  </Tabs>
+  />
 );
 
 export type SnippetHeaderProps = ComponentProps<'div'>;
 
-export const SnippetHeader = (props: SnippetHeaderProps) => (
+export const SnippetHeader = ({ className, ...props }: SnippetHeaderProps) => (
   <div
     className={cn(
       'flex flex-row items-center justify-between border-b bg-secondary p-1',
-      props.className
+      className
     )}
     {...props}
   />
@@ -39,7 +37,6 @@ export const SnippetHeader = (props: SnippetHeaderProps) => (
 
 export type SnippetCopyButtonProps = ComponentProps<typeof Button> & {
   value: string;
-  asChild?: boolean;
   onCopy?: () => void;
   onError?: (error: Error) => void;
   timeout?: number;
@@ -51,6 +48,7 @@ export const SnippetCopyButton = ({
   onCopy,
   onError,
   timeout = 2000,
+  children,
   ...props
 }: SnippetCopyButtonProps) => {
   const [isCopied, setIsCopied] = useState(false);
@@ -73,11 +71,13 @@ export const SnippetCopyButton = ({
   };
 
   if (asChild) {
-    return cloneElement(props.children as ReactElement, {
+    return cloneElement(children as ReactElement, {
       // @ts-expect-error - we know this is a button
       onClick: copyToClipboard,
     });
   }
+
+  const icon = isCopied ? <CheckIcon size={14} /> : <CopyIcon size={14} />;
 
   return (
     <Button
@@ -87,7 +87,7 @@ export const SnippetCopyButton = ({
       className="opacity-0 transition-opacity group-hover:opacity-100"
       {...props}
     >
-      {isCopied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+      {children ?? icon}
     </Button>
   );
 };
@@ -109,9 +109,10 @@ export type SnippetTabsContentProps = ComponentProps<typeof TabsContent>;
 
 export const SnippetTabsContent = ({
   className,
+  children,
   ...props
 }: SnippetTabsContentProps) => (
   <TabsContent asChild className={cn('mt-0 p-4 text-sm', className)} {...props}>
-    <pre>{props.children}</pre>
+    <pre>{children}</pre>
   </TabsContent>
 );

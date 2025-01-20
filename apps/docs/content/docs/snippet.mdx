@@ -11,9 +11,7 @@ import { AutoTypeTable } from 'fumadocs-typescript/ui';
   { name: 'Lucide', url: 'https://lucide.dev/' },
 ]} />
 
-<Preview name="list" code={`'use client';
-
-'use client';
+<Preview name="snippet" code={`'use client';
 
 import {
   Snippet,
@@ -23,46 +21,55 @@ import {
   SnippetTabsList,
   SnippetTabsTrigger,
 } from '@/components/ui/kibo-ui/snippet';
-import { HeartIcon, CubeIcon } from 'lucide-react';
+import { HeartIcon, BoxIcon } from 'lucide-react';
 import { useState } from 'react';
+
+const commands = [
+  {
+    label: 'kibo-ui',
+    icon: HeartIcon,
+    code: \`npx kibo-ui@latest add snippet\`,
+  },
+  {
+    label: 'shadcn',
+    icon: BoxIcon,
+    code: \`npx shadcn@latest add https://www.kibo-ui.com/registry/snippet.json\`,
+  },
+];
 
 const Example = () => {
   const [value, setValue] = useState('kibo-ui');
-
-  const commands = {
-    'kibo-ui': {
-      icon: HeartIcon,
-      code: \`npx kibo-ui@latest add snippet\`,
-    },
-    shadcn: {
-      icon: CubeIcon,
-      code: \`npx shadcn@latest add https://www.kibo-ui.com/registry/snippet.json\`,
-    },
-  };
+  const activeCommand = commands.find((command) => command.label === value);
 
   return (
-    <Snippet value={value} onValueChange={setValue}>
-      <SnippetHeader>
-        <SnippetTabsList>
-          {Object.entries(commands).map(([key, command]) => (
-            <SnippetTabsTrigger key={key} value={key}>
-              <command.icon size={14} />
-              {key}
-            </SnippetTabsTrigger>
-          ))}
-        </SnippetTabsList>
-        <SnippetCopyButton
-          value={commands[value as keyof typeof commands].code}
-          onCopy={() => toast.success('Copied to clipboard')}
-          onError={() => toast.error('Failed to copy to clipboard')}
-        />
-      </SnippetHeader>
-      {Object.entries(commands).map(([key, command]) => (
-        <SnippetTabsContent key={key} value={key}>
-          {command.code}
-        </SnippetTabsContent>
-      ))}
-    </Snippet>
+    <div className="p-4">
+      <Snippet value={value} onValueChange={setValue}>
+        <SnippetHeader>
+          <SnippetTabsList>
+            {commands.map((command) => (
+              <SnippetTabsTrigger key={command.label} value={command.label}>
+                <command.icon size={14} />
+                <span>{command.label}</span>
+              </SnippetTabsTrigger>
+            ))}
+          </SnippetTabsList>
+          <SnippetCopyButton
+            value={activeCommand?.code}
+            onCopy={() =>
+              console.log(\`Copied "\${activeCommand?.code}" to clipboard\`)
+            }
+            onError={() =>
+              console.error(\`Failed to copy "\${activeCommand?.code}" to clipboard\`)
+            }
+          />
+        </SnippetHeader>
+        {commands.map((command) => (
+          <SnippetTabsContent key={command.label} value={command.label}>
+            {command.code}
+          </SnippetTabsContent>
+        ))}
+      </Snippet>
+    </div>
   );
 };
 
@@ -74,110 +81,49 @@ export default Example;`} />
 
 ## Features
 
-- Drag and drop items between groups
-- Customize the item contents
-
-## Examples
-
-### Simple version
-
-<Preview name="list" code={`'use client';
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  ListGroup,
-  ListHeader,
-  ListItem,
-  ListItems,
-  ListProvider,
-} from '@/components/ui/kibo-ui/list';
-import type { DragEndEvent } from '@/components/ui/kibo-ui/list';
-import { useState } from 'react';
-import { exampleFeatures, exampleStatuses } from '@/lib/content';
-
-const Example = () => {
-  const [features, setFeatures] = useState(exampleFeatures);
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-
-    if (!over) {
-      return;
-    }
-
-    const status = exampleStatuses.find((status) => status.name === over.id);
-
-    if (!status) {
-      return;
-    }
-
-    setFeatures(
-      features.map((feature) => {
-        if (feature.id === active.id) {
-          return { ...feature, status };
-        }
-
-        return feature;
-      })
-    );
-  };
-
-  return (
-    <ListProvider onDragEnd={handleDragEnd}>
-      {exampleStatuses.map((status) => (
-        <ListGroup key={status.name} id={status.name}>
-          <ListHeader name={status.name} color={status.color} />
-          <ListItems>
-            {features
-              .filter((feature) => feature.status.name === status.name)
-              .map((feature, index) => (
-                <ListItem
-                  key={feature.id}
-                  id={feature.id}
-                  name={feature.name}
-                  parent={feature.status.name}
-                  index={index}
-                />
-              ))}
-          </ListItems>
-        </ListGroup>
-      ))}
-    </ListProvider>
-  );
-};
-
-export default Example;`} />
+- Copy code to clipboard
+- Customize the tab contents
+- Multiple tabs support
+- Customizable copy button, tab triggers and tab content
+- Customizable copy button timeout and callbacks
+- Accessible tabs using `@radix-ui/react-tabs`
 
 ## Props
 
-The list view is made up of the following subcomponents:
+The snippet component is made up of the following subcomponents:
 
-### ListProvider
+### Snippet
 
-The `ListProvider` component is used to provide the features to the list.
+The `Snippet` component is used as a provider for the snippet.
 
-<AutoTypeTable path="node_modules/@repo/list/index.tsx" name="ListProviderProps" />
+<AutoTypeTable path="node_modules/@repo/snippet/index.tsx" name="SnippetProps" />
 
-### ListGroup
+### SnippetHeader
 
-The `ListGroup` component is used to display a group of items.
+The `SnippetHeader` component is used to display the header of the snippet.
 
-<AutoTypeTable path="node_modules/@repo/list/index.tsx" name="ListGroupProps" />
+<AutoTypeTable path="node_modules/@repo/snippet/index.tsx" name="SnippetHeaderProps" />
 
-### ListHeader
+### SnippetTabsList
 
-The `ListHeader` component is used to display the header of a group.
+The `SnippetTabsList` component is used to display the tabs of the snippet.
 
-<AutoTypeTable path="node_modules/@repo/list/index.tsx" name="ListHeaderProps" />
+<AutoTypeTable path="node_modules/@repo/snippet/index.tsx" name="SnippetTabsListProps" />
 
-### ListItems
+### SnippetTabsTrigger
 
-The `ListItems` component is used to display the items of a group.
+The `SnippetTabsTrigger` component is used to display the trigger of a tab.
 
-<AutoTypeTable path="node_modules/@repo/list/index.tsx" name="ListItemsProps" />
+<AutoTypeTable path="node_modules/@repo/snippet/index.tsx" name="SnippetTabsTriggerProps" />
 
-### ListItem
+### SnippetTabsContent
 
-The `ListItem` component is used to display an item.
+The `SnippetTabsContent` component is used to display the content of a tab.
 
-<AutoTypeTable path="node_modules/@repo/list/index.tsx" name="ListItemProps" />
+<AutoTypeTable path="node_modules/@repo/snippet/index.tsx" name="SnippetTabsContentProps" />
+
+### SnippetCopyButton
+
+The `SnippetCopyButton` component is used to display the copy button of the snippet.
+
+<AutoTypeTable path="node_modules/@repo/snippet/index.tsx" name="SnippetCopyButtonProps" />
