@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import {
   SandpackCodeEditor,
   SandpackConsole,
@@ -12,11 +13,14 @@ import type {
   CodeEditorProps,
   PreviewProps,
   SandpackLayoutProps,
+  SandpackProviderProps,
 } from '@codesandbox/sandpack-react';
-import { cn } from '@repo/shadcn-ui/lib/utils';
+import type {
+  ButtonHTMLAttributes,
+  ComponentProps,
+  HTMLAttributes,
+} from 'react';
 import {
-  type ButtonHTMLAttributes,
-  type HTMLAttributes,
   createContext,
   useCallback,
   useContext,
@@ -24,11 +28,23 @@ import {
   useState,
 } from 'react';
 
-export const SandboxProvider = SandpackProvider;
+export type SandboxProviderProps = SandpackProviderProps;
+
+export const SandboxProvider = ({
+  className,
+  ...props
+}: SandpackProviderProps) => (
+  <SandpackProvider className={cn('size-full', className)} {...props} />
+);
+
+export type SandboxLayoutProps = SandpackLayoutProps;
 
 export const SandboxLayout = ({ className, ...props }: SandpackLayoutProps) => (
   <SandpackLayout
-    className={cn('!rounded-none !border-none !bg-transparent', className)}
+    className={cn(
+      '!rounded-none !border-none !bg-transparent size-full',
+      className
+    )}
     {...props}
   />
 );
@@ -89,7 +105,7 @@ export const SandboxTabs = ({
     <SandboxTabsContext.Provider value={{ selectedTab, setSelectedTab }}>
       <div
         className={cn(
-          'not-prose group relative w-full overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm',
+          'not-prose group relative size-full w-full overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm',
           className
         )}
         {...props}
@@ -101,13 +117,15 @@ export const SandboxTabs = ({
   );
 };
 
+export type SandboxTabsListProps = HTMLAttributes<HTMLDivElement>;
+
 export const SandboxTabsList = ({
   className,
   ...props
-}: HTMLAttributes<HTMLDivElement>) => (
+}: SandboxTabsListProps) => (
   <div
     className={cn(
-      'inline-flex w-full items-center justify-start border-b bg-secondary p-1 p-2 text-muted-foreground',
+      'inline-flex w-full items-center justify-start border-b bg-secondary p-2 text-muted-foreground',
       className
     )}
     role="tablist"
@@ -145,7 +163,7 @@ export const SandboxTabsTrigger = ({
   );
 };
 
-type SandboxTabsContentProps = HTMLAttributes<HTMLDivElement> & {
+export type SandboxTabsContentProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
 };
 
@@ -162,7 +180,7 @@ export const SandboxTabsContent = ({
       aria-hidden={selectedTab !== value}
       data-state={selectedTab === value ? 'active' : 'inactive'}
       className={cn(
-        'mt-2 ring-offset-background transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'size-full overflow-y-auto ring-offset-background transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         selectedTab === value
           ? 'h-auto w-auto opacity-100'
           : 'pointer-events-none absolute h-0 w-0 opacity-0',
@@ -173,14 +191,20 @@ export const SandboxTabsContent = ({
   );
 };
 
+export type SandboxCodeEditorProps = CodeEditorProps;
+
 export const SandboxCodeEditor = SandpackCodeEditor;
 
-export type SandboxCodeEditorProps = CodeEditorProps;
+export type SandboxConsoleProps = ComponentProps<typeof SandpackConsole>;
 
 export const SandboxConsole: typeof SandpackConsole = SandpackConsole;
 
+export type SandboxPreviewProps = PreviewProps;
+
 export const SandboxPreview = SandpackPreview;
 
-export type SandboxPreviewProps = PreviewProps;
+export type SandboxFileExplorerProps = ComponentProps<
+  typeof SandpackFileExplorer
+>;
 
 export const SandboxFileExplorer = SandpackFileExplorer;
