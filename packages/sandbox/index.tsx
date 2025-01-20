@@ -8,7 +8,11 @@ import {
   SandpackPreview,
   SandpackProvider,
 } from '@codesandbox/sandpack-react';
-import type { SandpackLayoutProps } from '@codesandbox/sandpack-react';
+import type {
+  CodeEditorProps,
+  PreviewProps,
+  SandpackLayoutProps,
+} from '@codesandbox/sandpack-react';
 import { cn } from '@repo/shadcn-ui/lib/utils';
 import {
   type ButtonHTMLAttributes,
@@ -29,7 +33,7 @@ export const SandboxLayout = ({ className, ...props }: SandpackLayoutProps) => (
   />
 );
 
-type SandboxTabsContextValue = {
+export type SandboxTabsContextValue = {
   selectedTab: string | undefined;
   setSelectedTab: (value: string) => void;
 };
@@ -50,7 +54,7 @@ const useSandboxTabsContext = () => {
   return context;
 };
 
-type SandboxTabsProps = HTMLAttributes<HTMLDivElement> & {
+export type SandboxTabsProps = HTMLAttributes<HTMLDivElement> & {
   defaultValue?: string;
   value?: string;
   onValueChange?: (value: string) => void;
@@ -111,7 +115,7 @@ export const SandboxTabsList = ({
   />
 );
 
-type SandboxTabsTriggerProps = Omit<
+export type SandboxTabsTriggerProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'onClick'
 > & {
@@ -171,8 +175,12 @@ export const SandboxTabsContent = ({
 
 export const SandboxCodeEditor = SandpackCodeEditor;
 
-export const SandboxConsole = SandpackConsole;
+export type SandboxCodeEditorProps = CodeEditorProps;
+
+export const SandboxConsole: typeof SandpackConsole = SandpackConsole;
 
 export const SandboxPreview = SandpackPreview;
+
+export type SandboxPreviewProps = PreviewProps;
 
 export const SandboxFileExplorer = SandpackFileExplorer;
