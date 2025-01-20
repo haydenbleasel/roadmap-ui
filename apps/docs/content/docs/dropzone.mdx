@@ -50,8 +50,9 @@ export default Example;`} />
 
 ## Features
 
-- Drag and drop items between groups
-- Customize the item contents
+- Drag and drop files to upload
+- Customize the empty state and content
+- Intelligently handle file types, sizes, and counts
 
 ## Examples
 
@@ -174,6 +175,7 @@ import {
   DropzoneContent,
   DropzoneEmptyState,
 } from '@/components/ui/kibo-ui/dropzone';
+import { UploadIcon } from 'lucide-react';
 
 const Example = () => {
   const [files, setFiles] = useState<File[] | undefined>();
@@ -191,7 +193,19 @@ const Example = () => {
         onError={console.error}
       >
         <DropzoneEmptyState>
-          <p>Drop your files here</p>
+          <div className="w-full p-8 flex items-center gap-4">
+            <div className="flex size-16 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+              <UploadIcon size={24} />
+            </div>
+            <div className="text-left">
+              <p className="font-medium text-sm">
+                Upload a file
+              </p>
+              <p className="text-muted-foreground text-xs">
+                Drag and drop or click to upload
+              </p>
+            </div>
+          </div>
         </DropzoneEmptyState>
         <DropzoneContent />
       </Dropzone>
