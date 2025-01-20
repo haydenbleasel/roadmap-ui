@@ -23,6 +23,7 @@
     "@repo/kanban": "workspace:*",
     "@repo/list": "workspace:*",
     "@repo/sandbox": "workspace:*",
+    "@repo/marquee": "workspace:*",
     "@repo/shadcn-ui": "workspace:*",
     "@repo/spinner": "workspace:*",
     "@repo/snippet": "workspace:*",

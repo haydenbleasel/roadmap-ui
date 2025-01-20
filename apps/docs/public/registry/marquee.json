@@ -1,0 +1,17 @@
+{
+  "name": "marquee",
+  "type": "registry:ui",
+  "registryDependencies": [],
+  "dependencies": [
+    "react-fast-marquee"
+  ],
+  "devDependencies": [],
+  "files": [
+    {
+      "type": "registry:ui",
+      "path": "index.tsx",
+      "content": "'use client';\n\nimport { cn } from '@/lib/utils';\nimport type { HTMLAttributes } from 'react';\nimport FastMarquee from 'react-fast-marquee';\nimport type { MarqueeProps as FastMarqueeProps } from 'react-fast-marquee';\n\nexport type MarqueeProps = HTMLAttributes<HTMLDivElement>;\n\nexport const Marquee = ({ className, ...props }: MarqueeProps) => (\n  <div className={cn('relative', className)} {...props} />\n);\n\nexport type MarqueeContentProps = FastMarqueeProps;\n\nexport const MarqueeContent = ({\n  loop = 0,\n  autoFill = true,\n  pauseOnHover = true,\n  ...props\n}: MarqueeContentProps) => (\n  <FastMarquee\n    loop={loop}\n    autoFill={autoFill}\n    pauseOnHover={pauseOnHover}\n    {...props}\n  />\n);\n\nexport type MarqueeFadeProps = HTMLAttributes<HTMLDivElement> & {\n  side: 'left' | 'right';\n};\n\nexport const MarqueeFade = ({\n  className,\n  side,\n  ...props\n}: MarqueeFadeProps) => (\n  <div\n    className={cn(\n      'absolute top-0 bottom-0 z-10 h-full w-24 from-background to-transparent',\n      side === 'left' ? 'left-0 bg-gradient-to-r' : 'right-0 bg-gradient-to-l',\n      className\n    )}\n    {...props}\n  />\n);\n\nexport type MarqueeItemProps = HTMLAttributes<HTMLDivElement>;\n\nexport const MarqueeItem = ({ className, ...props }: MarqueeItemProps) => (\n  <div\n    className={cn('mx-2 flex-shrink-0 object-contain', className)}\n    {...props}\n  />\n);\n",
+      "target": "ui/index.tsx"
+    }
+  ]
+}

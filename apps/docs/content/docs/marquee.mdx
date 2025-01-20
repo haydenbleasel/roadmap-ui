@@ -1,0 +1,179 @@
+---
+title: Marquee
+description: Marquees are a great way to show a list of items in a horizontal scrolling motion.
+icon: GalleryHorizontalEnd
+---
+
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
+
+<PoweredBy packages={[
+  { name: 'react-fast-marquee', url: 'https://www.react-fast-marquee.com/' },
+  { name: 'useHooks', url: 'https://usehooks.com/' },
+]} />
+
+<Preview name="marquee" code={`'use client';
+
+import {
+  Marquee,
+  MarqueeItem,
+  MarqueeFade,
+  MarqueeContent,
+} from '@/components/ui/kibo-ui/marquee';
+
+const Example = () => (
+  <div className="py-4">
+    <Marquee>
+      <MarqueeFade side="left" />
+      <MarqueeFade side="right" />
+      <MarqueeContent>
+        {new Array(10).fill(null).map((_, index) => (
+          <MarqueeItem key={index} className="w-16 h-16">
+            <img
+              src={\`https://placehold.co/64x64?random=\${index}\`}
+              alt={\`Image \${index}\`}
+              className="rounded-full overflow-hidden"
+            />
+          </MarqueeItem>
+        ))}
+      </MarqueeContent>
+    </Marquee>
+  </div>
+);
+
+export default Example;`} />
+
+## Installation
+
+<Installer packageName="marquee" />
+
+## Features
+
+- Drag and drop items between groups
+- Customize the item contents
+
+## Examples
+
+### Without fading
+
+<Preview name="marquee" code={`'use client';
+
+import {
+  Marquee,
+  MarqueeItem,
+  MarqueeFade,
+  MarqueeContent,
+} from '@/components/ui/kibo-ui/marquee';
+
+const Example = () => (
+  <div className="py-4">
+    <Marquee>
+      <MarqueeContent>
+        {new Array(10).fill(null).map((_, index) => (
+          <MarqueeItem key={index} className="w-16 h-16">
+            <img
+              src={\`https://placehold.co/64x64?random=\${index}\`}
+              alt={\`Image \${index}\`}
+              className="rounded-full overflow-hidden"
+            />
+          </MarqueeItem>
+        ))}
+      </MarqueeContent>
+    </Marquee>
+  </div>
+);
+
+export default Example;`} />
+
+### Without pre-defined options
+
+<Preview name="marquee" code={`'use client';
+
+import {
+  Marquee,
+  MarqueeItem,
+  MarqueeFade,
+  MarqueeContent,
+} from '@/components/ui/kibo-ui/marquee';
+
+const Example = () => (
+  <div className="py-4">
+    <Marquee>
+      <MarqueeFade side="left" />
+      <MarqueeFade side="right" />
+      <MarqueeContent loop={1} autoFill={false} pauseOnHover={false}>
+        {new Array(10).fill(null).map((_, index) => (
+          <MarqueeItem key={index} className="w-16 h-16">
+            <img
+              src={\`https://placehold.co/64x64?random=\${index}\`}
+              alt={\`Image \${index}\`}
+              className="rounded-full overflow-hidden"
+            />
+          </MarqueeItem>
+        ))}
+      </MarqueeContent>
+    </Marquee>
+  </div>
+);
+
+export default Example;`} />
+
+### Custom spacing
+
+<Preview name="marquee" code={`'use client';
+
+import {
+  Marquee,
+  MarqueeItem,
+  MarqueeFade,
+  MarqueeContent,
+} from '@/components/ui/kibo-ui/marquee';
+
+const Example = () => (
+  <div className="py-4">
+    <Marquee>
+      <MarqueeFade side="left" />
+      <MarqueeFade side="right" />
+      <MarqueeContent>
+        {new Array(10).fill(null).map((_, index) => (
+          <MarqueeItem key={index} className="w-16 h-16 -mx-2">
+            <img
+              src={\`https://placehold.co/64x64?random=\${index}\`}
+              alt={\`Image \${index}\`}
+              className="rounded-full overflow-hidden ring-2 ring-background"
+            />
+          </MarqueeItem>
+        ))}
+      </MarqueeContent>
+    </Marquee>
+  </div>
+);
+
+export default Example;`} />
+
+## Props
+
+The marquee component is made up of the following subcomponents:
+
+### Marquee
+
+The `Marquee` component is used to display the marquee.
+
+<AutoTypeTable path="node_modules/@repo/marquee/index.tsx" name="MarqueeProps" />
+
+### MarqueeContent
+
+The `MarqueeContent` component is used to display the content of the marquee.
+
+<AutoTypeTable path="node_modules/@repo/marquee/index.tsx" name="MarqueeContentProps" />
+
+### MarqueeFade
+
+The `MarqueeFade` component is used to display the fade effect on the marquee.
+
+<AutoTypeTable path="node_modules/@repo/marquee/index.tsx" name="MarqueeFadeProps" />
+
+### MarqueeItem
+
+The `MarqueeItem` component is used to display an item.
+
+<AutoTypeTable path="node_modules/@repo/marquee/index.tsx" name="MarqueeItemProps" />
