@@ -1,21 +1,18 @@
 import {
-  SandpackCodeEditor,
-  SandpackConsole,
-  SandpackFileExplorer,
-  SandpackLayout,
-  SandpackPreview,
-  type SandpackProvider,
-} from '@codesandbox/sandpack-react';
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from '@repo/shadcn-ui/components/ui/resizable';
+  SandboxCodeEditor,
+  SandboxConsole,
+  SandboxLayout,
+  SandboxPreview,
+  type SandboxProvider,
+  SandboxTabs,
+  SandboxTabsContent,
+  SandboxTabsList,
+  SandboxTabsTrigger,
+} from '@repo/sandbox';
 import { AppWindowIcon, CodeIcon, TerminalIcon } from 'lucide-react';
 import type { ComponentProps } from 'react';
 import { content } from './content';
 import { PreviewProvider } from './provider';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
 import { tsconfig } from './tsconfig';
 import { utils } from './utils';
 
@@ -184,9 +181,8 @@ export const Preview = async ({
   }
 
   return (
-    <SandboxProvider
+    <PreviewProvider
       template="react-ts"
-      theme={resolvedTheme as 'light' | 'dark'}
       // options={{ bundlerURL: 'https://sandpack-bundler.codesandbox.io' }}
       options={{
         externalResources: [
@@ -272,6 +268,6 @@ export const Preview = async ({
           </SandboxTabsContent>
         </SandboxTabs>
       </SandboxLayout>
-    </SandboxProvider>
+    </PreviewProvider>
   );
 };

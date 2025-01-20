@@ -1,10 +1,10 @@
 'use client';
 
-import {
-  SandpackProvider,
-  type SandpackProviderProps,
-  type SandpackThemeProp,
+import type {
+  SandpackProviderProps,
+  SandpackThemeProp,
 } from '@codesandbox/sandpack-react';
+import { SandboxProvider } from '@repo/sandbox';
 import { useTheme } from 'next-themes';
 
 export const PreviewProvider = ({
@@ -18,7 +18,7 @@ export const PreviewProvider = ({
   }
 
   return (
-    <SandpackProvider
+    <SandboxProvider
       theme={resolvedTheme as SandpackThemeProp}
       {...props}
       options={{
