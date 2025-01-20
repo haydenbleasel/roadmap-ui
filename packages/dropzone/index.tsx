@@ -171,8 +171,6 @@ export const DropzoneEmptyState = ({ children }: DropzoneEmptyStateProps) => {
     caption += ` less than ${renderBytes(maxSize)}`;
   }
 
-  caption += '.';
-
   return (
     <>
       <div className="flex size-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
@@ -182,7 +180,7 @@ export const DropzoneEmptyState = ({ children }: DropzoneEmptyStateProps) => {
       <p className="text-muted-foreground text-xs">
         Drag and drop or click to upload
       </p>
-      {caption && <p className="text-muted-foreground text-xs">{caption}</p>}
+      {caption && <p className="text-muted-foreground text-xs">{caption}.</p>}
     </>
   );
 };
