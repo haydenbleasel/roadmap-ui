@@ -1,14 +1,14 @@
 'use client';
 
-import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
-import { Button } from '@repo/shadcn-ui/components/ui/button';
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@repo/shadcn-ui/components/ui/tabs';
-import { CheckIcon, CopyIcon } from 'lucide-react';
+  Snippet,
+  SnippetCopyButton,
+  SnippetHeader,
+  SnippetTabsContent,
+  SnippetTabsList,
+  SnippetTabsTrigger,
+} from '@repo/snippet';
+import {} from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -20,66 +20,51 @@ type InstallerProps = {
 };
 
 export const Installer = ({ packageName }: InstallerProps) => {
-  const { isCopied, copyToClipboard } = useCopyToClipboard({
-    onCopy: () => toast.success('Copied to clipboard!'),
-  });
-  const [value, setValue] = useState('kibo');
+  const [value, setValue] = useState('kibo-ui');
 
-  const commands: Record<string, string> = {
-    kibo: `npx kibo-ui@latest add ${packageName}`,
-    shadcn: `npx shadcn@latest add https://www.kibo-ui.com/registry/${packageName}.json`,
+  const commands = {
+    'kibo-ui': {
+      image: kibo,
+      code: `npx kibo-ui@latest add ${packageName}`,
+    },
+    shadcn: {
+      image: shadcn,
+      code: `npx shadcn@latest add https://www.kibo-ui.com/registry/${packageName}.json`,
+    },
   };
 
   return (
-    <Tabs
+    <Snippet
       value={value}
       onValueChange={setValue}
-      className="not-prose group shiki shiki-themes github-light github-dark relative my-6 overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm"
+      className="not-prose shiki shiki-themes github-light github-dark"
     >
-      <div className="flex flex-row items-center justify-between border-b bg-fd-muted p-2">
-        <TabsList className="h-auto w-full justify-start rounded-none bg-transparent">
-          <TabsTrigger
-            value="kibo"
-            className="flex flex-row items-center gap-1.5"
-          >
-            <Image
-              src={kibo}
-              alt=""
-              width={14}
-              height={14}
-              className="dark:invert"
-            />
-            kibo-ui
-          </TabsTrigger>
-          <TabsTrigger
-            value="shadcn"
-            className="flex flex-row items-center gap-1.5"
-          >
-            <Image
-              src={shadcn}
-              alt=""
-              width={14}
-              height={14}
-              className="dark:invert"
-            />
-            shadcn
-          </TabsTrigger>
-        </TabsList>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => copyToClipboard(commands[value])}
-          className="opacity-0 transition-opacity group-hover:opacity-100"
-        >
-          {isCopied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
-        </Button>
-      </div>
-      <TabsContent value="kibo" className="m-0 p-4">
-        <pre className="text-sm">{commands.kibo}</pre>
-      </TabsContent>
-      <TabsContent value="shadcn" className="m-0 p-4">
-        <pre className="text-sm">{commands.shadcn}</pre>
-      </TabsContent>
-    </Tabs>
+      <SnippetHeader>
+        <SnippetTabsList>
+          {Object.entries(commands).map(([key, command]) => (
+            <SnippetTabsTrigger key={key} value={key}>
+              <Image
+                src={command.image}
+                alt=""
+                width={14}
+                height={14}
+                className="dark:invert"
+              />
+              {key}
+            </SnippetTabsTrigger>
+          ))}
+        </SnippetTabsList>
+        <SnippetCopyButton
+          value={commands[value as keyof typeof commands].code}
+          onCopy={() => toast.success('Copied to clipboard')}
+          onError={() => toast.error('Failed to copy to clipboard')}
+        />
+      </SnippetHeader>
+      {Object.entries(commands).map(([key, command]) => (
+        <SnippetTabsContent key={key} value={key}>
+          {command.code}
+        </SnippetTabsContent>
+      ))}
+    </Snippet>
   );
 };

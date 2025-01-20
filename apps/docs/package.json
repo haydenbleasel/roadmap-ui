@@ -25,6 +25,7 @@
     "@repo/sandbox": "workspace:*",
     "@repo/shadcn-ui": "workspace:*",
     "@repo/spinner": "workspace:*",
+    "@repo/snippet": "workspace:*",
     "@repo/table": "workspace:*",
     "@repo/tags": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
