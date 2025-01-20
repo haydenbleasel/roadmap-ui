@@ -124,7 +124,7 @@ export const DropzoneContent = ({ children }: DropzoneContentProps) => {
 
   return (
     <>
-      <div className="flex size-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+      <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
         <UploadIcon size={16} />
       </div>
       <p className="my-2 truncate font-medium text-sm">
@@ -169,7 +169,7 @@ export const DropzoneEmptyState = ({ children }: DropzoneEmptyStateProps) => {
 
   return (
     <>
-      <div className="flex size-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+      <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
         <UploadIcon size={16} />
       </div>
       <p className="my-2 font-medium text-sm">
