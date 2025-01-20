@@ -5,7 +5,7 @@ export const ui: Registry = [
     name: 'sandbox',
     type: 'registry:component',
     registryDependencies: [],
-    dependencies: [],
+    dependencies: ['@codesandbox/sandpack-react'],
     devDependencies: [],
     files: [
       {

@@ -214,36 +214,22 @@ export const Preview = async ({
       }}
       files={files}
     >
-      <SandboxLayout className="!rounded-none !border-none !bg-transparent">
-        <SandboxTabs
-          defaultValue="preview"
-          className="not-prose group relative w-full overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm"
-        >
-          <div className="flex flex-row items-center justify-between border-b bg-fd-muted p-2">
-            <SandboxTabsList className="h-auto w-full justify-start rounded-none bg-transparent">
-              <SandboxTabsTrigger
-                value="code"
-                className="flex flex-row items-center gap-1.5"
-              >
-                <CodeIcon size={14} />
-                Code
-              </SandboxTabsTrigger>
-              <SandboxTabsTrigger
-                value="preview"
-                className="flex flex-row items-center gap-1.5"
-              >
-                <AppWindowIcon size={14} />
-                Preview
-              </SandboxTabsTrigger>
-              <SandboxTabsTrigger
-                value="console"
-                className="flex flex-row items-center gap-1.5"
-              >
-                <TerminalIcon size={14} />
-                Console
-              </SandboxTabsTrigger>
-            </SandboxTabsList>
-          </div>
+      <SandboxLayout>
+        <SandboxTabs defaultValue="preview">
+          <SandboxTabsList>
+            <SandboxTabsTrigger value="code">
+              <CodeIcon size={14} />
+              Code
+            </SandboxTabsTrigger>
+            <SandboxTabsTrigger value="preview">
+              <AppWindowIcon size={14} />
+              Preview
+            </SandboxTabsTrigger>
+            <SandboxTabsTrigger value="console">
+              <TerminalIcon size={14} />
+              Console
+            </SandboxTabsTrigger>
+          </SandboxTabsList>
           <SandboxTabsContent
             value="code"
             className="m-0 max-h-96 overflow-y-auto"

@@ -29,12 +29,6 @@ export const SandboxLayout = ({ className, ...props }: SandpackLayoutProps) => (
   />
 );
 
-type SandboxTabsProps = HTMLAttributes<HTMLDivElement> & {
-  defaultValue?: string;
-  value?: string;
-  onValueChange?: (value: string) => void;
-};
-
 type SandboxTabsContextValue = {
   selectedTab: string | undefined;
   setSelectedTab: (value: string) => void;
@@ -54,6 +48,12 @@ const useSandboxTabsContext = () => {
   }
 
   return context;
+};
+
+type SandboxTabsProps = HTMLAttributes<HTMLDivElement> & {
+  defaultValue?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
 };
 
 export const SandboxTabs = ({
@@ -83,7 +83,14 @@ export const SandboxTabs = ({
 
   return (
     <SandboxTabsContext.Provider value={{ selectedTab, setSelectedTab }}>
-      <div className={className} {...props} data-selected={selectedTab}>
+      <div
+        className={cn(
+          'not-prose group relative w-full overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm',
+          className
+        )}
+        {...props}
+        data-selected={selectedTab}
+      >
         {props.children}
       </div>
     </SandboxTabsContext.Provider>
@@ -96,7 +103,7 @@ export const SandboxTabsList = ({
 }: HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground',
+      'inline-flex w-full items-center justify-start border-b bg-secondary p-1 p-2 text-muted-foreground',
       className
     )}
     role="tablist"
@@ -119,13 +126,14 @@ export const SandboxTabsTrigger = ({
   const { selectedTab, setSelectedTab } = useSandboxTabsContext();
 
   return (
+    // biome-ignore lint/nursery/useAriaPropsSupportedByRole: <explanation>
     <button
       role="tab"
       aria-selected={selectedTab === value}
       data-state={selectedTab === value ? 'active' : 'inactive'}
       onClick={() => setSelectedTab(value)}
       className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 font-medium text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow',
+        'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md px-3 py-1 font-medium text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow',
         className
       )}
       {...props}
@@ -153,7 +161,7 @@ export const SandboxTabsContent = ({
         'mt-2 ring-offset-background transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         selectedTab === value
           ? 'h-auto w-auto opacity-100'
-          : 'pointer-events-none h-0 w-0 opacity-0',
+          : 'pointer-events-none absolute h-0 w-0 opacity-0',
         className
       )}
       {...props}

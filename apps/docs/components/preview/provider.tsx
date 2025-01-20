@@ -1,16 +1,18 @@
 'use client';
 
-import type {
-  SandpackProviderProps,
-  SandpackThemeProp,
-} from '@codesandbox/sandpack-react';
 import { SandboxProvider } from '@repo/sandbox';
 import { useTheme } from 'next-themes';
+import type { ComponentProps } from 'react';
+
+type PreviewProviderProps = Omit<
+  ComponentProps<typeof SandboxProvider>,
+  'theme'
+>;
 
 export const PreviewProvider = ({
   options,
   ...props
-}: Omit<SandpackProviderProps, 'theme'>) => {
+}: PreviewProviderProps) => {
   const { resolvedTheme } = useTheme();
 
   if (typeof window === 'undefined') {
@@ -19,7 +21,7 @@ export const PreviewProvider = ({
 
   return (
     <SandboxProvider
-      theme={resolvedTheme as SandpackThemeProp}
+      theme={resolvedTheme as 'light' | 'dark'}
       {...props}
       options={{
         ...options,
