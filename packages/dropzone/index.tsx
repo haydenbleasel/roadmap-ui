@@ -4,18 +4,14 @@ import { UploadIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
-import type {
-  Accept,
-  DropEvent,
-  DropzoneOptions,
-  FileRejection,
-} from 'react-dropzone';
+import type { DropEvent, DropzoneOptions, FileRejection } from 'react-dropzone';
 
 type DropzoneContextType = {
   src?: File[];
-  accept?: Accept;
-  maxSize?: number;
-  minSize?: number;
+  accept?: DropzoneOptions['accept'];
+  maxSize?: DropzoneOptions['maxSize'];
+  minSize?: DropzoneOptions['minSize'];
+  maxFiles?: DropzoneOptions['maxFiles'];
 };
 
 const renderBytes = (bytes: number) => {
@@ -81,7 +77,7 @@ export const Dropzone = ({
   return (
     <DropzoneContext.Provider
       key={JSON.stringify(src)}
-      value={{ src, accept, maxSize, minSize }}
+      value={{ src, accept, maxSize, minSize, maxFiles }}
     >
       <Button
         type="button"
@@ -146,7 +142,7 @@ export type DropzoneEmptyStateProps = {
 };
 
 export const DropzoneEmptyState = ({ children }: DropzoneEmptyStateProps) => {
-  const { src, accept, maxSize, minSize } = useDropzoneContext();
+  const { src, accept, maxSize, minSize, maxFiles } = useDropzoneContext();
 
   if (src) {
     return null;
@@ -176,7 +172,9 @@ export const DropzoneEmptyState = ({ children }: DropzoneEmptyStateProps) => {
       <div className="flex size-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
         <UploadIcon size={16} />
       </div>
-      <p className="my-2 font-medium text-sm">Upload a file</p>
+      <p className="my-2 font-medium text-sm">
+        Upload {maxFiles === 1 ? 'a file' : 'files'}
+      </p>
       <p className="text-muted-foreground text-xs">
         Drag and drop or click to upload
       </p>
