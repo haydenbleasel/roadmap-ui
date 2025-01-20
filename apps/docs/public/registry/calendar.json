@@ -1,11 +1,15 @@
 {
-  "name": "kanban",
+  "name": "calendar",
   "type": "registry:component",
   "registryDependencies": [
-    "card"
+    "button",
+    "command",
+    "popover"
   ],
   "dependencies": [
-    "@dnd-kit/core"
+    "date-fns",
+    "lucide-react",
+    "zustand"
   ],
   "devDependencies": [],
   "files": [
