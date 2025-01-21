@@ -10,48 +10,78 @@ import { AutoTypeTable } from 'fumadocs-typescript/ui';
 
 import {
   Tags,
+  TagsTrigger,
+  TagsContent,
   TagsInput,
   TagsItem,
   TagsList,
+  TagsEmpty,
+  TagsGroup,
+  TagsValue,
 } from '@/components/ui/kibo-ui/tags';
 import { useState } from 'react';
+import { CheckIcon } from 'lucide-react';
+
+const tags = [
+  { id: "react", label: "React" },
+  { id: "typescript", label: "TypeScript" },
+  { id: "javascript", label: "JavaScript" },
+  { id: "nextjs", label: "Next.js" },
+  { id: "vuejs", label: "Vue.js" },
+  { id: "angular", label: "Angular" },
+  { id: "svelte", label: "Svelte" },
+  { id: "nodejs", label: "Node.js" },
+  { id: "python", label: "Python" },
+  { id: "ruby", label: "Ruby" },
+  { id: "java", label: "Java" },
+  { id: "csharp", label: "C#" },
+  { id: "php", label: "PHP" },
+  { id: "go", label: "Go" },
+];
 
 const Example = () => {
-  const [selected, setSelected] = useState<Option[]>([]);
-  const availableTags: Tag[] = [
-    { id: "1", label: "React" },
-    { id: "2", label: "TypeScript" },
-    { id: "3", label: "JavaScript" },
-    { id: "4", label: "Next.js" },
-  ]
+  const [selected, setSelected] = useState<string[]>([]);
 
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+  const handleRemove = (value: string) => {
+    if (!selected.includes(value)) {
+      return;
+    }
+
+    console.log(\`removed: \${value}\`);
+    setSelected((prev) => prev.filter((v) => v !== value));
+  }
+  
+  const handleSelect = (value: string) => {
+    if (selected.includes(value)) {
+      handleRemove(value);
+      return;
+    }
+
+    console.log(\`selected: \${value}\`);
+    setSelected((prev) => [...prev, value]);
+  }
 
   return (
-    <div className="p-8 h-screen bg-secondary flex items-center justify-center">
-      <Tags open={open} onOpenChange={setOpen}>
-        <TagsTrigger />
+    <div className="p-8 h-screen bg-secondary flex justify-center">
+      <Tags className="max-w-[300px]">
+        <TagsTrigger>
+          {selected.map((tag) => (
+            <TagsValue key={tag} onRemove={() => handleRemove(tag)}>
+              {tags.find((t) => t.id === tag)?.label}
+            </TagsValue>
+          ))}
+        </TagsTrigger>
         <TagsContent className="w-[200px] p-0">
-          <TagsInput placeholder="Search framework..." />
+          <TagsInput placeholder="Search tag..." />
           <TagsList>
-            <TagsEmpty>No framework found.</TagsEmpty>
+            <TagsEmpty />
             <TagsGroup>
-              {frameworks.map((framework) => (
-                <TagsItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
-                >
-                  {framework.label}
-                  <Check
-                    className={cn(
-                      "ml-auto",
-                      value === framework.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
+              {tags.map((tag) => (
+                <TagsItem key={tag.id} value={tag.id} onSelect={handleSelect}>
+                  {tag.label}
+                  {selected.includes(tag.id) && (
+                    <CheckIcon size={14} className="text-muted-foreground" />
+                  )}
                 </TagsItem>
               ))}
             </TagsGroup>
@@ -66,115 +96,184 @@ export default Example;`} />
 
 ## Installation
 
-<Installer packageName="kanban" />
+<Installer packageName="tags" />
 
 ## Features
 
-- Drag and drop features between columns
-- Customize the card contents
+- Built-in search input to filter through tags
+- Supports both controlled and uncontrolled usage
+- Fully customizable through className props
+- Automatically adjusts width based on parent container
+- Optional remove button for selected tags
+- Full keyboard navigation support through Command component
+- Shared state management through TagsContext
 
 ## Examples
 
-### Simple version
+### Create a tag
 
-<Preview name="kanban" code={`'use client';
+<Preview name="tags" code={`'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
-  KanbanBoard,
-  KanbanCard,
-  KanbanCards,
-  KanbanHeader,
-  KanbanProvider,
-} from '@/components/ui/kibo-ui/kanban';
-import type { DragEndEvent } from '@/components/ui/kibo-ui/kanban';
-import { format } from 'date-fns';
+  Tags,
+  TagsTrigger,
+  TagsContent,
+  TagsInput,
+  TagsItem,
+  TagsList,
+  TagsEmpty,
+  TagsGroup,
+  TagsValue,
+} from '@/components/ui/kibo-ui/tags';
 import { useState } from 'react';
-import { exampleFeatures, exampleStatuses } from '@/lib/content';
+import { CheckIcon, PlusIcon } from 'lucide-react';
 
 const Example = () => {
-  const [features, setFeatures] = useState(exampleFeatures);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [newTag, setNewTag] = useState<string>('');
+  const [tags, setTags] = useState<{ id: string; label: string }[]>([
+    { id: "react", label: "React" },
+    { id: "typescript", label: "TypeScript" },
+    { id: "javascript", label: "JavaScript" },
+    { id: "nextjs", label: "Next.js" },
+    { id: "vuejs", label: "Vue.js" },
+    { id: "angular", label: "Angular" },
+    { id: "svelte", label: "Svelte" },
+    { id: "nodejs", label: "Node.js" },
+    { id: "python", label: "Python" },
+    { id: "ruby", label: "Ruby" },
+    { id: "java", label: "Java" },
+    { id: "csharp", label: "C#" },
+    { id: "php", label: "PHP" },
+    { id: "go", label: "Go" },
+  ]);
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-
-    if (!over) {
+  const handleRemove = (value: string) => {
+    if (!selected.includes(value)) {
       return;
     }
 
-    const status = exampleStatuses.find((status) => status.name === over.id);
-
-    if (!status) {
+    console.log(\`removed: \${value}\`);
+    setSelected((prev) => prev.filter((v) => v !== value));
+  }
+  
+  const handleSelect = (value: string) => {
+    if (selected.includes(value)) {
+      handleRemove(value);
       return;
     }
 
-    setFeatures(
-      features.map((feature) => {
-        if (feature.id === active.id) {
-          return { ...feature, status };
-        }
+    console.log(\`selected: \${value}\`);
+    setSelected((prev) => [...prev, value]);
+  }
 
-        return feature;
-      })
-    );
-  };
+  const handleCreateTag = () => {
+    console.log(\`created: \${newTag}\`);
+
+    setTags((prev) => [...prev, {
+      id: newTag,
+      label: newTag,
+    }]);
+    setSelected((prev) => [...prev, newTag]);
+    setNewTag('');
+  }
 
   return (
-    <KanbanProvider onDragEnd={handleDragEnd} className="p-4">
-      {exampleStatuses.map((status) => (
-        <KanbanBoard key={status.name} id={status.name}>
-          <KanbanHeader name={status.name} color={status.color} />
-          <KanbanCards>
-            {features
-              .filter((feature) => feature.status.name === status.name)
-              .map((feature, index) => (
-                <KanbanCard
-                  key={feature.id}
-                  id={feature.id}
-                  name={feature.name}
-                  parent={status.name}
-                  index={index}
-                />
+    <div className="p-8 h-screen bg-secondary flex justify-center">
+      <Tags className="max-w-[300px]">
+        <TagsTrigger>
+          {selected.map((tag) => (
+            <TagsValue key={tag} onRemove={() => handleRemove(tag)}>
+              {tags.find((t) => t.id === tag)?.label}
+            </TagsValue>
+          ))}
+        </TagsTrigger>
+        <TagsContent className="w-[200px] p-0">
+          <TagsInput placeholder="Search tag..." onValueChange={setNewTag} />
+          <TagsList>
+            <TagsEmpty>
+              <button
+                type="button"
+                className="flex items-center gap-2 cursor-pointer mx-auto"
+                onClick={handleCreateTag}
+              >
+                <PlusIcon size={14} className="text-muted-foreground" />
+                Create new tag: {newTag}
+              </button>
+            </TagsEmpty>
+            <TagsGroup>
+              {tags.map((tag) => (
+                <TagsItem key={tag.id} value={tag.id} onSelect={handleSelect}>
+                  {tag.label}
+                  {selected.includes(tag.id) && (
+                    <CheckIcon size={14} className="text-muted-foreground" />
+                  )}
+                </TagsItem>
               ))}
-          </KanbanCards>
-        </KanbanBoard>
-      ))}
-    </KanbanProvider>
+            </TagsGroup>
+          </TagsList>
+        </TagsContent>
+      </Tags>
+    </div>
   );
-};
+}
 
 export default Example;`} />
 
 ## Props
 
-The Kanban component is made up of the following subcomponents:
+The Tags component is made up of the following subcomponents:
 
-### KanbanProvider
+### Tags
 
-The `KanbanProvider` component is the root component of the Kanban board. It contains the drag-and-drop context and provides the necessary context for the other components.
+The `Tags` component is the main component of the Tags.
 
-<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanProviderProps" />
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsProps" />
 
-### KanbanBoard
+### TagsTrigger
 
-The `KanbanBoard` component is a container for the columns of the Kanban board.
+The `TagsTrigger` component is the trigger for the Tags.
 
-<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanBoardProps" />
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsTriggerProps" />
 
-### KanbanHeader
+### TagsContent
 
-The `KanbanHeader` component is a container for the column headers of the Kanban board.
+The `TagsContent` component is the content for the Tags.
 
-<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanHeaderProps" />
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsContentProps" />
 
-### KanbanCards
+### TagsInput
 
-The `KanbanCards` component is a container for the cards of the Kanban board.
+The `TagsInput` component is the input for the Tags.
 
-<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanCardsProps" />
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsInputProps" />
 
-### KanbanCard
+### TagsItem
 
-The `KanbanCard` component is a single card in the Kanban board.
+The `TagsItem` component is the item for the Tags.
 
-<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanCardProps" />
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsItemProps" />
+
+### TagsValue
+
+The `TagsValue` component is the value for the Tags.
+
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsValueProps" />
+
+### TagsList
+
+The `TagsList` component is the list for the Tags.
+
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsListProps" />
+
+### TagsEmpty
+
+The `TagsEmpty` component is the empty state for the Tags.
+
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsEmptyProps" />
+
+### TagsGroup
+
+The `TagsGroup` component is the group for the Tags.
+
+<AutoTypeTable path="node_modules/@repo/tags/index.tsx" name="TagsGroupProps" />

@@ -1,5 +1,6 @@
 'use client';
 
+import { Badge, type BadgeProps } from '@/components/ui/badge';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import {
   Command,
@@ -15,26 +16,34 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { ChevronsUpDownIcon } from 'lucide-react';
+import { XIcon } from 'lucide-react';
 import {
   type ComponentProps,
+  type MouseEventHandler,
   type ReactNode,
   createContext,
   useContext,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 
 type TagsContextType = {
   value?: string;
   setValue?: (value: string) => void;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  width?: number;
+  setWidth?: (width: number) => void;
 };
 
 const TagsContext = createContext<TagsContextType>({
   value: undefined,
   setValue: undefined,
-  open: undefined,
-  setOpen: undefined,
+  open: false,
+  onOpenChange: () => {},
+  width: undefined,
+  setWidth: undefined,
 });
 
 const useTagsContext = () => {
@@ -50,7 +59,6 @@ const useTagsContext = () => {
 export type TagsProps = {
   value?: string;
   setValue?: (value: string) => void;
-  defaultValue?: string;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   children?: ReactNode;
@@ -60,37 +68,102 @@ export type TagsProps = {
 export const Tags = ({
   value,
   setValue,
-  defaultValue,
-  open,
-  onOpenChange,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
   children,
   className,
-}: TagsProps) => (
-  <TagsContext.Provider
-    value={{ value, setValue, open, setOpen: onOpenChange }}
-  >
-    <Popover open={open} onOpenChange={onOpenChange}>
-      <div className={cn('relative', className)}>{children}</div>
-    </Popover>
-  </TagsContext.Provider>
-);
+}: TagsProps) => {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const [width, setWidth] = useState<number>();
+  const ref = useRef<HTMLDivElement>(null);
+
+  const open = controlledOpen ?? uncontrolledOpen;
+  const onOpenChange = controlledOnOpenChange ?? setUncontrolledOpen;
+
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      setWidth(entries[0].contentRect.width);
+    });
+
+    resizeObserver.observe(ref.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  return (
+    <TagsContext.Provider
+      value={{ value, setValue, open, onOpenChange, width, setWidth }}
+    >
+      <Popover open={open} onOpenChange={onOpenChange}>
+        <div className={cn('relative w-full', className)} ref={ref}>
+          {children}
+        </div>
+      </Popover>
+    </TagsContext.Provider>
+  );
+};
 
 export type TagsTriggerProps = ButtonProps;
 
-export const TagsTrigger = ({ className, ...props }: TagsTriggerProps) => (
+export const TagsTrigger = ({
+  className,
+  children,
+  ...props
+}: TagsTriggerProps) => (
   <PopoverTrigger asChild>
     <Button
       variant="outline"
       // biome-ignore lint/a11y/useSemanticElements: "Required"
       role="combobox"
-      className={cn('w-full justify-between gap-2', className)}
+      className={cn('h-auto w-full justify-between p-2', className)}
       {...props}
+      p-2
     >
-      Select...
-      <ChevronsUpDownIcon size={16} className="shrink-0 opacity-50" />
+      <div className="flex flex-wrap items-center gap-1">
+        {children}
+        <span className="px-2 py-px text-muted-foreground">
+          Select a tag...
+        </span>
+      </div>
     </Button>
   </PopoverTrigger>
 );
+
+export type TagsValueProps = BadgeProps;
+export const TagsValue = ({
+  className,
+  children,
+  onRemove,
+  ...props
+}: TagsValueProps & { onRemove?: () => void }) => {
+  const handleRemove: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onRemove?.();
+  };
+
+  return (
+    <Badge className={cn('flex items-center gap-2', className)} {...props}>
+      {children}
+      {onRemove && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleRemove}
+          className="size-auto"
+        >
+          <XIcon size={12} className="hover:text-muted-foreground" />
+        </Button>
+      )}
+    </Badge>
+  );
+};
 
 export type TagsContentProps = ComponentProps<typeof PopoverContent>;
 
@@ -98,11 +171,19 @@ export const TagsContent = ({
   className,
   children,
   ...props
-}: TagsContentProps) => (
-  <PopoverContent className={cn('p-0', className)} {...props}>
-    <Command>{children}</Command>
-  </PopoverContent>
-);
+}: TagsContentProps) => {
+  const { width } = useTagsContext();
+
+  return (
+    <PopoverContent
+      className={cn('p-0', className)}
+      style={{ width }}
+      {...props}
+    >
+      <Command>{children}</Command>
+    </PopoverContent>
+  );
+};
 
 export type TagsInputProps = ComponentProps<typeof CommandInput>;
 
@@ -116,7 +197,9 @@ export const TagsInput = ({
 
 export type TagsListProps = ComponentProps<typeof CommandList>;
 
-export const TagsList = CommandList;
+export const TagsList = ({ className, ...props }: TagsListProps) => (
+  <CommandList className={cn('max-h-[200px]', className)} {...props} />
+);
 
 export type TagsEmptyProps = ComponentProps<typeof CommandEmpty>;
 
@@ -135,5 +218,8 @@ export const TagsGroup = CommandGroup;
 export type TagsItemProps = ComponentProps<typeof CommandItem>;
 
 export const TagsItem = ({ className, ...props }: TagsItemProps) => (
-  <CommandItem className={cn('cursor-pointer', className)} {...props} />
+  <CommandItem
+    className={cn('cursor-pointer items-center justify-between', className)}
+    {...props}
+  />
 );
