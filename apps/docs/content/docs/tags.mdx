@@ -1,0 +1,180 @@
+---
+title: Tags
+description: Tags are a way to apply multiple labels to an item.
+icon: Tags
+---
+
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
+
+<Preview name="tags" code={`'use client';
+
+import {
+  Tags,
+  TagsInput,
+  TagsItem,
+  TagsList,
+} from '@/components/ui/kibo-ui/tags';
+import { useState } from 'react';
+
+const Example = () => {
+  const [selected, setSelected] = useState<Option[]>([]);
+  const availableTags: Tag[] = [
+    { id: "1", label: "React" },
+    { id: "2", label: "TypeScript" },
+    { id: "3", label: "JavaScript" },
+    { id: "4", label: "Next.js" },
+  ]
+
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+
+  return (
+    <div className="p-8 h-screen bg-secondary flex items-center justify-center">
+      <Tags open={open} onOpenChange={setOpen}>
+        <TagsTrigger />
+        <TagsContent className="w-[200px] p-0">
+          <TagsInput placeholder="Search framework..." />
+          <TagsList>
+            <TagsEmpty>No framework found.</TagsEmpty>
+            <TagsGroup>
+              {frameworks.map((framework) => (
+                <TagsItem
+                  key={framework.value}
+                  value={framework.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue)
+                    setOpen(false)
+                  }}
+                >
+                  {framework.label}
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      value === framework.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </TagsItem>
+              ))}
+            </TagsGroup>
+          </TagsList>
+        </TagsContent>
+      </Tags>
+    </div>
+  );
+}
+
+export default Example;`} />
+
+## Installation
+
+<Installer packageName="kanban" />
+
+## Features
+
+- Drag and drop features between columns
+- Customize the card contents
+
+## Examples
+
+### Simple version
+
+<Preview name="kanban" code={`'use client';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  KanbanBoard,
+  KanbanCard,
+  KanbanCards,
+  KanbanHeader,
+  KanbanProvider,
+} from '@/components/ui/kibo-ui/kanban';
+import type { DragEndEvent } from '@/components/ui/kibo-ui/kanban';
+import { format } from 'date-fns';
+import { useState } from 'react';
+import { exampleFeatures, exampleStatuses } from '@/lib/content';
+
+const Example = () => {
+  const [features, setFeatures] = useState(exampleFeatures);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) {
+      return;
+    }
+
+    const status = exampleStatuses.find((status) => status.name === over.id);
+
+    if (!status) {
+      return;
+    }
+
+    setFeatures(
+      features.map((feature) => {
+        if (feature.id === active.id) {
+          return { ...feature, status };
+        }
+
+        return feature;
+      })
+    );
+  };
+
+  return (
+    <KanbanProvider onDragEnd={handleDragEnd} className="p-4">
+      {exampleStatuses.map((status) => (
+        <KanbanBoard key={status.name} id={status.name}>
+          <KanbanHeader name={status.name} color={status.color} />
+          <KanbanCards>
+            {features
+              .filter((feature) => feature.status.name === status.name)
+              .map((feature, index) => (
+                <KanbanCard
+                  key={feature.id}
+                  id={feature.id}
+                  name={feature.name}
+                  parent={status.name}
+                  index={index}
+                />
+              ))}
+          </KanbanCards>
+        </KanbanBoard>
+      ))}
+    </KanbanProvider>
+  );
+};
+
+export default Example;`} />
+
+## Props
+
+The Kanban component is made up of the following subcomponents:
+
+### KanbanProvider
+
+The `KanbanProvider` component is the root component of the Kanban board. It contains the drag-and-drop context and provides the necessary context for the other components.
+
+<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanProviderProps" />
+
+### KanbanBoard
+
+The `KanbanBoard` component is a container for the columns of the Kanban board.
+
+<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanBoardProps" />
+
+### KanbanHeader
+
+The `KanbanHeader` component is a container for the column headers of the Kanban board.
+
+<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanHeaderProps" />
+
+### KanbanCards
+
+The `KanbanCards` component is a container for the cards of the Kanban board.
+
+<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanCardsProps" />
+
+### KanbanCard
+
+The `KanbanCard` component is a single card in the Kanban board.
+
+<AutoTypeTable path="node_modules/@repo/kanban/index.tsx" name="KanbanCardProps" />
