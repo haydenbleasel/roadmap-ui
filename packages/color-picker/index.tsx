@@ -356,12 +356,16 @@ export const ColorPickerFormat = ({
     const hex = color.hex();
 
     const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-      const newColor = Color(event.target.value);
+      try {
+        const newColor = Color(event.target.value);
 
-      setHue(newColor.hue());
-      setSaturation(newColor.saturationl());
-      setLightness(newColor.lightness());
-      setAlpha(newColor.alpha() * 100);
+        setHue(newColor.hue());
+        setSaturation(newColor.saturationl());
+        setLightness(newColor.lightness());
+        setAlpha(newColor.alpha() * 100);
+      } catch (error) {
+        console.error('Invalid hex color:', error);
+      }
     };
 
     return (
@@ -387,14 +391,18 @@ export const ColorPickerFormat = ({
       event: ChangeEvent<HTMLInputElement>,
       index: number
     ) => {
-      const newRgb = [...rgb];
-      newRgb[index] = Number(event.target.value);
-      const newColor = Color.rgb(newRgb);
+      try {
+        const newRgb = [...rgb];
+        newRgb[index] = Number(event.target.value);
+        const newColor = Color.rgb(newRgb);
 
-      setHue(newColor.hue());
-      setSaturation(newColor.saturationl());
-      setLightness(newColor.lightness());
-      setAlpha(newColor.alpha() * 100);
+        setHue(newColor.hue());
+        setSaturation(newColor.saturationl());
+        setLightness(newColor.lightness());
+        setAlpha(newColor.alpha() * 100);
+      } catch (error) {
+        console.error('Invalid rgb color:', error);
+      }
     };
 
     return (
@@ -444,14 +452,18 @@ export const ColorPickerFormat = ({
       event: ChangeEvent<HTMLInputElement>,
       index: number
     ) => {
-      const newHsl = [...hsl];
-      newHsl[index] = Number(event.target.value);
-      const newColor = Color.hsl(newHsl);
+      try {
+        const newHsl = [...hsl];
+        newHsl[index] = Number(event.target.value);
+        const newColor = Color.hsl(newHsl);
 
-      setHue(newColor.hue());
-      setSaturation(newColor.saturationl());
-      setLightness(newColor.lightness());
-      setAlpha(newColor.alpha() * 100);
+        setHue(newColor.hue());
+        setSaturation(newColor.saturationl());
+        setLightness(newColor.lightness());
+        setAlpha(newColor.alpha() * 100);
+      } catch (error) {
+        console.error('Invalid hsl color:', error);
+      }
     };
 
     return (
