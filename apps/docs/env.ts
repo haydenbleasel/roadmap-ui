@@ -15,6 +15,10 @@ export const env = createEnv({
     // Added by Sentry Integration, Vercel Marketplace
     SENTRY_ORG: z.string().min(1).optional(),
     SENTRY_PROJECT: z.string().min(1).optional(),
+
+    // Sneaky peeky
+    V0_EDIT_SECRET: z.string().min(1),
+    DEPLOYMENT_PROTECTION_BYPASS: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_GA_MEASUREMENT_ID: z
@@ -37,5 +41,7 @@ export const env = createEnv({
     SENTRY_PROJECT: process.env.SENTRY_PROJECT,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
     NEXT_PUBLIC_LOGO_DEV_TOKEN: process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN,
+    V0_EDIT_SECRET: process.env.V0_EDIT_SECRET,
+    DEPLOYMENT_PROTECTION_BYPASS: process.env.DEPLOYMENT_PROTECTION_BYPASS,
   },
 });

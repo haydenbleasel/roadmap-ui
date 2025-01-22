@@ -7,16 +7,16 @@ import {
   SandpackPreview,
   type SandpackProvider,
 } from '@codesandbox/sandpack-react';
-import { AppWindowIcon, CodeIcon, TerminalIcon } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
-import { tsconfig } from './tsconfig';
-import { utils } from './utils';
-
 import type { Registry } from '@repo/shadcn-ui';
+import { AppWindowIcon, CodeIcon, TerminalIcon } from 'lucide-react';
 import type { ComponentProps } from 'react';
 import { content } from './content';
 import { postcss } from './postcss';
 import { PreviewProvider } from './provider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
+import { tsconfig } from './tsconfig';
+import { utils } from './utils';
+import { V0Button } from './v0-button';
 
 // Dynamically import all shadcn components
 const shadcnComponentsDir = join(process.cwd(), '/components/preview/shadcn');
@@ -185,6 +185,7 @@ export const Preview = ({ name, code }: PreviewProps) => {
                 Console
               </TabsTrigger>
             </TabsList>
+            <V0Button name={name} />
           </div>
           <TabsContent value="code" className="m-0 max-h-96 overflow-y-auto">
             <SandpackCodeEditor className="min-h-96" />
