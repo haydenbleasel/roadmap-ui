@@ -48,14 +48,53 @@ export const useColorPicker = () => {
   return context;
 };
 
-export type ColorPickerProps = HTMLAttributes<HTMLDivElement>;
+export type ColorPickerProps = HTMLAttributes<HTMLDivElement> & {
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+};
 
-export const ColorPicker = ({ className, ...props }: ColorPickerProps) => {
-  const [hue, setHue] = useState(0);
-  const [saturation, setSaturation] = useState(100);
-  const [lightness, setLightness] = useState(50);
-  const [alpha, setAlpha] = useState(100);
+export const ColorPicker = ({
+  value,
+  defaultValue = 'rgba(0, 0, 0, 1)',
+  onChange,
+  className,
+  ...props
+}: ColorPickerProps) => {
+  // Parse default values from the defaultValue string
+  const defaultColor = Color(defaultValue);
+  const defaultHsl = defaultColor.hsl().object();
+
+  const [hue, setHue] = useState(
+    value ? Color(value).hsl().hue() : defaultHsl.h || 0
+  );
+  const [saturation, setSaturation] = useState(
+    value ? Color(value).hsl().saturationl() : defaultHsl.s || 100
+  );
+  const [lightness, setLightness] = useState(
+    value ? Color(value).hsl().lightness() : defaultHsl.l || 50
+  );
+  const [alpha, setAlpha] = useState(value ? Color(value).alpha() * 100 : 100);
   const [mode, setMode] = useState('hex');
+
+  // Update color when controlled value changes
+  useEffect(() => {
+    if (value) {
+      const color = Color(value).hsl().object();
+      setHue(color.h || 0);
+      setSaturation(color.s || 100);
+      setLightness(color.l || 50);
+      setAlpha(Color(value).alpha() * 100);
+    }
+  }, [value]);
+
+  // Notify parent of changes
+  useEffect(() => {
+    if (onChange) {
+      const color = Color.hsl(hue, saturation, lightness).alpha(alpha / 100);
+      onChange(color.rgb().toString());
+    }
+  }, [hue, saturation, lightness, alpha, onChange]);
 
   return (
     <ColorPickerContext.Provider
