@@ -16,6 +16,7 @@
     "@prisma/nextjs-monorepo-workaround-plugin": "^6.2.1",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
+    "@repo/announcement": "workspace:*",
     "@repo/calendar": "workspace:*",
     "@repo/dialog-stack": "workspace:*",
     "@repo/dropzone": "workspace:*",
