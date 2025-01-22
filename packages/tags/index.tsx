@@ -187,11 +187,7 @@ export const TagsContent = ({
 
 export type TagsInputProps = ComponentProps<typeof CommandInput>;
 
-export const TagsInput = ({
-  placeholder,
-  className,
-  ...props
-}: TagsInputProps) => (
+export const TagsInput = ({ className, ...props }: TagsInputProps) => (
   <CommandInput className={cn('h-9', className)} {...props} />
 );
 
