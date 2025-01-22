@@ -23,6 +23,7 @@
     "@repo/kanban": "workspace:*",
     "@repo/list": "workspace:*",
     "@repo/shadcn-ui": "workspace:*",
+    "@repo/spinner": "workspace:*",
     "@repo/table": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@sentry/nextjs": "^8.50.0",

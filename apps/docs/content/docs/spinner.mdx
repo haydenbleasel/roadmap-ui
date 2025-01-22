@@ -1,0 +1,79 @@
+---
+title: Spinner
+description: A spinner is a visual indicator that shows progress or activity.
+icon: Loader
+---
+
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
+
+<PoweredBy packages={[
+  { name: 'Lucide', url: 'https://lucide.dev/' },
+]} />
+
+<Preview name="spinner" code={`'use client';
+
+import { Spinner } from '@/components/ui/kibo-ui/spinner';
+
+const Example = () => (
+  <div className="flex w-full h-screen items-center justify-center gap-4 bg-secondary">
+    <Spinner />
+  </div>
+);
+
+export default Example;`} />
+
+## Installation
+
+<Installer packageName="spinner" />
+
+## Features
+
+- Drag and drop items between groups
+- Customize the item contents
+
+## Examples
+
+### Variants
+
+<Preview name="spinner" code={`'use client';
+
+import { Spinner } from '@/components/ui/kibo-ui/spinner';
+
+const variants = ['default', 'circle', 'pinwheel', 'circle-filled', 'ellipsis', 'ring', 'bars', 'infinite'];
+
+const Example = () => (
+  <div className="grid grid-cols-5 w-full h-screen items-center justify-center gap-8 bg-secondary">
+    {variants.map((variant) => (
+      <div key={variant} className="flex flex-col items-center justify-center gap-4">
+        <Spinner key={variant} variant={variant} />
+        <span className="text-xs text-muted-foreground font-mono">{variant}</span>
+      </div>
+    ))}
+  </div>
+);
+
+export default Example;`} />
+
+### Customization
+
+<Preview name="spinner" code={`'use client';
+
+import { Spinner } from '@/components/ui/kibo-ui/spinner';
+
+const Example = () => (
+  <div className="flex w-full h-screen items-center justify-center bg-secondary">
+    <Spinner size={64} className="text-blue-500" />
+  </div>
+);
+
+export default Example;`} />
+
+## Props
+
+The spinner is made up of the following subcomponents:
+
+### Spinner
+
+The `Spinner` component is used to display a spinner.
+
+<AutoTypeTable path="node_modules/@repo/spinner/index.tsx" name="SpinnerProps" />

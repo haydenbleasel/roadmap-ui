@@ -78,6 +78,9 @@ importers:
       '@repo/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/shadcn-ui
+      '@repo/spinner':
+        specifier: workspace:*
+        version: link:../../packages/spinner
       '@repo/table':
         specifier: workspace:*
         version: link:../../packages/table
@@ -575,6 +578,34 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.3
         version: 19.0.3(@types/react@19.0.7)
+
+  packages/spinner:
+    dependencies:
+      '@repo/shadcn-ui':
+        specifier: workspace:*
+        version: link:../shadcn-ui
+      lucide-react:
+        specifier: ^0.473.0
+        version: 0.473.0(react@19.0.0)
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.0.0(react@19.0.0)
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^19
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.0.3(@types/react@19.0.7)
+      typescript:
+        specifier: ^5
+        version: 5.7.3
 
   packages/table:
     dependencies:
