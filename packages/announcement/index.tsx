@@ -34,7 +34,7 @@ export const Announcement = ({
     <Badge
       variant={variant}
       className={cn(
-        'max-w-full gap-2 rounded-full bg-background py-0.5 pr-3 pl-0.5 font-medium shadow-sm transition-all',
+        'max-w-full gap-2 rounded-full bg-background px-3 py-0.5 font-medium shadow-sm transition-all',
         'hover:shadow-md',
         themed && 'border-foreground/5',
         className
@@ -55,7 +55,7 @@ export const AnnouncementTag = ({
   return (
     <div
       className={cn(
-        'shrink-0 truncate rounded-full bg-foreground/5 px-2.5 py-1 text-xs',
+        '-ml-2.5 shrink-0 truncate rounded-full bg-foreground/5 px-2.5 py-1 text-xs',
         themed && 'bg-background/60',
         className
       )}
@@ -71,7 +71,7 @@ export const AnnouncementTitle = ({
   ...props
 }: AnnouncementTitleProps) => (
   <div
-    className={cn('flex items-center gap-1 truncate', className)}
+    className={cn('flex items-center gap-1 truncate py-1', className)}
     {...props}
   />
 );

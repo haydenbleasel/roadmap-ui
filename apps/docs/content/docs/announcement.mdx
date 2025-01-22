@@ -99,6 +99,29 @@ const Example = () => (
 
 export default Example;`} />
 
+### Without Tag
+
+<Preview name="announcement" code={`'use client';
+
+import {
+  Announcement,
+  AnnouncementTitle,
+} from '@/components/ui/kibo-ui/announcement';
+import { ArrowUpRightIcon } from 'lucide-react';
+
+const Example = () => (
+  <div className="flex w-full h-screen items-center justify-center gap-4 bg-secondary">
+    <Announcement>
+      <AnnouncementTitle>
+        New feature added
+        <ArrowUpRightIcon size={16} className="shrink-0 text-muted-foreground" />
+      </AnnouncementTitle>
+    </Announcement>
+  </div>
+);
+
+export default Example;`} />
+
 ## Props
 
 The announcement is made up of the following subcomponents:
