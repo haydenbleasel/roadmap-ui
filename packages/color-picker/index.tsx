@@ -12,6 +12,8 @@ import { Range, Root, Thumb, Track } from '@radix-ui/react-slider';
 import Color from 'color';
 import { PipetteIcon } from 'lucide-react';
 import {
+  type ChangeEvent,
+  type ChangeEventHandler,
   type ComponentProps,
   type HTMLAttributes,
   useCallback,
@@ -49,42 +51,44 @@ export const useColorPicker = () => {
 };
 
 export type ColorPickerProps = HTMLAttributes<HTMLDivElement> & {
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
+  value?: Parameters<typeof Color>[0];
+  defaultValue?: Parameters<typeof Color>[0];
+  onChange?: (value: Parameters<typeof Color.rgb>[0]) => void;
 };
 
 export const ColorPicker = ({
   value,
-  defaultValue = 'rgba(0, 0, 0, 1)',
+  defaultValue = '#000000',
   onChange,
   className,
   ...props
 }: ColorPickerProps) => {
-  // Parse default values from the defaultValue string
+  const selectedColor = Color(value);
   const defaultColor = Color(defaultValue);
-  const defaultHsl = defaultColor.hsl().object();
 
   const [hue, setHue] = useState(
-    value ? Color(value).hsl().hue() : defaultHsl.h || 0
+    selectedColor.hue() || defaultColor.hue() || 0
   );
   const [saturation, setSaturation] = useState(
-    value ? Color(value).hsl().saturationl() : defaultHsl.s || 100
+    selectedColor.saturationl() || defaultColor.saturationl() || 100
   );
   const [lightness, setLightness] = useState(
-    value ? Color(value).hsl().lightness() : defaultHsl.l || 50
+    selectedColor.lightness() || defaultColor.lightness() || 50
   );
-  const [alpha, setAlpha] = useState(value ? Color(value).alpha() * 100 : 100);
+  const [alpha, setAlpha] = useState(
+    selectedColor.alpha() * 100 || defaultColor.alpha() * 100
+  );
   const [mode, setMode] = useState('hex');
 
   // Update color when controlled value changes
   useEffect(() => {
     if (value) {
-      const color = Color(value).hsl().object();
-      setHue(color.h || 0);
-      setSaturation(color.s || 100);
-      setLightness(color.l || 50);
-      setAlpha(Color(value).alpha() * 100);
+      const color = Color.rgb(value).rgb().object();
+
+      setHue(color.r);
+      setSaturation(color.g);
+      setLightness(color.b);
+      setAlpha(color.a);
     }
   }, [value]);
 
@@ -92,7 +96,9 @@ export const ColorPicker = ({
   useEffect(() => {
     if (onChange) {
       const color = Color.hsl(hue, saturation, lightness).alpha(alpha / 100);
-      onChange(color.rgb().toString());
+      const rgba = color.rgb().array();
+
+      onChange([rgba[0], rgba[1], rgba[2], alpha / 100]);
     }
   }, [hue, saturation, lightness, alpha, onChange]);
 
@@ -111,13 +117,7 @@ export const ColorPicker = ({
         setMode,
       }}
     >
-      <div
-        className={cn(
-          'grid w-full gap-4 rounded-md border bg-background p-4 shadow-sm',
-          className
-        )}
-        {...props}
-      />
+      <div className={cn('grid w-full gap-4', className)} {...props} />
     </ColorPickerContext.Provider>
   );
 };
@@ -287,25 +287,6 @@ export const ColorPickerEyeDropper = ({
   );
 };
 
-export type ColorPickerPreviewProps = HTMLAttributes<HTMLDivElement>;
-
-export const ColorPickerPreview = ({
-  className,
-  ...props
-}: ColorPickerPreviewProps) => {
-  const { hue, saturation, lightness, alpha } = useColorPicker();
-
-  return (
-    <div
-      className={cn('h-10 w-10 rounded-sm', className)}
-      style={{
-        backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%, ${alpha}%)`,
-      }}
-      {...props}
-    />
-  );
-};
-
 export type ColorPickerOutputProps = ComponentProps<typeof SelectTrigger>;
 
 const formats = ['hex', 'rgb', 'css', 'hsl'];
@@ -358,11 +339,30 @@ export const ColorPickerFormat = ({
   className,
   ...props
 }: ColorPickerFormatProps) => {
-  const { hue, saturation, lightness, alpha, mode } = useColorPicker();
+  const {
+    hue,
+    saturation,
+    lightness,
+    alpha,
+    mode,
+    setHue,
+    setSaturation,
+    setLightness,
+    setAlpha,
+  } = useColorPicker();
   const color = Color.hsl(hue, saturation, lightness, alpha / 100);
 
   if (mode === 'hex') {
     const hex = color.hex();
+
+    const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+      const newColor = Color(event.target.value);
+
+      setHue(newColor.hue());
+      setSaturation(newColor.saturationl());
+      setLightness(newColor.lightness());
+      setAlpha(newColor.alpha() * 100);
+    };
 
     return (
       <div
@@ -373,6 +373,7 @@ export const ColorPickerFormat = ({
           type="text"
           value={hex}
           className="h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none"
+          onChange={handleChange}
         />
         <PercentageInput value={alpha} />
       </div>
@@ -381,6 +382,20 @@ export const ColorPickerFormat = ({
 
   if (mode === 'rgb') {
     const rgb = color.rgb().array();
+
+    const handleChange = (
+      event: ChangeEvent<HTMLInputElement>,
+      index: number
+    ) => {
+      const newRgb = [...rgb];
+      newRgb[index] = Number(event.target.value);
+      const newColor = Color.rgb(newRgb);
+
+      setHue(newColor.hue());
+      setSaturation(newColor.saturationl());
+      setLightness(newColor.lightness());
+      setAlpha(newColor.alpha() * 100);
+    };
 
     return (
       <div
@@ -392,6 +407,7 @@ export const ColorPickerFormat = ({
             key={index}
             type="text"
             value={value}
+            onChange={(event) => handleChange(event, index)}
             className={cn(
               'h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none',
               index && 'rounded-l-none',
@@ -413,6 +429,8 @@ export const ColorPickerFormat = ({
           type="text"
           className="h-8 w-24 bg-secondary px-2 text-xs shadow-none"
           value={`rgba(${rgb.join(', ')}, ${alpha}%)`}
+          disabled
+          readOnly
           {...props}
         />
       </div>
@@ -421,6 +439,20 @@ export const ColorPickerFormat = ({
 
   if (mode === 'hsl') {
     const hsl = color.hsl().array();
+
+    const handleChange = (
+      event: ChangeEvent<HTMLInputElement>,
+      index: number
+    ) => {
+      const newHsl = [...hsl];
+      newHsl[index] = Number(event.target.value);
+      const newColor = Color.hsl(newHsl);
+
+      setHue(newColor.hue());
+      setSaturation(newColor.saturationl());
+      setLightness(newColor.lightness());
+      setAlpha(newColor.alpha() * 100);
+    };
 
     return (
       <div
@@ -432,6 +464,7 @@ export const ColorPickerFormat = ({
             key={index}
             type="text"
             value={value}
+            onChange={(event) => handleChange(event, index)}
             className={cn(
               'h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none',
               index && 'rounded-l-none',

@@ -26,7 +26,7 @@ import {
 
 const Example = () => (
   <div className="flex w-full h-screen items-center justify-center gap-4 bg-secondary">
-    <ColorPicker className="w-full max-w-[300px]">
+    <ColorPicker className="w-full max-w-[300px] rounded-md border bg-background p-4 shadow-sm">
       <ColorPickerSelection />
       <div className="flex items-center gap-4">
         <ColorPickerEyeDropper />
@@ -51,11 +51,102 @@ export default Example;`} />
 
 ## Features
 
-TBD.
+- Interactive color selection with drag and drop functionality
+- Hue and alpha sliders for precise color adjustments
+- EyeDropper tool for picking colors from anywhere on screen
+- Multiple color format outputs (HEX, RGB, CSS, HSL)
+- Real-time color preview
+- Controlled and uncontrolled modes with onChange callback
+- Fully customizable through className and props
 
 ## Examples
 
-TBD.
+### Color Input
+
+<Preview name="color-picker" code={`'use client';
+
+import {
+  ColorPicker,
+  ColorPickerSelection,
+  ColorPickerHue,
+  ColorPickerAlpha,
+  ColorPickerOutput,
+  ColorPickerEyeDropper,
+  ColorPickerFormat,
+} from '@/components/ui/kibo-ui/color-picker';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import Color from "color";
+import type { ChangeEventHandler } from "react";
+
+const Example = () => {
+  const [color, setColor] = useState('#000000');
+
+  const handleChange = (rgba: [number, number, number, number]) => {
+    console.log(\`color selected: \${rgba}\`);
+    
+    try {
+      const color = Color.rgb(rgba);
+      const hex = color.hex().toString();
+      setColor(hex);
+    } catch {
+      console.error('Invalid color');
+    }
+  };
+
+  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const newColor = e.target.value;
+    setColor(newColor);
+    try {
+      const colorObj = Color(newColor);
+      const rgbaArr = colorObj.rgb().array();
+      onChange([rgbaArr[0], rgbaArr[1], rgbaArr[2], colorObj.alpha()]);
+    } catch {
+      console.error('Invalid color');
+    }
+  };
+
+  return (
+    <div className="flex w-full h-screen p-16 items-start justify-center gap-4 bg-secondary">
+      <Popover>
+        <div className="relative">
+          <PopoverTrigger asChild>
+            <button type="button" className="absolute top-2.5 left-3 size-4 rounded-sm" style={{ backgroundColor: color }} />
+          </PopoverTrigger>
+          <Input
+            placeholder="Pick a color"
+            className="pl-10 bg-background w-full"
+            value={color}
+            onChange={handleInputChange}
+          />
+          <PopoverContent>
+            <ColorPicker value={color} onChange={handleChange}>
+              <ColorPickerSelection />
+              <div className="flex items-center gap-4">
+                <ColorPickerEyeDropper />
+                <div className="w-full grid gap-1">
+                  <ColorPickerHue />
+                  <ColorPickerAlpha />
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <ColorPickerOutput />
+                <ColorPickerFormat />
+              </div>
+            </ColorPicker>
+          </PopoverContent>
+        </div>
+      </Popover>
+    </div>
+  );
+};
+
+export default Example;`} />
 
 ## Props
 
@@ -84,12 +175,6 @@ The `ColorPickerHue` component is used to display the hue slider.
 The `ColorPickerAlpha` component is used to display the alpha slider.
 
 <AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerAlphaProps" />
-
-### ColorPickerPreview
-
-The `ColorPickerPreview` component is used to display the preview of the selected color.
-
-<AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerPreviewProps" />
 
 ### ColorPickerOutput
 
