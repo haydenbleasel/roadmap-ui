@@ -19,9 +19,9 @@ import {
   ColorPickerSelection,
   ColorPickerHue,
   ColorPickerAlpha,
-  ColorPickerPreview,
   ColorPickerOutput,
   ColorPickerEyeDropper,
+  ColorPickerFormat,
 } from '@/components/ui/kibo-ui/color-picker';
 
 const Example = () => (
@@ -30,13 +30,15 @@ const Example = () => (
       <ColorPickerSelection />
       <div className="flex items-center gap-4">
         <ColorPickerEyeDropper />
-        <div>
+        <div className="w-full grid gap-1">
           <ColorPickerHue />
           <ColorPickerAlpha />
         </div>
-      <div>
-      <ColorPickerPreview />
-      <ColorPickerOutput />
+      </div>
+      <div className="flex items-center gap-2">
+        <ColorPickerOutput />
+        <ColorPickerFormat />
+      </div>
     </ColorPicker>
   </div>
 );
@@ -88,3 +90,15 @@ The `ColorPickerAlpha` component is used to display the alpha slider.
 The `ColorPickerPreview` component is used to display the preview of the selected color.
 
 <AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerPreviewProps" />
+
+### ColorPickerOutput
+
+The `ColorPickerOutput` component is used to display the output of the selected color.
+
+<AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerOutputProps" />
+
+### ColorPickerFormat
+
+The `ColorPickerFormat` component is used to display the format of the selected color.
+
+<AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerFormatProps" />

@@ -1,4 +1,12 @@
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { Range, Root, Thumb, Track } from '@radix-ui/react-slider';
 import Color from 'color';
@@ -18,10 +26,12 @@ interface ColorPickerContextValue {
   saturation: number;
   lightness: number;
   alpha: number;
+  mode: string;
   setHue: (hue: number) => void;
   setSaturation: (saturation: number) => void;
   setLightness: (lightness: number) => void;
   setAlpha: (alpha: number) => void;
+  setMode: (mode: string) => void;
 }
 
 const ColorPickerContext = createContext<ColorPickerContextValue | undefined>(
@@ -45,6 +55,7 @@ export const ColorPicker = ({ className, ...props }: ColorPickerProps) => {
   const [saturation, setSaturation] = useState(100);
   const [lightness, setLightness] = useState(50);
   const [alpha, setAlpha] = useState(100);
+  const [mode, setMode] = useState('hex');
 
   return (
     <ColorPickerContext.Provider
@@ -53,10 +64,12 @@ export const ColorPicker = ({ className, ...props }: ColorPickerProps) => {
         saturation,
         lightness,
         alpha,
+        mode,
         setHue,
         setSaturation,
         setLightness,
         setAlpha,
+        setMode,
       }}
     >
       <div
@@ -118,7 +131,7 @@ export const ColorPickerSelection = ({
     <div
       ref={containerRef}
       className={cn(
-        'relative aspect-[4/3] w-full cursor-crosshair rounded-sm',
+        'relative aspect-[4/3] w-full cursor-crosshair rounded',
         `bg-[linear-gradient(0deg,rgb(0,0,0),transparent),linear-gradient(90deg,rgb(255,255,255),hsl(${hue},100%,50%))]`,
         className
       )}
@@ -227,7 +240,7 @@ export const ColorPickerEyeDropper = ({
       variant="ghost"
       size="icon"
       onClick={handleEyeDropper}
-      className={cn(className)}
+      className={cn('shrink-0 text-muted-foreground', className)}
       {...props}
     >
       <PipetteIcon size={16} />
@@ -254,63 +267,143 @@ export const ColorPickerPreview = ({
   );
 };
 
-export type ColorPickerOutputProps = HTMLAttributes<HTMLDivElement>;
+export type ColorPickerOutputProps = ComponentProps<typeof SelectTrigger>;
+
+const formats = ['hex', 'rgb', 'css', 'hsl'];
 
 export const ColorPickerOutput = ({
   className,
   ...props
 }: ColorPickerOutputProps) => {
-  const { hue, saturation, lightness, alpha } = useColorPicker();
-  const [mode, setMode] = useState<'hex' | 'rgba' | 'hsla'>('hex');
-  const color = Color.hsl(hue, saturation, lightness, alpha / 100);
-
-  const formats = {
-    hex: color.hex(),
-    rgba: color.rgb().string(),
-    hsla: color.hsl().string(),
-  };
+  const { mode, setMode } = useColorPicker();
 
   return (
-    <div className={cn('flex flex-col gap-2', className)} {...props}>
-      <div className="flex items-center gap-2">
-        <button
-          type="button"
-          onClick={() => setMode('hex')}
-          className={cn(
-            'rounded px-2 py-1 text-sm',
-            mode === 'hex'
-              ? 'bg-primary text-primary-foreground'
-              : 'bg-secondary'
-          )}
-        >
-          HEX
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode('rgba')}
-          className={cn(
-            'rounded px-2 py-1 text-sm',
-            mode === 'rgba'
-              ? 'bg-primary text-primary-foreground'
-              : 'bg-secondary'
-          )}
-        >
-          RGBA
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode('hsla')}
-          className={cn(
-            'rounded px-2 py-1 text-sm',
-            mode === 'hsla'
-              ? 'bg-primary text-primary-foreground'
-              : 'bg-secondary'
-          )}
-        >
-          HSLA
-        </button>
-      </div>
-      <div className="font-mono text-sm">{formats[mode]}</div>
+    <Select value={mode} onValueChange={setMode}>
+      <SelectTrigger className="h-8 w-[4.5rem] shrink-0 text-xs" {...props}>
+        <SelectValue placeholder="Mode" />
+      </SelectTrigger>
+      <SelectContent>
+        {formats.map((format) => (
+          <SelectItem key={format} value={format}>
+            {format.toUpperCase()}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+};
+
+type PercentageInputProps = ComponentProps<typeof Input>;
+
+const PercentageInput = ({ className, ...props }: PercentageInputProps) => {
+  return (
+    <div className="relative">
+      <Input
+        type="text"
+        {...props}
+        className={cn(
+          'h-8 w-16 rounded-l-none bg-secondary px-2 text-xs shadow-none',
+          className
+        )}
+      />
+      <span className="-translate-y-1/2 absolute top-1/2 right-2 text-muted-foreground text-xs">
+        %
+      </span>
     </div>
   );
+};
+
+export type ColorPickerFormatProps = HTMLAttributes<HTMLDivElement>;
+
+export const ColorPickerFormat = ({
+  className,
+  ...props
+}: ColorPickerFormatProps) => {
+  const { hue, saturation, lightness, alpha, mode } = useColorPicker();
+  const color = Color.hsl(hue, saturation, lightness, alpha / 100);
+
+  if (mode === 'hex') {
+    const hex = color.hex();
+
+    return (
+      <div
+        className={cn('-space-x-px flex items-center shadow-sm', className)}
+        {...props}
+      >
+        <Input
+          type="text"
+          value={hex}
+          className="h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none"
+        />
+        <PercentageInput value={alpha} />
+      </div>
+    );
+  }
+
+  if (mode === 'rgb') {
+    const rgb = color.rgb().array();
+
+    return (
+      <div
+        className={cn('-space-x-px flex items-center shadow-sm', className)}
+        {...props}
+      >
+        {rgb.map((value, index) => (
+          <Input
+            key={index}
+            type="text"
+            value={value}
+            className={cn(
+              'h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none',
+              index && 'rounded-l-none',
+              className
+            )}
+          />
+        ))}
+        <PercentageInput value={alpha} />
+      </div>
+    );
+  }
+
+  if (mode === 'css') {
+    const rgb = color.rgb().array();
+
+    return (
+      <div className={cn('shadow-sm', className)} {...props}>
+        <Input
+          type="text"
+          className="h-8 w-24 bg-secondary px-2 text-xs shadow-none"
+          value={`rgba(${rgb.join(', ')}, ${alpha}%)`}
+          {...props}
+        />
+      </div>
+    );
+  }
+
+  if (mode === 'hsl') {
+    const hsl = color.hsl().array();
+
+    return (
+      <div
+        className={cn('-space-x-px flex items-center shadow-sm', className)}
+        {...props}
+      >
+        {hsl.map((value, index) => (
+          <Input
+            key={index}
+            type="text"
+            value={value}
+            className={cn(
+              'h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none',
+              index && 'rounded-l-none',
+              className
+            )}
+          />
+        ))}
+        <PercentageInput value={alpha} />
+      </div>
+    );
+  }
+
+  return null;
 };
