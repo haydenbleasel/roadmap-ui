@@ -1,0 +1,19 @@
+{
+  "name": "@repo/color-picker",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@number-flow/react": "^0.5.5",
+    "@radix-ui/react-slider": "^1.2.2",
+    "@repo/shadcn-ui": "workspace:*",
+    "lucide-react": "^0.473.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

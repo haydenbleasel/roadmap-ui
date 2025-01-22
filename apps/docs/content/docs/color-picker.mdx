@@ -1,0 +1,83 @@
+---
+title: Color Picker
+description: A color picker is a UI component that allows users to select a color.
+icon: Palette
+---
+
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
+
+<PoweredBy packages={[
+  { name: 'Lucide', url: 'https://lucide.dev/' },
+  { name: 'NumberFlow', url: 'https://number-flow.barvian.me/' },
+]} />
+
+<Preview name="color-picker" code={`'use client';
+
+import {
+  ColorPicker,
+  ColorPickerSelection,
+  ColorPickerHue,
+  ColorPickerAlpha,
+  ColorPickerPreview,
+  ColorPickerOutput,
+} from '@/components/ui/kibo-ui/color-picker';
+
+const Example = () => (
+  <div className="flex w-full h-screen items-center justify-center gap-4 bg-secondary">
+    <ColorPicker className="w-full max-w-[300px]">
+      <ColorPickerSelection />
+      <ColorPickerHue />
+      <ColorPickerAlpha />
+      <ColorPickerPreview />
+      <ColorPickerOutput />
+    </ColorPicker>
+  </div>
+);
+
+export default Example;`} />
+
+## Installation
+
+<Installer packageName="color-picker" />
+
+## Features
+
+TBD.
+
+## Examples
+
+TBD.
+
+## Props
+
+The color picker is made up of the following subcomponents:
+
+### ColorPicker
+
+The `ColorPicker` component is used to display a color picker.
+
+<AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerProps" />
+
+### ColorPickerSelection
+
+The `ColorPickerSelection` component is used to display the selected color.
+
+<AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerSelectionProps" />
+
+### ColorPickerHue
+
+The `ColorPickerHue` component is used to display the hue slider.
+
+<AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerHueProps" />
+
+### ColorPickerAlpha
+
+The `ColorPickerAlpha` component is used to display the alpha slider.
+
+<AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerAlphaProps" />
+
+### ColorPickerPreview
+
+The `ColorPickerPreview` component is used to display the preview of the selected color.
+
+<AutoTypeTable path="node_modules/@repo/color-picker/index.tsx" name="ColorPickerPreviewProps" />
