@@ -1,6 +1,10 @@
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Range, Root, Thumb, Track } from '@radix-ui/react-slider';
+import Color from 'color';
+import { PipetteIcon } from 'lucide-react';
 import {
+  type ComponentProps,
   type HTMLAttributes,
   useCallback,
   useEffect,
@@ -57,7 +61,7 @@ export const ColorPicker = ({ className, ...props }: ColorPickerProps) => {
     >
       <div
         className={cn(
-          'w-full rounded-md border bg-background p-4 shadow-sm',
+          'grid w-full gap-4 rounded-md border bg-background p-4 shadow-sm',
           className
         )}
         {...props}
@@ -154,7 +158,7 @@ export const ColorPickerHue = ({
       onValueChange={([hue]) => setHue(hue)}
       {...props}
     >
-      <Track className="relative h-2 w-full grow bg-[linear-gradient(90deg,#FF0000,#FFFF00,#00FF00,#00FFFF,#0000FF,#FF00FF,#FF0000)]">
+      <Track className="relative my-0.5 h-3 w-full grow rounded-full bg-[linear-gradient(90deg,#FF0000,#FFFF00,#00FF00,#00FFFF,#0000FF,#FF00FF,#FF0000)]">
         <Range className="absolute h-full" />
       </Track>
       <Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
@@ -179,11 +183,55 @@ export const ColorPickerAlpha = ({
       onValueChange={([alpha]) => setAlpha(alpha)}
       {...props}
     >
-      <Track className="relative h-2 w-full grow rounded-full bg-secondary">
-        <Range className="absolute h-full rounded-full bg-primary" />
+      <Track
+        className="relative my-0.5 h-3 w-full grow rounded-full"
+        style={{
+          background:
+            'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==") left center',
+        }}
+      >
+        <Range className="absolute h-full rounded-full bg-primary/50" />
       </Track>
       <Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
     </Root>
+  );
+};
+
+export type ColorPickerEyeDropperProps = ComponentProps<typeof Button>;
+
+export const ColorPickerEyeDropper = ({
+  className,
+  ...props
+}: ColorPickerEyeDropperProps) => {
+  const { setHue, setSaturation, setLightness, setAlpha } = useColorPicker();
+
+  const handleEyeDropper = async () => {
+    try {
+      // @ts-ignore - EyeDropper API is experimental
+      const eyeDropper = new EyeDropper();
+      const result = await eyeDropper.open();
+      const color = Color(result.sRGBHex);
+      const [h, s, l] = color.hsl().array();
+
+      setHue(h);
+      setSaturation(s);
+      setLightness(l);
+      setAlpha(100);
+    } catch (error) {
+      console.error('EyeDropper failed:', error);
+    }
+  };
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={handleEyeDropper}
+      className={cn(className)}
+      {...props}
+    >
+      <PipetteIcon size={16} />
+    </Button>
   );
 };
 
@@ -214,42 +262,12 @@ export const ColorPickerOutput = ({
 }: ColorPickerOutputProps) => {
   const { hue, saturation, lightness, alpha } = useColorPicker();
   const [mode, setMode] = useState<'hex' | 'rgba' | 'hsla'>('hex');
-
-  // Convert HSL to RGB
-  const hslToRgb = useCallback((h: number, s: number, l: number) => {
-    s /= 100;
-    l /= 100;
-    const k = (n: number) => (n + h / 30) % 12;
-    const a = s * Math.min(l, 1 - l);
-    const f = (n: number) =>
-      l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-    return [
-      Math.round(255 * f(0)),
-      Math.round(255 * f(8)),
-      Math.round(255 * f(4)),
-    ];
-  }, []);
-
-  // Convert RGB to Hex
-  const rgbToHex = useCallback((r: number, g: number, b: number) => {
-    return (
-      '#' +
-      [r, g, b]
-        .map((x) => {
-          const hex = x.toString(16);
-          return hex.length === 1 ? '0' + hex : hex;
-        })
-        .join('')
-    );
-  }, []);
-
-  const [r, g, b] = hslToRgb(hue, saturation, lightness);
-  const hex = rgbToHex(r, g, b);
+  const color = Color.hsl(hue, saturation, lightness, alpha / 100);
 
   const formats = {
-    hex: hex,
-    rgba: `rgba(${r}, ${g}, ${b}, ${alpha / 100})`,
-    hsla: `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha}%)`,
+    hex: color.hex(),
+    rgba: color.rgb().string(),
+    hsla: color.hsl().string(),
   };
 
   return (

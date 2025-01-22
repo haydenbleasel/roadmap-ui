@@ -9,6 +9,7 @@ import { AutoTypeTable } from 'fumadocs-typescript/ui';
 <PoweredBy packages={[
   { name: 'Lucide', url: 'https://lucide.dev/' },
   { name: 'NumberFlow', url: 'https://number-flow.barvian.me/' },
+  { name: 'color', url: 'https://github.com/Qix-/color' },
 ]} />
 
 <Preview name="color-picker" code={`'use client';
@@ -20,14 +21,20 @@ import {
   ColorPickerAlpha,
   ColorPickerPreview,
   ColorPickerOutput,
+  ColorPickerEyeDropper,
 } from '@/components/ui/kibo-ui/color-picker';
 
 const Example = () => (
   <div className="flex w-full h-screen items-center justify-center gap-4 bg-secondary">
     <ColorPicker className="w-full max-w-[300px]">
       <ColorPickerSelection />
-      <ColorPickerHue />
-      <ColorPickerAlpha />
+      <div className="flex items-center gap-4">
+        <ColorPickerEyeDropper />
+        <div>
+          <ColorPickerHue />
+          <ColorPickerAlpha />
+        </div>
+      <div>
       <ColorPickerPreview />
       <ColorPickerOutput />
     </ColorPicker>
