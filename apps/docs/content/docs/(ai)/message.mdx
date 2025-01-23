@@ -1,7 +1,74 @@
 ---
 title: Message
-description: A message is a single message in a thread.
+description: A set of components for displaying messages in a thread.
 icon: MessageCircle
 ---
 
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
+
+<PoweredBy packages={[
+  { name: 'Lucide', url: 'https://lucide.dev/' },
+]} />
+
+<Preview name="message" code={`import {
+  Messages,
+  MessageGroup,
+  Message
+} from '@/components/ui/kibo-ui/ai/message';
+import { ArrowUpRightIcon } from 'lucide-react';
+
+const Example = () => (
+  <div className="flex w-full h-screen items-center justify-center gap-4 bg-secondary">
+    <Messages>
+      <MessageGroup owner>
+        <Message>hello, world.</Message>
+        <Message>hello, world.</Message>
+        <Message>hello, world.</Message>
+      </MessageGroup>
+      <MessageGroup>
+        <Message>hello, world.</Message>
+        <Message>hello, world.</Message>
+        <Message>hello, world.</Message>
+      </MessageGroup>
+      <MessageGroup owner>
+        <Message>hello, world.</Message>
+        <Message>hello, world.</Message>
+        <Message>hello, world.</Message>
+      </MessageGroup>
+    </Messages>
+  </div>
+);
+
+export default Example;`} />
+
+## Installation
+
+<Installer packageName="message" />
+
+## Features
+
 TBD.
+
+## Examples
+
+## Props
+
+The message is made up of the following subcomponents:
+
+### Messages
+
+The `Messages` component is used to display a list of messages.
+
+<AutoTypeTable path="node_modules/@repo/ai/message.tsx" name="MessagesProps" />
+
+### MessageGroup
+
+The `MessageGroup` component is used to display a group of messages.
+
+<AutoTypeTable path="node_modules/@repo/ai/message.tsx" name="MessageGroupProps" />
+
+### Message
+
+The `Message` component is used to display a message.
+
+<AutoTypeTable path="node_modules/@repo/ai/message.tsx" name="MessageProps" />
