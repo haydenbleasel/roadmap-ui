@@ -1,6 +1,7 @@
 import {
   SandboxCodeEditor,
   SandboxConsole,
+  SandboxFileExplorer,
   SandboxLayout,
   SandboxPreview,
   type SandboxProvider,
@@ -9,6 +10,11 @@ import {
   SandboxTabsList,
   SandboxTabsTrigger,
 } from '@repo/sandbox';
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@repo/shadcn-ui/components/ui/resizable';
 import { AppWindowIcon, CodeIcon, TerminalIcon } from 'lucide-react';
 import type { ComponentProps } from 'react';
 import { content } from './content';
@@ -234,7 +240,20 @@ export const Preview = async ({
             value="code"
             className="m-0 max-h-96 overflow-y-auto"
           >
-            <SandboxCodeEditor className="min-h-96" />
+            <ResizablePanelGroup direction="horizontal">
+              <ResizablePanel
+                className="!overflow-y-auto h-full"
+                defaultSize={25}
+                minSize={20}
+                maxSize={40}
+              >
+                <SandboxFileExplorer />
+              </ResizablePanel>
+              <ResizableHandle withHandle />
+              <ResizablePanel className="!overflow-y-auto h-full">
+                <SandboxCodeEditor />
+              </ResizablePanel>
+            </ResizablePanelGroup>
           </SandboxTabsContent>
           <SandboxTabsContent
             value="preview"

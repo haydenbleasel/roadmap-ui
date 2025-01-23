@@ -193,7 +193,12 @@ export const SandboxTabsContent = ({
 
 export type SandboxCodeEditorProps = CodeEditorProps;
 
-export const SandboxCodeEditor = SandpackCodeEditor;
+export const SandboxCodeEditor = ({
+  showTabs = false,
+  ...props
+}: SandboxCodeEditorProps) => (
+  <SandpackCodeEditor showTabs={showTabs} {...props} />
+);
 
 export type SandboxConsoleProps = ComponentProps<typeof SandpackConsole>;
 
@@ -207,4 +212,9 @@ export type SandboxFileExplorerProps = ComponentProps<
   typeof SandpackFileExplorer
 >;
 
-export const SandboxFileExplorer = SandpackFileExplorer;
+export const SandboxFileExplorer = ({
+  autoHiddenFiles = true,
+  ...props
+}: SandboxFileExplorerProps) => (
+  <SandpackFileExplorer autoHiddenFiles={autoHiddenFiles} {...props} />
+);
