@@ -48,7 +48,7 @@ export const Preview = async ({
   const dependencies: Record<string, string> = {};
   const devDependencies: Record<string, string> = {};
 
-  const files: ComponentProps<typeof SandpackProvider>['files'] = {
+  const files: ComponentProps<typeof SandboxProvider>['files'] = {
     '/App.tsx': code,
     '/tsconfig.json': tsconfig,
     '/lib/utils.ts': utils,
