@@ -217,9 +217,14 @@ export type SandboxPreviewProps = PreviewProps & {
 
 export const SandboxPreview = ({
   className,
+  showOpenInCodeSandbox = false,
   ...props
 }: SandboxPreviewProps) => (
-  <SandpackPreview className={cn('h-full', className)} {...props} />
+  <SandpackPreview
+    className={cn('h-full', className)}
+    showOpenInCodeSandbox={showOpenInCodeSandbox}
+    {...props}
+  />
 );
 
 export type SandboxFileExplorerProps = ComponentProps<

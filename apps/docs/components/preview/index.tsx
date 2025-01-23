@@ -257,10 +257,7 @@ export const Preview = async ({
             </ResizablePanelGroup>
           </SandboxTabsContent>
           <SandboxTabsContent value="preview">
-            <SandboxPreview
-              showOpenInCodeSandbox={false}
-              showRefreshButton={false}
-            />
+            <SandboxPreview />
           </SandboxTabsContent>
           <SandboxTabsContent value="console">
             <SandboxConsole />
