@@ -34,7 +34,9 @@ export const SandboxProvider = ({
   className,
   ...props
 }: SandpackProviderProps) => (
-  <SandpackProvider className={cn('size-full', className)} {...props} />
+  <div className={cn('size-full', className)}>
+    <SandpackProvider className="!size-full !max-h-none" {...props} />
+  </div>
 );
 
 export type SandboxLayoutProps = SandpackLayoutProps;
@@ -42,7 +44,7 @@ export type SandboxLayoutProps = SandpackLayoutProps;
 export const SandboxLayout = ({ className, ...props }: SandpackLayoutProps) => (
   <SandpackLayout
     className={cn(
-      '!rounded-none !border-none !bg-transparent flex size-full flex-col overflow-hidden',
+      '!rounded-none !border-none !bg-transparent !h-full',
       className
     )}
     {...props}
@@ -202,11 +204,23 @@ export const SandboxCodeEditor = ({
 
 export type SandboxConsoleProps = ComponentProps<typeof SandpackConsole>;
 
-export const SandboxConsole: typeof SandpackConsole = SandpackConsole;
+export const SandboxConsole = ({
+  className,
+  ...props
+}: SandboxConsoleProps) => (
+  <SandpackConsole className={cn('h-full', className)} {...props} />
+);
 
-export type SandboxPreviewProps = PreviewProps;
+export type SandboxPreviewProps = PreviewProps & {
+  className?: string;
+};
 
-export const SandboxPreview = SandpackPreview;
+export const SandboxPreview = ({
+  className,
+  ...props
+}: SandboxPreviewProps) => (
+  <SandpackPreview className={cn('h-full', className)} {...props} />
+);
 
 export type SandboxFileExplorerProps = ComponentProps<
   typeof SandpackFileExplorer
@@ -214,7 +228,12 @@ export type SandboxFileExplorerProps = ComponentProps<
 
 export const SandboxFileExplorer = ({
   autoHiddenFiles = true,
+  className,
   ...props
 }: SandboxFileExplorerProps) => (
-  <SandpackFileExplorer autoHiddenFiles={autoHiddenFiles} {...props} />
+  <SandpackFileExplorer
+    className={cn('h-full', className)}
+    autoHiddenFiles={autoHiddenFiles}
+    {...props}
+  />
 );

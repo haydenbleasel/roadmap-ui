@@ -51,12 +51,17 @@ const Example = () => (
             </SandboxTabsTrigger>
           </SandboxTabsList>
           <SandboxTabsContent value="code" className="overflow-hidden">
-            <ResizablePanelGroup direction="horizontal" className="size-full">
-              <ResizablePanel defaultSize={30} className="size-full overflow-y-auto">
+            <ResizablePanelGroup direction="horizontal">
+              <ResizablePanel
+                defaultSize={25}
+                minSize={20}
+                maxSize={40}
+                className="overflow-y-auto"
+              >
                 <SandboxFileExplorer />
               </ResizablePanel>
               <ResizableHandle withHandle />
-              <ResizablePanel className="size-full overflow-y-auto">
+              <ResizablePanel className="overflow-y-auto">
                 <SandboxCodeEditor />
               </ResizablePanel>
             </ResizablePanelGroup>
@@ -80,21 +85,61 @@ export default Example;`} />
 
 ## Examples
 
-### Code Only
+### Without File Explorer
 
 <Preview name="sandbox" code={`'use client';
 
 import {
   SandboxCodeEditor,
+  SandboxConsole,
   SandboxLayout,
+  SandboxFileExplorer,
+  SandboxPreview,
   SandboxProvider,
+  SandboxTabs,
+  SandboxTabsContent,
+  SandboxTabsList,
+  SandboxTabsTrigger,
 } from '@/components/ui/kibo-ui/sandbox';
+import { CodeIcon, AppWindowIcon, TerminalIcon } from 'lucide-react';
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@/components/ui/resizable';
 
 const Example = () => (
-  <div className="p-4">
+  <div className="p-4 h-screen">
     <SandboxProvider>
       <SandboxLayout>
-        <SandboxCodeEditor />
+        <SandboxTabs defaultValue="preview">
+          <SandboxTabsList>
+            <SandboxTabsTrigger value="code">
+              <CodeIcon size={14} />
+              Code
+            </SandboxTabsTrigger>
+            <SandboxTabsTrigger value="preview">
+              <AppWindowIcon size={14} />
+              Preview
+            </SandboxTabsTrigger>
+            <SandboxTabsTrigger value="console">
+              <TerminalIcon size={14} />
+              Console
+            </SandboxTabsTrigger>
+          </SandboxTabsList>
+          <SandboxTabsContent value="code">
+            <SandboxCodeEditor showTabs />
+          </SandboxTabsContent>
+          <SandboxTabsContent value="preview">
+            <SandboxPreview
+              showOpenInCodeSandbox={false}
+              showRefreshButton={false}
+            />
+          </SandboxTabsContent>
+          <SandboxTabsContent value="console">
+            <SandboxConsole />
+          </SandboxTabsContent>
+        </SandboxTabs>
       </SandboxLayout>
     </SandboxProvider>
   </div>
