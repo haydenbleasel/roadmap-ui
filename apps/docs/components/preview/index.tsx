@@ -220,7 +220,7 @@ export const Preview = async ({
       }}
       files={files}
     >
-      <SandboxLayout>
+      <SandboxLayout className="max-h-[30rem]">
         <SandboxTabs defaultValue="preview">
           <SandboxTabsList>
             <SandboxTabsTrigger value="code">
@@ -236,11 +236,11 @@ export const Preview = async ({
               Console
             </SandboxTabsTrigger>
           </SandboxTabsList>
-          <SandboxTabsContent
-            value="code"
-            className="m-0 max-h-96 overflow-y-auto"
-          >
-            <ResizablePanelGroup direction="horizontal">
+          <SandboxTabsContent value="code" className="h-full overflow-hidden">
+            <ResizablePanelGroup
+              direction="horizontal"
+              className="h-full overflow-hidden"
+            >
               <ResizablePanel
                 className="!overflow-y-auto h-full"
                 defaultSize={25}
@@ -255,21 +255,14 @@ export const Preview = async ({
               </ResizablePanel>
             </ResizablePanelGroup>
           </SandboxTabsContent>
-          <SandboxTabsContent
-            value="preview"
-            className="m-0 max-h-96 overflow-y-auto"
-          >
+          <SandboxTabsContent value="preview">
             <SandboxPreview
               showOpenInCodeSandbox={false}
               showRefreshButton={false}
-              className="min-h-96"
             />
           </SandboxTabsContent>
-          <SandboxTabsContent
-            value="console"
-            className="m-0 max-h-96 overflow-y-auto"
-          >
-            <SandboxConsole className="min-h-96" />
+          <SandboxTabsContent value="console">
+            <SandboxConsole />
           </SandboxTabsContent>
         </SandboxTabs>
       </SandboxLayout>

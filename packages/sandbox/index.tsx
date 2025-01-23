@@ -42,7 +42,7 @@ export type SandboxLayoutProps = SandpackLayoutProps;
 export const SandboxLayout = ({ className, ...props }: SandpackLayoutProps) => (
   <SandpackLayout
     className={cn(
-      '!rounded-none !border-none !bg-transparent size-full',
+      '!rounded-none !border-none !bg-transparent flex size-full flex-col overflow-hidden',
       className
     )}
     {...props}
@@ -105,7 +105,7 @@ export const SandboxTabs = ({
     <SandboxTabsContext.Provider value={{ selectedTab, setSelectedTab }}>
       <div
         className={cn(
-          'not-prose group relative size-full w-full overflow-hidden rounded-lg border bg-fd-secondary/50 text-sm',
+          'group relative flex size-full flex-col overflow-hidden rounded-lg border text-sm',
           className
         )}
         {...props}
@@ -125,7 +125,7 @@ export const SandboxTabsList = ({
 }: SandboxTabsListProps) => (
   <div
     className={cn(
-      'inline-flex w-full items-center justify-start border-b bg-secondary p-2 text-muted-foreground',
+      'inline-flex w-full shrink-0 items-center justify-start border-b bg-secondary p-2 text-muted-foreground',
       className
     )}
     role="tablist"
@@ -180,7 +180,7 @@ export const SandboxTabsContent = ({
       aria-hidden={selectedTab !== value}
       data-state={selectedTab === value ? 'active' : 'inactive'}
       className={cn(
-        'size-full overflow-y-auto ring-offset-background transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'flex-1 overflow-y-auto ring-offset-background transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         selectedTab === value
           ? 'h-auto w-auto opacity-100'
           : 'pointer-events-none absolute h-0 w-0 opacity-0',
