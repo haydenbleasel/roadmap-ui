@@ -1,6 +1,9 @@
 {
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "homepage": "https://www.kibo-ui.com/snippet",
   "name": "snippet",
   "type": "registry:ui",
+  "author": "Hayden Bleasel <hello@haydenbleasel.com>",
   "registryDependencies": [
     "button",
     "tabs"
@@ -14,7 +17,7 @@
       "type": "registry:ui",
       "path": "index.tsx",
       "content": "'use client';\n\nimport { Button } from '@/components/ui/button';\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';\nimport { cn } from '@/lib/utils';\nimport { CheckIcon, CopyIcon } from 'lucide-react';\nimport {\n  type ComponentProps,\n  type ReactElement,\n  cloneElement,\n  useState,\n} from 'react';\n\nexport type SnippetProps = ComponentProps<typeof Tabs>;\n\nexport const Snippet = ({ className, ...props }: SnippetProps) => (\n  <Tabs\n    className={cn(\n      'group overflow-hidden rounded-md border shadow-sm',\n      className\n    )}\n    {...props}\n  />\n);\n\nexport type SnippetHeaderProps = ComponentProps<'div'>;\n\nexport const SnippetHeader = ({ className, ...props }: SnippetHeaderProps) => (\n  <div\n    className={cn(\n      'flex flex-row items-center justify-between border-b bg-secondary p-1',\n      className\n    )}\n    {...props}\n  />\n);\n\nexport type SnippetCopyButtonProps = ComponentProps<typeof Button> & {\n  value: string;\n  onCopy?: () => void;\n  onError?: (error: Error) => void;\n  timeout?: number;\n};\n\nexport const SnippetCopyButton = ({\n  asChild,\n  value,\n  onCopy,\n  onError,\n  timeout = 2000,\n  children,\n  ...props\n}: SnippetCopyButtonProps) => {\n  const [isCopied, setIsCopied] = useState(false);\n\n  const copyToClipboard = () => {\n    if (\n      typeof window === 'undefined' ||\n      !navigator.clipboard.writeText ||\n      !value\n    ) {\n      return;\n    }\n\n    navigator.clipboard.writeText(value).then(() => {\n      setIsCopied(true);\n      onCopy?.();\n\n      setTimeout(() => setIsCopied(false), timeout);\n    }, onError);\n  };\n\n  if (asChild) {\n    return cloneElement(children as ReactElement, {\n      // @ts-expect-error - we know this is a button\n      onClick: copyToClipboard,\n    });\n  }\n\n  const icon = isCopied ? <CheckIcon size={14} /> : <CopyIcon size={14} />;\n\n  return (\n    <Button\n      variant=\"ghost\"\n      size=\"icon\"\n      onClick={copyToClipboard}\n      className=\"opacity-0 transition-opacity group-hover:opacity-100\"\n      {...props}\n    >\n      {children ?? icon}\n    </Button>\n  );\n};\n\nexport type SnippetTabsListProps = ComponentProps<typeof TabsList>;\n\nexport const SnippetTabsList = TabsList;\n\nexport type SnippetTabsTriggerProps = ComponentProps<typeof TabsTrigger>;\n\nexport const SnippetTabsTrigger = ({\n  className,\n  ...props\n}: SnippetTabsTriggerProps) => (\n  <TabsTrigger className={cn('gap-1.5', className)} {...props} />\n);\n\nexport type SnippetTabsContentProps = ComponentProps<typeof TabsContent>;\n\nexport const SnippetTabsContent = ({\n  className,\n  children,\n  ...props\n}: SnippetTabsContentProps) => (\n  <TabsContent asChild className={cn('mt-0 p-4 text-sm', className)} {...props}>\n    <pre>{children}</pre>\n  </TabsContent>\n);\n",
-      "target": "ui/index.tsx"
+      "target": "components/ui/kibo-ui/snippet.tsx"
     }
   ]
 }
