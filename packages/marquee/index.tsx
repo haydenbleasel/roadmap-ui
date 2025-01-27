@@ -8,7 +8,10 @@ import type { MarqueeProps as FastMarqueeProps } from 'react-fast-marquee';
 export type MarqueeProps = HTMLAttributes<HTMLDivElement>;
 
 export const Marquee = ({ className, ...props }: MarqueeProps) => (
-  <div className={cn('relative', className)} {...props} />
+  <div
+    className={cn('relative w-full overflow-hidden', className)}
+    {...props}
+  />
 );
 
 export type MarqueeContentProps = FastMarqueeProps;

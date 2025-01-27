@@ -21,15 +21,15 @@ import {
 } from '@/components/ui/kibo-ui/marquee';
 
 const Example = () => (
-  <div className="py-4">
+  <div className="h-screen w-full flex items-center justify-center">
     <Marquee>
       <MarqueeFade side="left" />
       <MarqueeFade side="right" />
       <MarqueeContent>
         {new Array(10).fill(null).map((_, index) => (
-          <MarqueeItem key={index} className="w-16 h-16">
+          <MarqueeItem key={index} className="w-32 h-32">
             <img
-              src={\`https://placehold.co/64x64?random=\${index}\`}
+              src={\`https://placehold.co/128x128?random=\${index}\`}
               alt={\`Image \${index}\`}
               className="rounded-full overflow-hidden"
             />
