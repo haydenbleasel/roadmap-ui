@@ -12,7 +12,6 @@ import { Range, Root, Thumb, Track } from '@radix-ui/react-slider';
 import Color from 'color';
 import { PipetteIcon } from 'lucide-react';
 import {
-  type ChangeEvent,
   type ChangeEventHandler,
   type ComponentProps,
   type HTMLAttributes,
@@ -276,7 +275,7 @@ export const ColorPickerEyeDropper = ({
 
   return (
     <Button
-      variant="ghost"
+      variant="outline"
       size="icon"
       onClick={handleEyeDropper}
       className={cn('shrink-0 text-muted-foreground', className)}
@@ -304,7 +303,7 @@ export const ColorPickerOutput = ({
       </SelectTrigger>
       <SelectContent>
         {formats.map((format) => (
-          <SelectItem key={format} value={format}>
+          <SelectItem key={format} value={format} className="text-xs">
             {format.toUpperCase()}
           </SelectItem>
         ))}
@@ -322,7 +321,7 @@ const PercentageInput = ({ className, ...props }: PercentageInputProps) => {
         type="text"
         {...props}
         className={cn(
-          'h-8 w-16 rounded-l-none bg-secondary px-2 text-xs shadow-none',
+          'h-8 w-[3.25rem] rounded-l-none bg-secondary px-2 text-xs shadow-none',
           className
         )}
       />
@@ -370,14 +369,19 @@ export const ColorPickerFormat = ({
 
     return (
       <div
-        className={cn('-space-x-px flex items-center shadow-sm', className)}
+        className={cn(
+          '-space-x-px relative flex items-center shadow-sm',
+          className
+        )}
         {...props}
       >
+        <span className="-translate-y-1/2 absolute top-1/2 left-2 text-xs">
+          #
+        </span>
         <Input
           type="text"
           value={hex}
           className="h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none"
-          onChange={handleChange}
         />
         <PercentageInput value={alpha} />
       </div>
@@ -385,25 +389,10 @@ export const ColorPickerFormat = ({
   }
 
   if (mode === 'rgb') {
-    const rgb = color.rgb().array();
-
-    const handleChange = (
-      event: ChangeEvent<HTMLInputElement>,
-      index: number
-    ) => {
-      try {
-        const newRgb = [...rgb];
-        newRgb[index] = Number(event.target.value);
-        const newColor = Color.rgb(newRgb);
-
-        setHue(newColor.hue());
-        setSaturation(newColor.saturationl());
-        setLightness(newColor.lightness());
-        setAlpha(newColor.alpha() * 100);
-      } catch (error) {
-        console.error('Invalid rgb color:', error);
-      }
-    };
+    const rgb = color
+      .rgb()
+      .array()
+      .map((value) => Math.round(value));
 
     return (
       <div
@@ -415,7 +404,7 @@ export const ColorPickerFormat = ({
             key={index}
             type="text"
             value={value}
-            onChange={(event) => handleChange(event, index)}
+            readOnly
             className={cn(
               'h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none',
               index && 'rounded-l-none',
@@ -429,15 +418,17 @@ export const ColorPickerFormat = ({
   }
 
   if (mode === 'css') {
-    const rgb = color.rgb().array();
+    const rgb = color
+      .rgb()
+      .array()
+      .map((value) => Math.round(value));
 
     return (
-      <div className={cn('shadow-sm', className)} {...props}>
+      <div className={cn('w-full shadow-sm', className)} {...props}>
         <Input
           type="text"
-          className="h-8 w-24 bg-secondary px-2 text-xs shadow-none"
+          className="h-8 w-full bg-secondary px-2 text-xs shadow-none"
           value={`rgba(${rgb.join(', ')}, ${alpha}%)`}
-          disabled
           readOnly
           {...props}
         />
@@ -446,25 +437,10 @@ export const ColorPickerFormat = ({
   }
 
   if (mode === 'hsl') {
-    const hsl = color.hsl().array();
-
-    const handleChange = (
-      event: ChangeEvent<HTMLInputElement>,
-      index: number
-    ) => {
-      try {
-        const newHsl = [...hsl];
-        newHsl[index] = Number(event.target.value);
-        const newColor = Color.hsl(newHsl);
-
-        setHue(newColor.hue());
-        setSaturation(newColor.saturationl());
-        setLightness(newColor.lightness());
-        setAlpha(newColor.alpha() * 100);
-      } catch (error) {
-        console.error('Invalid hsl color:', error);
-      }
-    };
+    const hsl = color
+      .hsl()
+      .array()
+      .map((value) => Math.round(value));
 
     return (
       <div
@@ -476,7 +452,7 @@ export const ColorPickerFormat = ({
             key={index}
             type="text"
             value={value}
-            onChange={(event) => handleChange(event, index)}
+            readOnly
             className={cn(
               'h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none',
               index && 'rounded-l-none',
