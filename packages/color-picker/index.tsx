@@ -198,11 +198,11 @@ export const ColorPickerHue = ({
   className,
   ...props
 }: ColorPickerHueProps) => {
-  const { setHue } = useColorPicker();
+  const { hue, setHue } = useColorPicker();
 
   return (
     <Root
-      defaultValue={[0]}
+      value={[hue]}
       max={360}
       step={1}
       className={cn('relative flex h-4 w-full touch-none', className)}
@@ -223,11 +223,11 @@ export const ColorPickerAlpha = ({
   className,
   ...props
 }: ColorPickerAlphaProps) => {
-  const { setAlpha } = useColorPicker();
+  const { alpha, setAlpha } = useColorPicker();
 
   return (
     <Root
-      defaultValue={[100]}
+      value={[alpha]}
       max={100}
       step={1}
       className={cn('relative flex h-4 w-full touch-none', className)}
@@ -241,7 +241,8 @@ export const ColorPickerAlpha = ({
             'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==") left center',
         }}
       >
-        <Range className="absolute h-full rounded-full bg-primary/50" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent to-primary/50" />
+        <Range className="absolute h-full rounded-full bg-transparent" />
       </Track>
       <Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
     </Root>

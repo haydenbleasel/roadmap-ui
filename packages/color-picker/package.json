@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@number-flow/react": "^0.5.5",
     "@radix-ui/react-slider": "^1.2.2",
     "@repo/shadcn-ui": "workspace:*",
     "color": "^4.2.3",
