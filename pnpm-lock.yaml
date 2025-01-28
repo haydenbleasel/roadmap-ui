@@ -779,6 +779,9 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.20.6
         version: 8.20.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      jotai:
+        specifier: ^2.11.1
+        version: 2.11.1(@types/react@19.0.7)(react@19.0.0)
       lucide-react:
         specifier: ^0.474.0
         version: 0.474.0(react@19.0.0)
@@ -788,9 +791,6 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
-      zustand:
-        specifier: ^5.0.3
-        version: 5.0.3(@types/react@19.0.7)(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0))
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*

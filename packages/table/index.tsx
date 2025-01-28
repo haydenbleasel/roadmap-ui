@@ -30,25 +30,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { atom, useAtom } from 'jotai';
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from 'lucide-react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { createContext, useContext } from 'react';
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
 
 export type { ColumnDef } from '@tanstack/react-table';
 
-type TableState = {
-  sorting: SortingState;
-  setSorting: (sorting: SortingState) => void;
-};
-
-export const useTable = create<TableState>()(
-  devtools((set) => ({
-    sorting: [],
-    setSorting: (sorting: SortingState) => set(() => ({ sorting })),
-  }))
-);
+const sortingAtom = atom<SortingState>([]);
 
 export const TableContext = createContext<{
   data: unknown[];
@@ -73,7 +62,7 @@ export function TableProvider<TData, TValue>({
   children,
   className,
 }: TableProviderProps<TData, TValue>) {
-  const { sorting, setSorting } = useTable();
+  const [sorting, setSorting] = useAtom(sortingAtom);
   const table = useReactTable({
     data,
     columns,
