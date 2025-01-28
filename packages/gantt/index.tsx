@@ -31,6 +31,7 @@ import {
   startOfDay,
   startOfMonth,
 } from 'date-fns';
+import { atom, useAtom } from 'jotai';
 import throttle from 'lodash.throttle';
 import { PlusIcon, TrashIcon } from 'lucide-react';
 import {
@@ -50,28 +51,12 @@ import type {
   ReactNode,
   RefObject,
 } from 'react';
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
 
-export type GanttState = {
-  dragging: boolean;
-  setDragging: (dragging: boolean) => void;
-  resizing: boolean;
-  setResizing: (resizing: boolean) => void;
-  scrollX: number;
-  setScrollX: (scrollX: number) => void;
-};
+const draggingAtom = atom(false);
+const scrollXAtom = atom(0);
 
-export const useGantt = create<GanttState>()(
-  devtools((set) => ({
-    dragging: false,
-    setDragging: (dragging: boolean) => set(() => ({ dragging })),
-    resizing: false,
-    setResizing: (resizing: boolean) => set(() => ({ resizing })),
-    scrollX: 0,
-    setScrollX: (scrollX: number) => set(() => ({ scrollX })),
-  }))
-);
+export const useGanttDragging = () => useAtom(draggingAtom);
+export const useGanttScrollX = () => useAtom(scrollXAtom);
 
 export type GanttStatus = {
   id: string;
@@ -591,7 +576,7 @@ export const GanttAddFeatureHelper: FC<GanttAddFeatureHelperProps> = ({
   top,
   className,
 }) => {
-  const { scrollX } = useGantt();
+  const [scrollX] = useGanttScrollX();
   const gantt = useContext(GanttContext);
   const [mousePosition, mouseRef] = useMouse<HTMLDivElement>();
 
@@ -637,7 +622,7 @@ export const GanttColumn: FC<GanttColumnProps> = ({
   isColumnSecondary,
 }) => {
   const gantt = useContext(GanttContext);
-  const { dragging } = useGantt();
+  const [dragging] = useGanttDragging();
   const [mousePosition, mouseRef] = useMouse<HTMLDivElement>();
   const [hovering, setHovering] = useState(false);
   const [windowScroll] = useWindowScroll();
@@ -760,7 +745,7 @@ export const GanttFeatureDragHelper: FC<GanttFeatureDragHelperProps> = ({
   featureId,
   date,
 }) => {
-  const { setDragging } = useGantt();
+  const [, setDragging] = useGanttDragging();
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `feature-drag-helper-${featureId}`,
   });
@@ -811,7 +796,7 @@ export const GanttFeatureItemCard: FC<GanttFeatureItemCardProps> = ({
   id,
   children,
 }) => {
-  const { setDragging } = useGantt();
+  const [, setDragging] = useGanttDragging();
   const { attributes, listeners, setNodeRef } = useDraggable({ id });
   const isPressed = Boolean(attributes['aria-pressed']);
 
@@ -846,7 +831,7 @@ export const GanttFeatureItem: FC<GanttFeatureItemProps> = ({
   className,
   ...feature
 }) => {
-  const { scrollX } = useGantt();
+  const [scrollX] = useGanttScrollX();
   const gantt = useContext(GanttContext);
   const timelineStartDate = new Date(gantt.timelineData.at(0)?.year ?? 0, 0, 1);
   const [startAt, setStartAt] = useState<Date>(feature.startAt);
@@ -1069,7 +1054,7 @@ export const GanttProvider: FC<GanttProviderProps> = ({
   const [timelineData, setTimelineData] = useState<TimelineData>(
     createInitialTimelineData(new Date())
   );
-  const { setScrollX } = useGantt();
+  const [, setScrollX] = useGanttScrollX();
   const sidebarElement = scrollRef.current?.querySelector(
     '[data-roadmap-ui="gantt-sidebar"]'
   );

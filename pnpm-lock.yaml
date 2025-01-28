@@ -402,6 +402,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      jotai:
+        specifier: ^2.11.1
+        version: 2.11.1(@types/react@19.0.7)(react@19.0.0)
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
@@ -414,9 +417,6 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
-      zustand:
-        specifier: ^5.0.3
-        version: 5.0.3(@types/react@19.0.7)(react@19.0.0)(use-sync-external-store@1.4.0(react@19.0.0))
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*
@@ -4233,6 +4233,18 @@ packages:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
 
+  jotai@2.11.1:
+    resolution: {integrity: sha512-41Su098mpHIX29hF/XOpDb0SqF6EES7+HXfrhuBqVSzRkxX48hD5i8nGsEewWZNAsBWJCTTmuz8M946Ih2PfcQ==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=17.0.0'
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
@@ -4302,6 +4314,7 @@ packages:
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
+    deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
 
   lodash.groupby@4.6.0:
     resolution: {integrity: sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw==}
@@ -9763,6 +9776,11 @@ snapshots:
       supports-color: 8.1.1
 
   jiti@1.21.6: {}
+
+  jotai@2.11.1(@types/react@19.0.7)(react@19.0.0):
+    optionalDependencies:
+      '@types/react': 19.0.7
+      react: 19.0.0
 
   joycon@3.1.1: {}
 
