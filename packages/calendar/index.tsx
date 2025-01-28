@@ -16,27 +16,23 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { getDay, getDaysInMonth, isSameDay } from 'date-fns';
+import { atom, useAtom } from 'jotai';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { type ReactNode, createContext, useContext, useState } from 'react';
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
 
 export type CalendarState = {
   month: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
   year: number;
-  setMonth: (month: CalendarState['month']) => void;
-  setYear: (year: CalendarState['year']) => void;
 };
 
-export const useCalendar = create<CalendarState>()(
-  devtools((set) => ({
-    month: new Date().getMonth() as CalendarState['month'],
-    year: new Date().getFullYear(),
-    setMonth: (month: CalendarState['month']) => set(() => ({ month })),
-    setYear: (year: CalendarState['year']) => set(() => ({ year })),
-  }))
+const monthAtom = atom<CalendarState['month']>(
+  new Date().getMonth() as CalendarState['month']
 );
+const yearAtom = atom<CalendarState['year']>(new Date().getFullYear());
+
+export const useCalendarMonth = () => useAtom(monthAtom);
+export const useCalendarYear = () => useAtom(yearAtom);
 
 type CalendarContextProps = {
   locale: Intl.LocalesArgument;
@@ -89,7 +85,10 @@ export const monthsForLocale = (
   );
 };
 
-export const daysForLocale = (locale: Intl.LocalesArgument, startDay: number) => {
+export const daysForLocale = (
+  locale: Intl.LocalesArgument,
+  startDay: number
+) => {
   const weekdays: string[] = [];
   const baseDate = new Date(2024, 0, startDay);
 
@@ -183,7 +182,8 @@ export type CalendarBodyProps = {
 };
 
 export const CalendarBody = ({ features, children }: CalendarBodyProps) => {
-  const { month, year } = useCalendar();
+  const [month] = useCalendarMonth();
+  const [year] = useCalendarYear();
   const { startDay } = useContext(CalendarContext);
   const daysInMonth = getDaysInMonth(new Date(year, month, 1));
   const firstDay = (getDay(new Date(year, month, 1)) - startDay + 7) % 7;
@@ -283,7 +283,7 @@ export type CalendarMonthPickerProps = {
 export const CalendarMonthPicker = ({
   className,
 }: CalendarMonthPickerProps) => {
-  const { month, setMonth } = useCalendar();
+  const [month, setMonth] = useCalendarMonth();
   const { locale } = useContext(CalendarContext);
 
   return (
@@ -317,7 +317,7 @@ export const CalendarYearPicker = ({
   start,
   end,
 }: CalendarYearPickerProps) => {
-  const { year, setYear } = useCalendar();
+  const [year, setYear] = useCalendarYear();
 
   return (
     <Combobox
@@ -344,7 +344,8 @@ export type CalendarDatePaginationProps = {
 export const CalendarDatePagination = ({
   className,
 }: CalendarDatePaginationProps) => {
-  const { month, year, setMonth, setYear } = useCalendar();
+  const [month, setMonth] = useCalendarMonth();
+  const [year, setYear] = useCalendarYear();
 
   const handlePreviousMonth = () => {
     if (month === 0) {
