@@ -12,7 +12,7 @@
     "@logtail/next": "^0.1.7",
     "@next/bundle-analyzer": "^15.1.6",
     "@next/third-parties": "^15.1.6",
-    "@prisma/nextjs-monorepo-workaround-plugin": "^6.2.1",
+    "@prisma/nextjs-monorepo-workaround-plugin": "^6.3.0",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.7",
     "@repo/announcement": "workspace:*",
