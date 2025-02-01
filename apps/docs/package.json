@@ -54,7 +54,7 @@
     "react-dom": "^19.0.0",
     "require-in-the-middle": "^7.4.0",
     "schema-dts": "^1.1.2",
-    "shiki": "^2.1.0",
+    "shiki": "^2.2.0",
     "sonner": "^1.7.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
