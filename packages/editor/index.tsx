@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import CharacterCount from '@tiptap/extension-character-count';
 import Color from '@tiptap/extension-color';
 import Placeholder from '@tiptap/extension-placeholder';
+import Typography from '@tiptap/extension-typography';
 import {
   BubbleMenu,
   type BubbleMenuProps,
@@ -87,6 +88,7 @@ export const EditorProvider = ({
   const defaultExtensions = [
     StarterKit,
     Color,
+    Typography,
     Placeholder.configure({
       placeholder,
       emptyNodeClass:
