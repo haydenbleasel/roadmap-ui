@@ -162,7 +162,7 @@ export const EditorBubbleMenu = ({
   </BubbleMenu>
 );
 
-type EditorBubbleMenuButtonProps = {
+type EditorButtonProps = {
   name: string;
   isActive: () => boolean;
   command: () => void;
@@ -176,7 +176,7 @@ const BubbleMenuButton = ({
   command,
   icon: Icon,
   hideName,
-}: EditorBubbleMenuButtonProps) => (
+}: EditorButtonProps) => (
   <Button
     onSelect={() => command()}
     variant="ghost"
@@ -191,9 +191,9 @@ const BubbleMenuButton = ({
   </Button>
 );
 
-export const EditorBubbleMenuClearFormatting = ({
+export const EditorClearFormatting = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -211,9 +211,9 @@ export const EditorBubbleMenuClearFormatting = ({
   );
 };
 
-export const EditorBubbleMenuNodeText = ({
+export const EditorNodeText = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -240,9 +240,9 @@ export const EditorBubbleMenuNodeText = ({
   );
 };
 
-export const EditorBubbleMenuNodeHeading1 = ({
+export const EditorNodeHeading1 = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -260,9 +260,9 @@ export const EditorBubbleMenuNodeHeading1 = ({
   );
 };
 
-export const EditorBubbleMenuNodeHeading2 = ({
+export const EditorNodeHeading2 = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -280,9 +280,9 @@ export const EditorBubbleMenuNodeHeading2 = ({
   );
 };
 
-export const EditorBubbleMenuNodeHeading3 = ({
+export const EditorNodeHeading3 = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -300,9 +300,9 @@ export const EditorBubbleMenuNodeHeading3 = ({
   );
 };
 
-export const EditorBubbleMenuNodeBulletList = ({
+export const EditorNodeBulletList = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -320,9 +320,9 @@ export const EditorBubbleMenuNodeBulletList = ({
   );
 };
 
-export const EditorBubbleMenuNodeOrderedList = ({
+export const EditorNodeOrderedList = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -340,9 +340,9 @@ export const EditorBubbleMenuNodeOrderedList = ({
   );
 };
 
-export const EditorBubbleMenuNodeTaskList = ({
+export const EditorNodeTaskList = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -360,9 +360,9 @@ export const EditorBubbleMenuNodeTaskList = ({
   );
 };
 
-export const EditorBubbleMenuNodeQuote = ({
+export const EditorNodeQuote = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -387,9 +387,9 @@ export const EditorBubbleMenuNodeQuote = ({
   );
 };
 
-export const EditorBubbleMenuNodeCode = ({
+export const EditorNodeCode = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -407,20 +407,20 @@ export const EditorBubbleMenuNodeCode = ({
   );
 };
 
-export type EditorBubbleMenuSelectorProps = HTMLAttributes<HTMLDivElement> & {
+export type EditorSelectorProps = HTMLAttributes<HTMLDivElement> & {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
 };
 
-export const EditorBubbleMenuSelector = ({
+export const EditorSelector = ({
   open,
   onOpenChange,
   title,
   className,
   children,
   ...props
-}: EditorBubbleMenuSelectorProps) => {
+}: EditorSelectorProps) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -451,9 +451,9 @@ export const EditorBubbleMenuSelector = ({
   );
 };
 
-export const EditorBubbleMenuFormatBold = ({
+export const EditorFormatBold = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -471,9 +471,9 @@ export const EditorBubbleMenuFormatBold = ({
   );
 };
 
-export const EditorBubbleMenuFormatItalic = ({
+export const EditorFormatItalic = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -491,9 +491,9 @@ export const EditorBubbleMenuFormatItalic = ({
   );
 };
 
-export const EditorBubbleMenuFormatStrike = ({
+export const EditorFormatStrike = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -511,9 +511,9 @@ export const EditorBubbleMenuFormatStrike = ({
   );
 };
 
-export const EditorBubbleMenuFormatCode = ({
+export const EditorFormatCode = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -531,9 +531,9 @@ export const EditorBubbleMenuFormatCode = ({
   );
 };
 
-export const EditorBubbleMenuFormatSubscript = ({
+export const EditorFormatSubscript = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -551,9 +551,9 @@ export const EditorBubbleMenuFormatSubscript = ({
   );
 };
 
-export const EditorBubbleMenuFormatSuperscript = ({
+export const EditorFormatSuperscript = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -571,9 +571,9 @@ export const EditorBubbleMenuFormatSuperscript = ({
   );
 };
 
-export const EditorBubbleMenuFormatUnderline = ({
+export const EditorFormatUnderline = ({
   hideName = false,
-}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -596,11 +596,10 @@ type BubbleMenuLinkSelectorProperties = {
   readonly onOpenChange: (open: boolean) => void;
 };
 
-export const EditorBubbleMenuLinkSelector = ({
+export const EditorLinkSelector = ({
   open,
   onOpenChange,
-}: BubbleMenuLinkSelectorProperties &
-  Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: BubbleMenuLinkSelectorProperties & Pick<EditorButtonProps, 'hideName'>) => {
   const [url, setUrl] = useState<string>('');
   const inputReference = useRef<HTMLInputElement>(null);
   const { editor } = useCurrentEditor();
@@ -707,17 +706,16 @@ export const EditorBubbleMenuLinkSelector = ({
   );
 };
 
-export type EditorBubbleMenuColorProps = {
+export type EditorColorProps = {
   color: string;
   name: string;
 };
 
-export const EditorBubbleMenuTextColor = ({
+export const EditorTextColor = ({
   color,
   name,
   hideName = false,
-}: EditorBubbleMenuColorProps &
-  Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: EditorColorProps & Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -740,12 +738,11 @@ export const EditorBubbleMenuTextColor = ({
   );
 };
 
-export const EditorBubbleMenuBackgroundColor = ({
+export const EditorBackgroundColor = ({
   color,
   name,
   hideName = false,
-}: EditorBubbleMenuColorProps &
-  Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
+}: EditorColorProps & Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {

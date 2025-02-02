@@ -18,27 +18,27 @@ import {
   EditorBubbleMenu,
   EditorFloatingMenu,
   EditorProvider,
-  EditorBubbleMenuSelector,
-  EditorBubbleMenuLinkSelector,
-  EditorBubbleMenuClearFormatting,
-  EditorBubbleMenuFormatBold,
-  EditorBubbleMenuFormatItalic,
-  EditorBubbleMenuFormatStrike,
-  EditorBubbleMenuFormatCode,
-  EditorBubbleMenuFormatSubscript,
-  EditorBubbleMenuFormatSuperscript,
-  EditorBubbleMenuFormatUnderline,
-  EditorBubbleMenuNodeText,
-  EditorBubbleMenuNodeHeading1,
-  EditorBubbleMenuNodeHeading2,
-  EditorBubbleMenuNodeHeading3,
-  EditorBubbleMenuNodeBulletList,
-  EditorBubbleMenuNodeOrderedList,
-  EditorBubbleMenuNodeTaskList,
-  EditorBubbleMenuNodeQuote,
-  EditorBubbleMenuNodeCode,
-  EditorBubbleMenuTextColor,
-  EditorBubbleMenuBackgroundColor,
+  EditorSelector,
+  EditorLinkSelector,
+  EditorClearFormatting,
+  EditorFormatBold,
+  EditorFormatItalic,
+  EditorFormatStrike,
+  EditorFormatCode,
+  EditorFormatSubscript,
+  EditorFormatSuperscript,
+  EditorFormatUnderline,
+  EditorNodeText,
+  EditorNodeHeading1,
+  EditorNodeHeading2,
+  EditorNodeHeading3,
+  EditorNodeBulletList,
+  EditorNodeOrderedList,
+  EditorNodeTaskList,
+  EditorNodeQuote,
+  EditorNodeCode,
+  EditorTextColor,
+  EditorBackgroundColor,
 } from '@/components/ui/kibo-ui/editor';
 
 const Example = () => {
@@ -60,38 +60,41 @@ const Example = () => {
   return (
     <div className="bg-secondary flex h-screen w-full items-center justify-center p-8">
       <EditorProvider content={content} className="bg-background rounded-lg border w-full h-full p-4">
-        <EditorFloatingMenu />
+        <EditorFloatingMenu>
+          <EditorNodeHeading1 hideName />
+          <EditorNodeBulletList hideName />
+        </EditorFloatingMenu>
         <EditorBubbleMenu>
-          <EditorBubbleMenuSelector title="Text">
-            <EditorBubbleMenuNodeText />
-            <EditorBubbleMenuNodeHeading1 />
-            <EditorBubbleMenuNodeHeading2 />
-            <EditorBubbleMenuNodeHeading3 />
-            <EditorBubbleMenuNodeBulletList />
-            <EditorBubbleMenuNodeOrderedList />
-            <EditorBubbleMenuNodeTaskList />
-            <EditorBubbleMenuNodeQuote />
-            <EditorBubbleMenuNodeCode />
-          </EditorBubbleMenuSelector>
-          <EditorBubbleMenuSelector title="Format">
-            <EditorBubbleMenuFormatBold />
-            <EditorBubbleMenuFormatItalic />
-            <EditorBubbleMenuFormatUnderline />
-            <EditorBubbleMenuFormatStrike />
-            <EditorBubbleMenuFormatCode />
-            <EditorBubbleMenuFormatSuperscript />
-            <EditorBubbleMenuFormatSubscript />
-          </EditorBubbleMenuSelector>
-          <EditorBubbleMenuSelector title="Color">
+          <EditorSelector title="Text">
+            <EditorNodeText />
+            <EditorNodeHeading1 />
+            <EditorNodeHeading2 />
+            <EditorNodeHeading3 />
+            <EditorNodeBulletList />
+            <EditorNodeOrderedList />
+            <EditorNodeTaskList />
+            <EditorNodeQuote />
+            <EditorNodeCode />
+          </EditorSelector>
+          <EditorSelector title="Format">
+            <EditorFormatBold />
+            <EditorFormatItalic />
+            <EditorFormatUnderline />
+            <EditorFormatStrike />
+            <EditorFormatCode />
+            <EditorFormatSuperscript />
+            <EditorFormatSubscript />
+          </EditorSelector>
+          <EditorSelector title="Color">
             {textColors.map((color) => (
-              <EditorBubbleMenuTextColor key={color.name} color={color.color} name={color.name} />
+              <EditorTextColor key={color.name} color={color.color} name={color.name} />
             ))}
             {backgroundColors.map((color) => (
-              <EditorBubbleMenuBackgroundColor key={color.name} color={color.color} name={color.name} />
+              <EditorBackgroundColor key={color.name} color={color.color} name={color.name} />
             ))}
-          </EditorBubbleMenuSelector>
-          <EditorBubbleMenuLinkSelector />
-          <EditorBubbleMenuClearFormatting />
+          </EditorSelector>
+          <EditorLinkSelector />
+          <EditorClearFormatting />
         </EditorBubbleMenu>
       </EditorProvider>
     </div>
