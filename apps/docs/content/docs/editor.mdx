@@ -37,11 +37,26 @@ import {
   BubbleMenuNodeTaskList,
   BubbleMenuNodeQuote,
   BubbleMenuNodeCode,
+  BubbleMenuTextColor,
+  BubbleMenuBackgroundColor,
 } from '@/components/ui/kibo-ui/editor';
 
 const Example = () => {
   const [content, setContent] = useState('<p>Hello World!</p>');
 
+  const textColors = [
+    { name: 'Red', color: '#b91c1c' },
+    { name: 'Orange', color: '#c2410c' },
+    { name: 'Amber', color: '#b45309' },
+    { name: 'Yellow', color: '#a16207' },
+  ]
+
+  const backgroundColors = [
+    { name: 'Red', color: '#fca5a5' },
+    { name: 'Orange', color: '#fdba74' },
+    { name: 'Amber', color: '#fcd34d' },
+    { name: 'Yellow', color: '#fde047' },
+  ]
   return (
     <div className="bg-secondary flex h-screen w-full items-center justify-center p-8">
       <Provider content={content} className="bg-background rounded-lg border w-full h-full p-4">
@@ -66,7 +81,15 @@ const Example = () => {
             <BubbleMenuFormatCode />
             <BubbleMenuFormatSuperscript />
             <BubbleMenuFormatSubscript />
-          </BubbleMenuFormatSelector>
+          </BubbleMenuSelector>
+          <BubbleMenuSelector title="Color">
+            {textColors.map((color) => (
+              <BubbleMenuTextColor key={color.name} color={color.color} name={color.name} />
+            ))}
+            {backgroundColors.map((color) => (
+              <BubbleMenuBackgroundColor key={color.name} color={color.color} name={color.name} />
+            ))}
+          </BubbleMenuSelector>
           <BubbleMenuLinkSelector />
           <BubbleMenuTextButtons />
         </BubbleMenu>

@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import CharacterCount from '@tiptap/extension-character-count';
+import Color from '@tiptap/extension-color';
 import {
   BubbleMenu as BubbleMenuComponent,
   type BubbleMenuProps as BubbleMenuComponentProps,
@@ -32,6 +33,7 @@ import {
   ItalicIcon,
   ListOrdered,
   type LucideIcon,
+  type LucideProps,
   RemoveFormattingIcon,
   StrikethroughIcon,
   SubscriptIcon,
@@ -41,6 +43,7 @@ import {
   TrashIcon,
   UnderlineIcon,
 } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { FormEventHandler, HTMLAttributes } from 'react';
 
@@ -79,6 +82,7 @@ export const Provider = ({
 }: ProviderProps) => {
   const defaultExtensions = [
     StarterKit,
+    Color,
     CharacterCount.configure({
       limit,
     }),
@@ -121,6 +125,9 @@ export const BubbleMenu = ({ className, ...props }: BubbleMenuProps) => (
       'flex rounded-xl border bg-background p-0.5 shadow',
       className
     )}
+    tippyOptions={{
+      maxWidth: 'none',
+    }}
     editor={null}
     {...props}
   />
@@ -130,7 +137,7 @@ type BubbleMenuButtonProps = {
   name: string;
   isActive: () => boolean;
   command: () => void;
-  icon: LucideIcon;
+  icon: LucideIcon | ((props: LucideProps) => ReactNode);
 };
 
 const BubbleMenuButton = ({
@@ -636,5 +643,57 @@ export const BubbleMenuLinkSelector = ({
         </form>
       </PopoverContent>
     </Popover>
+  );
+};
+
+export type BubbleMenuColorProps = {
+  color: string;
+  name: string;
+};
+
+export const BubbleMenuTextColor = ({ color, name }: BubbleMenuColorProps) => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuButton
+      name={name}
+      command={() => editor.chain().focus().setColor(color).run()}
+      icon={() => (
+        <div
+          className="h-4 w-4 rounded-sm border"
+          style={{ backgroundColor: color }}
+        />
+      )}
+      isActive={() => editor.isActive('textStyle', { color }) ?? false}
+    />
+  );
+};
+
+export const BubbleMenuBackgroundColor = ({
+  color,
+  name,
+}: BubbleMenuColorProps) => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuButton
+      name={name}
+      command={() => editor.chain().focus().setHighlight({ color }).run()}
+      icon={() => (
+        <div
+          className="h-4 w-4 rounded-sm border"
+          style={{ backgroundColor: color }}
+        />
+      )}
+      isActive={() => editor.isActive('highlight', { color }) ?? false}
+    />
   );
 };

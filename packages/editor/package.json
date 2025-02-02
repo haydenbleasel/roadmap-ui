@@ -5,6 +5,7 @@
   "dependencies": {
     "@repo/shadcn-ui": "workspace:*",
     "@tiptap/extension-character-count": "^2.11.5",
+    "@tiptap/extension-color": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
     "lucide-react": "^0.474.0",
