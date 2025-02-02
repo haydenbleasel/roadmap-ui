@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import CharacterCount from '@tiptap/extension-character-count';
 import Color from '@tiptap/extension-color';
@@ -121,6 +122,7 @@ export type EditorBubbleMenuProps = Omit<BubbleMenuProps, 'editor'>;
 
 export const EditorBubbleMenu = ({
   className,
+  children,
   ...props
 }: EditorBubbleMenuProps) => (
   <BubbleMenuComponent
@@ -133,7 +135,19 @@ export const EditorBubbleMenu = ({
     }}
     editor={null}
     {...props}
-  />
+  >
+    {children && Array.isArray(children)
+      ? children.reduce((acc: ReactNode[], child, index) => {
+          if (index === 0) {
+            return [child];
+          }
+
+          acc.push(<Separator key={index} orientation="vertical" />);
+          acc.push(child);
+          return acc;
+        }, [])
+      : children}
+  </BubbleMenuComponent>
 );
 
 type EditorBubbleMenuButtonProps = {
