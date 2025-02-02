@@ -1,0 +1,19 @@
+{
+  "name": "@repo/editor",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@repo/shadcn-ui": "workspace:*",
+    "@tiptap/react": "^2.11.5",
+    "@tiptap/starter-kit": "^2.11.5",
+    "lucide-react": "^0.474.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

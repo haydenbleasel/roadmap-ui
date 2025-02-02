@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "homepage": "https://www.kibo-ui.com/editor",
+  "name": "editor",
+  "type": "registry:ui",
+  "author": "Hayden Bleasel <hello@haydenbleasel.com>",
+  "registryDependencies": [],
+  "dependencies": [
+    "@tiptap/react",
+    "@tiptap/starter-kit",
+    "lucide-react"
+  ],
+  "devDependencies": [],
+  "files": [
+    {
+      "type": "registry:ui",
+      "path": "index.tsx",
+      "content": "import { EditorProvider, type EditorProviderProps } from '@tiptap/react';\nimport StarterKit from '@tiptap/starter-kit';\n\nexport type ProviderProps = EditorProviderProps;\n\nconst defaultExtensions = [StarterKit];\n\nexport const Provider = ({ extensions, ...props }: ProviderProps) => (\n  <EditorProvider\n    extensions={[...defaultExtensions, ...(extensions ?? [])]}\n    {...props}\n  />\n);\n",
+      "target": "components/ui/kibo-ui/editor.tsx"
+    }
+  ]
+}
