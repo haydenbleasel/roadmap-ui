@@ -47,6 +47,28 @@ export type ProviderProps = EditorProviderProps & {
   className?: string;
 };
 
+// StarterKit contains the following:
+// - Blockquote
+// - BulletList
+// - CodeBlock
+// - Document
+// - HardBreak
+// - Heading
+// - HorizontalRule
+// - ListItem
+// - OrderedList
+// - Paragraph
+// - Text
+// - Marks
+// - Bold
+// - Code
+// - Italic
+// - Strike
+// - Extensions
+// - Dropcursor
+// - Gapcursor
+// - History
+
 const defaultExtensions = [StarterKit];
 
 export const Provider = ({
