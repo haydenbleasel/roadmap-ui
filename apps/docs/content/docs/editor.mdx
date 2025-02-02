@@ -59,7 +59,7 @@ const Example = () => {
   ]
   return (
     <div className="bg-secondary flex h-screen w-full items-center justify-center p-8">
-      <Provider content={content} className="bg-background rounded-lg border w-full h-full p-4">
+      <EditorProvider content={content} className="bg-background rounded-lg border w-full h-full p-4">
         <EditorFloatingMenu />
         <EditorBubbleMenu>
           <EditorBubbleMenuSelector title="Text">
@@ -79,8 +79,8 @@ const Example = () => {
             <EditorBubbleMenuFormatUnderline />
             <EditorBubbleMenuFormatStrike />
             <EditorBubbleMenuFormatCode />
-            <BubbleMenuFormatSuperscript />
-            <BubbleMenuFormatSubscript />
+            <EditorBubbleMenuFormatSuperscript />
+            <EditorBubbleMenuFormatSubscript />
           </EditorBubbleMenuSelector>
           <EditorBubbleMenuSelector title="Color">
             {textColors.map((color) => (
@@ -116,7 +116,7 @@ TBD.
 
 The editor component is made up of the following subcomponents:
 
-### Provider
+### EditorProvider
 
-<AutoTypeTable path="node_modules/@repo/editor/index.tsx" name="ProviderProps" />
+<AutoTypeTable path="node_modules/@repo/editor/index.tsx" name="EditorProviderProps" />
 
