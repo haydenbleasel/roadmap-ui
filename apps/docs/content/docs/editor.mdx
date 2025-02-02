@@ -42,8 +42,6 @@ import {
 } from '@/components/ui/kibo-ui/editor';
 
 const Example = () => {
-  const [content, setContent] = useState('<p>Hello World!</p>');
-
   const textColors = [
     { name: 'Red', color: '#b91c1c' },
     { name: 'Orange', color: '#c2410c' },
@@ -59,7 +57,10 @@ const Example = () => {
   ]
   return (
     <div className="bg-secondary flex h-screen w-full items-center justify-center p-8">
-      <EditorProvider content={content} className="bg-background rounded-lg border w-full h-full p-4">
+      <EditorProvider
+        placeholder="Start typing..."
+        className="bg-background rounded-lg border w-full h-full p-4"
+      >
         <EditorFloatingMenu>
           <EditorNodeHeading1 hideName />
           <EditorNodeBulletList hideName />

@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import CharacterCount from '@tiptap/extension-character-count';
 import Color from '@tiptap/extension-color';
+import Placeholder from '@tiptap/extension-placeholder';
 import {
   BubbleMenu,
   type BubbleMenuProps,
@@ -51,6 +52,7 @@ import type { FormEventHandler, HTMLAttributes } from 'react';
 export type EditorProviderProps = TiptapEditorProviderProps & {
   className?: string;
   limit?: number;
+  placeholder?: string;
 };
 
 // StarterKit contains the following:
@@ -79,11 +81,17 @@ export const EditorProvider = ({
   className,
   extensions,
   limit,
+  placeholder,
   ...props
 }: EditorProviderProps) => {
   const defaultExtensions = [
     StarterKit,
     Color,
+    Placeholder.configure({
+      placeholder,
+      emptyNodeClass:
+        'before:text-muted-foreground before:content-[attr(data-placeholder)] before:float-left before:h-0 before:pointer-events-none',
+    }),
     CharacterCount.configure({
       limit,
     }),
