@@ -42,8 +42,7 @@ import {
   UnderlineIcon,
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import type { FormEventHandler } from 'react';
-import type { HTMLAttributes } from 'react';
+import type { FormEventHandler, HTMLAttributes, ReactNode } from 'react';
 
 export type ProviderProps = EditorProviderProps & {
   className?: string;
@@ -258,15 +257,162 @@ export const BubbleMenuNodeSelector = ({
   );
 };
 
+type BubbleMenuFormatButtonProps = {
+  name: string;
+  isActive: () => boolean;
+  command: () => void;
+  icon: LucideIcon;
+};
+
+const BubbleMenuFormatButton = ({
+  name,
+  isActive,
+  command,
+  icon: Icon,
+}: BubbleMenuFormatButtonProps) => (
+  <Button
+    onSelect={() => command()}
+    variant="ghost"
+    className="flex w-full gap-2"
+  >
+    <Icon size={16} className="shrink-0 text-muted-foreground" />
+    <span className="flex-1 text-left">{name}</span>
+    {isActive() ? (
+      <CheckIcon size={16} className="shrink-0 text-muted-foreground" />
+    ) : null}
+  </Button>
+);
+
+export const BubbleMenuFormatBold = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuFormatButton
+      name="Bold"
+      isActive={() => editor.isActive('bold') ?? false}
+      command={() => editor.chain().focus().toggleBold().run()}
+      icon={BoldIcon}
+    />
+  );
+};
+
+export const BubbleMenuFormatItalic = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuFormatButton
+      name="Italic"
+      isActive={() => editor.isActive('italic') ?? false}
+      command={() => editor.chain().focus().toggleItalic().run()}
+      icon={ItalicIcon}
+    />
+  );
+};
+
+export const BubbleMenuFormatStrike = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuFormatButton
+      name="Strikethrough"
+      isActive={() => editor.isActive('strike') ?? false}
+      command={() => editor.chain().focus().toggleStrike().run()}
+      icon={StrikethroughIcon}
+    />
+  );
+};
+
+export const BubbleMenuFormatCode = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuFormatButton
+      name="Code"
+      isActive={() => editor.isActive('code') ?? false}
+      command={() => editor.chain().focus().toggleCode().run()}
+      icon={CodeIcon}
+    />
+  );
+};
+
+export const BubbleMenuFormatSubscript = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuFormatButton
+      name="Subscript"
+      isActive={() => editor.isActive('subscript') ?? false}
+      command={() => editor.chain().focus().toggleSubscript().run()}
+      icon={SubscriptIcon}
+    />
+  );
+};
+
+export const BubbleMenuFormatSuperscript = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuFormatButton
+      name="Superscript"
+      isActive={() => editor.isActive('superscript') ?? false}
+      command={() => editor.chain().focus().toggleSuperscript().run()}
+      icon={SuperscriptIcon}
+    />
+  );
+};
+
+export const BubbleMenuFormatUnderline = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuFormatButton
+      name="Underline"
+      isActive={() => editor.isActive('underline') ?? false}
+      command={() => editor.chain().focus().toggleUnderline().run()}
+      icon={UnderlineIcon}
+    />
+  );
+};
+
 export type BubbleMenuFormatSelectorProps = HTMLAttributes<HTMLDivElement> & {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  children?: ReactNode;
 };
 
 export const BubbleMenuFormatSelector = ({
   className,
   open,
   onOpenChange,
+  children,
   ...props
 }: BubbleMenuFormatSelectorProps) => {
   const { editor } = useCurrentEditor();
@@ -274,51 +420,6 @@ export const BubbleMenuFormatSelector = ({
   if (!editor) {
     return null;
   }
-
-  const items = [
-    {
-      name: 'Bold',
-      isActive: () => editor.isActive('bold') ?? false,
-      command: () => editor.chain().focus().toggleBold().run(),
-      icon: BoldIcon,
-    },
-    {
-      name: 'Italic',
-      isActive: () => editor.isActive('italic') ?? false,
-      command: () => editor.chain().focus().toggleItalic().run(),
-      icon: ItalicIcon,
-    },
-    {
-      name: 'Underline',
-      isActive: () => editor.isActive('underline') ?? false,
-      command: () => editor.chain().focus().toggleUnderline().run(),
-      icon: UnderlineIcon,
-    },
-    {
-      name: 'Strikethrough',
-      isActive: () => editor.isActive('strike') ?? false,
-      command: () => editor.chain().focus().toggleStrike().run(),
-      icon: StrikethroughIcon,
-    },
-    {
-      name: 'Code',
-      isActive: () => editor.isActive('code') ?? false,
-      command: () => editor.chain().focus().toggleCode().run(),
-      icon: CodeIcon,
-    },
-    {
-      name: 'Superscript',
-      isActive: () => editor.isActive('superscript') ?? false,
-      command: () => editor.chain().focus().toggleSuperscript().run(),
-      icon: SuperscriptIcon,
-    },
-    {
-      name: 'Subscript',
-      isActive: () => editor.isActive('subscript') ?? false,
-      command: () => editor.chain().focus().toggleSubscript().run(),
-      icon: SubscriptIcon,
-    },
-  ];
 
   return (
     <Popover modal open={open} onOpenChange={onOpenChange}>
@@ -334,23 +435,7 @@ export const BubbleMenuFormatSelector = ({
         className={cn('w-48 p-1', className)}
         {...props}
       >
-        {items.map((item, index) => (
-          <Button
-            key={index}
-            onSelect={() => {
-              item.command();
-              onOpenChange(false);
-            }}
-            variant="ghost"
-            className="flex w-full gap-2"
-          >
-            <item.icon size={16} className="shrink-0 text-muted-foreground" />
-            <span className="flex-1 text-left">{item.name}</span>
-            {item.isActive() ? (
-              <CheckIcon size={16} className="shrink-0 text-muted-foreground" />
-            ) : null}
-          </Button>
-        ))}
+        {children}
       </PopoverContent>
     </Popover>
   );
