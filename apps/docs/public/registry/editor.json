@@ -15,7 +15,7 @@
     {
       "type": "registry:ui",
       "path": "index.tsx",
-      "content": "import { EditorProvider, type EditorProviderProps } from '@tiptap/react';\nimport StarterKit from '@tiptap/starter-kit';\n\nexport type ProviderProps = EditorProviderProps;\n\nconst defaultExtensions = [StarterKit];\n\nexport const Provider = ({ extensions, ...props }: ProviderProps) => (\n  <EditorProvider\n    extensions={[...defaultExtensions, ...(extensions ?? [])]}\n    {...props}\n  />\n);\n",
+      "content": "import {\n  BubbleMenu as BubbleMenuComponent,\n  type BubbleMenuProps as BubbleMenuComponentProps,\n  EditorProvider,\n  type EditorProviderProps,\n  FloatingMenu as FloatingMenuComponent,\n  type FloatingMenuProps as FloatingMenuComponentProps,\n} from '@tiptap/react';\nimport StarterKit from '@tiptap/starter-kit';\n\nexport type ProviderProps = EditorProviderProps & {\n  className?: string;\n};\n\nconst defaultExtensions = [StarterKit];\n\nexport const Provider = ({\n  className,\n  extensions,\n  ...props\n}: ProviderProps) => (\n  <div className={className}>\n    <EditorProvider\n      extensions={[...defaultExtensions, ...(extensions ?? [])]}\n      {...props}\n    />\n  </div>\n);\n\nexport type FloatingMenuProps = Omit<FloatingMenuComponentProps, 'editor'>;\n\nexport const FloatingMenu = (props: FloatingMenuProps) => (\n  <FloatingMenuComponent editor={null} {...props} />\n);\n\nexport type BubbleMenuProps = Omit<BubbleMenuComponentProps, 'editor'>;\n\nexport const BubbleMenu = (props: BubbleMenuProps) => (\n  <BubbleMenuComponent editor={null} {...props} />\n);\n",
       "target": "components/ui/kibo-ui/editor.tsx"
     }
   ]
