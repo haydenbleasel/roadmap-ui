@@ -9,6 +9,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import CharacterCount from '@tiptap/extension-character-count';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Color from '@tiptap/extension-color';
 import Placeholder from '@tiptap/extension-placeholder';
 import Typography from '@tiptap/extension-typography';
@@ -22,6 +23,7 @@ import {
   useCurrentEditor,
 } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { all, createLowlight } from 'lowlight';
 import {
   BoldIcon,
   CheckIcon,
@@ -50,6 +52,9 @@ import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { FormEventHandler, HTMLAttributes } from 'react';
 
+// create a lowlight instance with all languages loaded
+const lowlight = createLowlight(all);
+
 export type EditorProviderProps = TiptapEditorProviderProps & {
   className?: string;
   limit?: number;
@@ -59,7 +64,7 @@ export type EditorProviderProps = TiptapEditorProviderProps & {
 // StarterKit contains the following:
 // - Blockquote
 // - BulletList
-// - CodeBlock
+// - CodeBlock (disabled for lowlight version)
 // - Document
 // - HardBreak
 // - Heading
@@ -86,7 +91,9 @@ export const EditorProvider = ({
   ...props
 }: EditorProviderProps) => {
   const defaultExtensions = [
-    StarterKit,
+    StarterKit.configure({
+      codeBlock: false,
+    }),
     Color,
     Typography,
     Placeholder.configure({
@@ -96,6 +103,9 @@ export const EditorProvider = ({
     }),
     CharacterCount.configure({
       limit,
+    }),
+    CodeBlockLowlight.configure({
+      lowlight,
     }),
   ];
 

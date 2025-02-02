@@ -5,11 +5,13 @@
   "dependencies": {
     "@repo/shadcn-ui": "workspace:*",
     "@tiptap/extension-character-count": "^2.11.5",
+    "@tiptap/extension-code-block-lowlight": "^2.11.5",
     "@tiptap/extension-color": "^2.11.5",
     "@tiptap/extension-placeholder": "^2.11.5",
     "@tiptap/extension-typography": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
+    "lowlight": "^3.3.0",
     "lucide-react": "^0.474.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
