@@ -11,11 +11,11 @@ import CharacterCount from '@tiptap/extension-character-count';
 import Color from '@tiptap/extension-color';
 import {
   BubbleMenu as BubbleMenuComponent,
-  type BubbleMenuProps as BubbleMenuComponentProps,
-  EditorProvider,
-  type EditorProviderProps,
+  type BubbleMenuProps,
   FloatingMenu as FloatingMenuComponent,
-  type FloatingMenuProps as FloatingMenuComponentProps,
+  type FloatingMenuProps,
+  EditorProvider as TiptapEditorProvider,
+  type EditorProviderProps as TiptapEditorProviderProps,
   useCurrentEditor,
 } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -47,7 +47,7 @@ import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { FormEventHandler, HTMLAttributes } from 'react';
 
-export type ProviderProps = EditorProviderProps & {
+export type EditorProviderProps = TiptapEditorProviderProps & {
   className?: string;
   limit?: number;
 };
@@ -74,12 +74,12 @@ export type ProviderProps = EditorProviderProps & {
 // - Gapcursor
 // - History
 
-export const Provider = ({
+export const EditorProvider = ({
   className,
   extensions,
   limit,
   ...props
-}: ProviderProps) => {
+}: EditorProviderProps) => {
   const defaultExtensions = [
     StarterKit,
     Color,
@@ -90,7 +90,7 @@ export const Provider = ({
 
   return (
     <div className={className}>
-      <EditorProvider
+      <TiptapEditorProvider
         extensions={[...defaultExtensions, ...(extensions ?? [])]}
         {...props}
       />
@@ -111,15 +111,18 @@ export const useCharacterCount = () => {
   };
 };
 
-export type FloatingMenuProps = Omit<FloatingMenuComponentProps, 'editor'>;
+export type EditorFloatingMenuProps = Omit<FloatingMenuProps, 'editor'>;
 
-export const FloatingMenu = (props: FloatingMenuProps) => (
+export const EditorFloatingMenu = (props: EditorFloatingMenuProps) => (
   <FloatingMenuComponent editor={null} {...props} />
 );
 
-export type BubbleMenuProps = Omit<BubbleMenuComponentProps, 'editor'>;
+export type EditorBubbleMenuProps = Omit<BubbleMenuProps, 'editor'>;
 
-export const BubbleMenu = ({ className, ...props }: BubbleMenuProps) => (
+export const EditorBubbleMenu = ({
+  className,
+  ...props
+}: EditorBubbleMenuProps) => (
   <BubbleMenuComponent
     className={cn(
       'flex rounded-xl border bg-background p-0.5 shadow',
@@ -133,7 +136,7 @@ export const BubbleMenu = ({ className, ...props }: BubbleMenuProps) => (
   />
 );
 
-type BubbleMenuButtonProps = {
+type EditorBubbleMenuButtonProps = {
   name: string;
   isActive: () => boolean;
   command: () => void;
@@ -145,7 +148,7 @@ const BubbleMenuButton = ({
   isActive,
   command,
   icon: Icon,
-}: BubbleMenuButtonProps) => (
+}: EditorBubbleMenuButtonProps) => (
   <Button
     onSelect={() => command()}
     variant="ghost"
@@ -159,12 +162,12 @@ const BubbleMenuButton = ({
   </Button>
 );
 
-export type BubbleMenuTextButtonsProps = HTMLAttributes<HTMLDivElement>;
+export type EditorBubbleMenuTextButtonsProps = HTMLAttributes<HTMLDivElement>;
 
-export const BubbleMenuTextButtons = ({
+export const EditorBubbleMenuTextButtons = ({
   className,
   ...props
-}: BubbleMenuTextButtonsProps) => {
+}: EditorBubbleMenuTextButtonsProps) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -207,7 +210,7 @@ export const BubbleMenuTextButtons = ({
   );
 };
 
-export const BubbleMenuNodeText = () => {
+export const EditorBubbleMenuNodeText = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -233,7 +236,7 @@ export const BubbleMenuNodeText = () => {
   );
 };
 
-export const BubbleMenuNodeHeading1 = () => {
+export const EditorBubbleMenuNodeHeading1 = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -250,7 +253,7 @@ export const BubbleMenuNodeHeading1 = () => {
   );
 };
 
-export const BubbleMenuNodeHeading2 = () => {
+export const EditorBubbleMenuNodeHeading2 = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -267,7 +270,7 @@ export const BubbleMenuNodeHeading2 = () => {
   );
 };
 
-export const BubbleMenuNodeHeading3 = () => {
+export const EditorBubbleMenuNodeHeading3 = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -284,7 +287,7 @@ export const BubbleMenuNodeHeading3 = () => {
   );
 };
 
-export const BubbleMenuNodeBulletList = () => {
+export const EditorBubbleMenuNodeBulletList = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -301,7 +304,7 @@ export const BubbleMenuNodeBulletList = () => {
   );
 };
 
-export const BubbleMenuNodeOrderedList = () => {
+export const EditorBubbleMenuNodeOrderedList = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -318,7 +321,7 @@ export const BubbleMenuNodeOrderedList = () => {
   );
 };
 
-export const BubbleMenuNodeTaskList = () => {
+export const EditorBubbleMenuNodeTaskList = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -335,7 +338,7 @@ export const BubbleMenuNodeTaskList = () => {
   );
 };
 
-export const BubbleMenuNodeQuote = () => {
+export const EditorBubbleMenuNodeQuote = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -359,7 +362,7 @@ export const BubbleMenuNodeQuote = () => {
   );
 };
 
-export const BubbleMenuNodeCode = () => {
+export const EditorBubbleMenuNodeCode = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -376,13 +379,13 @@ export const BubbleMenuNodeCode = () => {
   );
 };
 
-export type BubbleMenuSelectorProps = HTMLAttributes<HTMLDivElement> & {
+export type EditorBubbleMenuSelectorProps = HTMLAttributes<HTMLDivElement> & {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
 };
 
-export const BubbleMenuSelector = ({
+export const EditorBubbleMenuSelector = ({
   open,
   onOpenChange,
   title,
@@ -416,7 +419,7 @@ export const BubbleMenuSelector = ({
   );
 };
 
-export const BubbleMenuFormatBold = () => {
+export const EditorBubbleMenuFormatBold = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -433,7 +436,7 @@ export const BubbleMenuFormatBold = () => {
   );
 };
 
-export const BubbleMenuFormatItalic = () => {
+export const EditorBubbleMenuFormatItalic = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -450,7 +453,7 @@ export const BubbleMenuFormatItalic = () => {
   );
 };
 
-export const BubbleMenuFormatStrike = () => {
+export const EditorBubbleMenuFormatStrike = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -467,7 +470,7 @@ export const BubbleMenuFormatStrike = () => {
   );
 };
 
-export const BubbleMenuFormatCode = () => {
+export const EditorBubbleMenuFormatCode = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -484,7 +487,7 @@ export const BubbleMenuFormatCode = () => {
   );
 };
 
-export const BubbleMenuFormatSubscript = () => {
+export const EditorBubbleMenuFormatSubscript = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -501,7 +504,7 @@ export const BubbleMenuFormatSubscript = () => {
   );
 };
 
-export const BubbleMenuFormatSuperscript = () => {
+export const EditorBubbleMenuFormatSuperscript = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -518,7 +521,7 @@ export const BubbleMenuFormatSuperscript = () => {
   );
 };
 
-export const BubbleMenuFormatUnderline = () => {
+export const EditorBubbleMenuFormatUnderline = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -540,7 +543,7 @@ type BubbleMenuLinkSelectorProperties = {
   readonly onOpenChange: (open: boolean) => void;
 };
 
-export const BubbleMenuLinkSelector = ({
+export const EditorBubbleMenuLinkSelector = ({
   open,
   onOpenChange,
 }: BubbleMenuLinkSelectorProperties) => {
@@ -646,12 +649,15 @@ export const BubbleMenuLinkSelector = ({
   );
 };
 
-export type BubbleMenuColorProps = {
+export type EditorBubbleMenuColorProps = {
   color: string;
   name: string;
 };
 
-export const BubbleMenuTextColor = ({ color, name }: BubbleMenuColorProps) => {
+export const EditorBubbleMenuTextColor = ({
+  color,
+  name,
+}: EditorBubbleMenuColorProps) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -673,10 +679,10 @@ export const BubbleMenuTextColor = ({ color, name }: BubbleMenuColorProps) => {
   );
 };
 
-export const BubbleMenuBackgroundColor = ({
+export const EditorBubbleMenuBackgroundColor = ({
   color,
   name,
-}: BubbleMenuColorProps) => {
+}: EditorBubbleMenuColorProps) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {

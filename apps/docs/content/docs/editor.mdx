@@ -15,30 +15,30 @@ import { AutoTypeTable } from 'fumadocs-typescript/ui';
 
 import { useState } from 'react';
 import {
-  BubbleMenu,
-  FloatingMenu,
-  Provider,
-  BubbleMenuSelector,
-  BubbleMenuLinkSelector,
-  BubbleMenuTextButtons,
-  BubbleMenuFormatBold,
-  BubbleMenuFormatItalic,
-  BubbleMenuFormatStrike,
-  BubbleMenuFormatCode,
-  BubbleMenuFormatSubscript,
-  BubbleMenuFormatSuperscript,
-  BubbleMenuFormatUnderline,
-  BubbleMenuNodeText,
-  BubbleMenuNodeHeading1,
-  BubbleMenuNodeHeading2,
-  BubbleMenuNodeHeading3,
-  BubbleMenuNodeBulletList,
-  BubbleMenuNodeOrderedList,
-  BubbleMenuNodeTaskList,
-  BubbleMenuNodeQuote,
-  BubbleMenuNodeCode,
-  BubbleMenuTextColor,
-  BubbleMenuBackgroundColor,
+  EditorBubbleMenu,
+  EditorFloatingMenu,
+  EditorProvider,
+  EditorBubbleMenuSelector,
+  EditorBubbleMenuLinkSelector,
+  EditorBubbleMenuTextButtons,
+  EditorBubbleMenuFormatBold,
+  EditorBubbleMenuFormatItalic,
+  EditorBubbleMenuFormatStrike,
+  EditorBubbleMenuFormatCode,
+  EditorBubbleMenuFormatSubscript,
+  EditorBubbleMenuFormatSuperscript,
+  EditorBubbleMenuFormatUnderline,
+  EditorBubbleMenuNodeText,
+  EditorBubbleMenuNodeHeading1,
+  EditorBubbleMenuNodeHeading2,
+  EditorBubbleMenuNodeHeading3,
+  EditorBubbleMenuNodeBulletList,
+  EditorBubbleMenuNodeOrderedList,
+  EditorBubbleMenuNodeTaskList,
+  EditorBubbleMenuNodeQuote,
+  EditorBubbleMenuNodeCode,
+  EditorBubbleMenuTextColor,
+  EditorBubbleMenuBackgroundColor,
 } from '@/components/ui/kibo-ui/editor';
 
 const Example = () => {
@@ -60,40 +60,40 @@ const Example = () => {
   return (
     <div className="bg-secondary flex h-screen w-full items-center justify-center p-8">
       <Provider content={content} className="bg-background rounded-lg border w-full h-full p-4">
-        <FloatingMenu />
-        <BubbleMenu>
-          <BubbleMenuSelector title="Text">
-            <BubbleMenuNodeText />
-            <BubbleMenuNodeHeading1 />
-            <BubbleMenuNodeHeading2 />
-            <BubbleMenuNodeHeading3 />
-            <BubbleMenuNodeBulletList />
-            <BubbleMenuNodeOrderedList />
-            <BubbleMenuNodeTaskList />
-            <BubbleMenuNodeQuote />
-            <BubbleMenuNodeCode />
-          </BubbleMenuSelector>
-          <BubbleMenuSelector title="Format">
-            <BubbleMenuFormatBold />
-            <BubbleMenuFormatItalic />
-            <BubbleMenuFormatUnderline />
-            <BubbleMenuFormatStrike />
-            <BubbleMenuFormatCode />
+        <EditorFloatingMenu />
+        <EditorBubbleMenu>
+          <EditorBubbleMenuSelector title="Text">
+            <EditorBubbleMenuNodeText />
+            <EditorBubbleMenuNodeHeading1 />
+            <EditorBubbleMenuNodeHeading2 />
+            <EditorBubbleMenuNodeHeading3 />
+            <EditorBubbleMenuNodeBulletList />
+            <EditorBubbleMenuNodeOrderedList />
+            <EditorBubbleMenuNodeTaskList />
+            <EditorBubbleMenuNodeQuote />
+            <EditorBubbleMenuNodeCode />
+          </EditorBubbleMenuSelector>
+          <EditorBubbleMenuSelector title="Format">
+            <EditorBubbleMenuFormatBold />
+            <EditorBubbleMenuFormatItalic />
+            <EditorBubbleMenuFormatUnderline />
+            <EditorBubbleMenuFormatStrike />
+            <EditorBubbleMenuFormatCode />
             <BubbleMenuFormatSuperscript />
             <BubbleMenuFormatSubscript />
-          </BubbleMenuSelector>
-          <BubbleMenuSelector title="Color">
+          </EditorBubbleMenuSelector>
+          <EditorBubbleMenuSelector title="Color">
             {textColors.map((color) => (
-              <BubbleMenuTextColor key={color.name} color={color.color} name={color.name} />
+              <EditorBubbleMenuTextColor key={color.name} color={color.color} name={color.name} />
             ))}
             {backgroundColors.map((color) => (
-              <BubbleMenuBackgroundColor key={color.name} color={color.color} name={color.name} />
+              <EditorBubbleMenuBackgroundColor key={color.name} color={color.color} name={color.name} />
             ))}
-          </BubbleMenuSelector>
-          <BubbleMenuLinkSelector />
-          <BubbleMenuTextButtons />
-        </BubbleMenu>
-      </Provider>
+          </EditorBubbleMenuSelector>
+          <EditorBubbleMenuLinkSelector />
+          <EditorBubbleMenuTextButtons />
+        </EditorBubbleMenu>
+      </EditorProvider>
     </div>
   );
 }
