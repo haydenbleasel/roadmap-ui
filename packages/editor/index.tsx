@@ -191,16 +191,16 @@ const BubbleMenuButton = ({
     className="flex w-full gap-2"
     size="sm"
   >
-    <Icon size={16} className="shrink-0 text-muted-foreground" />
+    <Icon size={12} className="shrink-0 text-muted-foreground" />
     {!hideName && <span className="flex-1 text-left">{name}</span>}
     {isActive() ? (
-      <CheckIcon size={16} className="shrink-0 text-muted-foreground" />
+      <CheckIcon size={12} className="shrink-0 text-muted-foreground" />
     ) : null}
   </Button>
 );
 
 export const EditorClearFormatting = ({
-  hideName = false,
+  hideName = true,
 }: Pick<EditorButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
@@ -443,8 +443,8 @@ export const EditorSelector = ({
           variant="ghost"
           className="gap-2 rounded-none border-none"
         >
-          <span className="whitespace-nowrap text-sm">{title}</span>
-          <ChevronDownIcon size={16} />
+          <span className="whitespace-nowrap text-xs">{title}</span>
+          <ChevronDownIcon size={12} />
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -665,7 +665,7 @@ export const EditorLinkSelector = ({
           variant="ghost"
           className="gap-2 rounded-none border-none"
         >
-          <ExternalLinkIcon size={16} />
+          <ExternalLinkIcon size={12} />
           <p
             className={cn(
               'underline decoration-text-muted underline-offset-4',
@@ -701,11 +701,11 @@ export const EditorLinkSelector = ({
                 onOpenChange(false);
               }}
             >
-              <TrashIcon size={16} />
+              <TrashIcon size={12} />
             </Button>
           ) : (
             <Button size="icon" variant="secondary" className="h-8">
-              <CheckIcon size={16} />
+              <CheckIcon size={12} />
             </Button>
           )}
         </form>
