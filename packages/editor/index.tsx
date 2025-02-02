@@ -128,6 +128,8 @@ export const EditorBubbleMenu = ({
   <BubbleMenuComponent
     className={cn(
       'flex rounded-xl border bg-background p-0.5 shadow',
+      '[&>*:first-child]:rounded-l-[9px]',
+      '[&>*:last-child]:rounded-r-[9px]',
       className
     )}
     tippyOptions={{
@@ -151,7 +153,7 @@ export const EditorBubbleMenu = ({
 );
 
 type EditorBubbleMenuButtonProps = {
-  name: string;
+  name?: string;
   isActive: () => boolean;
   command: () => void;
   icon: LucideIcon | ((props: LucideProps) => ReactNode);
@@ -167,60 +169,29 @@ const BubbleMenuButton = ({
     onSelect={() => command()}
     variant="ghost"
     className="flex w-full gap-2"
+    size="sm"
   >
     <Icon size={16} className="shrink-0 text-muted-foreground" />
-    <span className="flex-1 text-left">{name}</span>
+    {name && <span className="flex-1 text-left">{name}</span>}
     {isActive() ? (
       <CheckIcon size={16} className="shrink-0 text-muted-foreground" />
     ) : null}
   </Button>
 );
 
-export type EditorBubbleMenuTextButtonsProps = HTMLAttributes<HTMLDivElement>;
-
-export const EditorBubbleMenuTextButtons = ({
-  className,
-  ...props
-}: EditorBubbleMenuTextButtonsProps) => {
+export const EditorBubbleMenuClearFormatting = () => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
     return null;
   }
 
-  const items: {
-    name: string;
-    isActive: () => boolean;
-    command: () => void;
-    icon: LucideIcon;
-  }[] = [
-    {
-      name: 'clear-formatting',
-      isActive: () => false,
-      command: () => editor.chain().focus().clearNodes().unsetAllMarks().run(),
-      icon: RemoveFormattingIcon,
-    },
-  ];
-
   return (
-    <div className={cn('flex', className)} {...props}>
-      {items.map((item) => (
-        <Button
-          key={item.name}
-          onSelect={() => item.command()}
-          className="rounded-none"
-          variant="ghost"
-          size="icon"
-        >
-          <item.icon
-            size={16}
-            className={cn({
-              'text-primary': item.isActive(),
-            })}
-          />
-        </Button>
-      ))}
-    </div>
+    <BubbleMenuButton
+      command={() => editor.chain().focus().clearNodes().unsetAllMarks().run()}
+      icon={RemoveFormattingIcon}
+      isActive={() => false}
+    />
   );
 };
 
@@ -406,7 +377,7 @@ export const EditorBubbleMenuSelector = ({
   className,
   children,
   ...props
-}: BubbleMenuSelectorProps) => {
+}: EditorBubbleMenuSelectorProps) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -416,7 +387,11 @@ export const EditorBubbleMenuSelector = ({
   return (
     <Popover modal open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="gap-2 rounded-none border-none">
+        <Button
+          size="sm"
+          variant="ghost"
+          className="gap-2 rounded-none border-none"
+        >
           <span className="whitespace-nowrap text-sm">{title}</span>
           <ChevronDownIcon size={16} />
         </Button>
@@ -613,7 +588,11 @@ export const EditorBubbleMenuLinkSelector = ({
   return (
     <Popover modal open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="gap-2 rounded-none border-none">
+        <Button
+          size="sm"
+          variant="ghost"
+          className="gap-2 rounded-none border-none"
+        >
           <ExternalLinkIcon size={16} />
           <p
             className={cn(
