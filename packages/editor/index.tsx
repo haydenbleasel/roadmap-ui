@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -17,11 +19,13 @@ import {
 import StarterKit from '@tiptap/starter-kit';
 import {
   BoldIcon,
-  Check,
+  CheckIcon,
   CheckSquare,
   ChevronDown,
+  ChevronDownIcon,
   Code,
   CodeIcon,
+  ExternalLinkIcon,
   Heading1,
   Heading2,
   Heading3,
@@ -34,8 +38,11 @@ import {
   SuperscriptIcon,
   TextIcon,
   TextQuote,
+  TrashIcon,
   UnderlineIcon,
 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import type { FormEventHandler } from 'react';
 import type { HTMLAttributes } from 'react';
 
 export type ProviderProps = EditorProviderProps & {
@@ -242,7 +249,7 @@ export const BubbleMenuNodeSelector = ({
             <item.icon size={16} className="shrink-0 text-muted-foreground" />
             <span className="flex-1 text-left">{item.name}</span>
             {activeItem.name === item.name && (
-              <Check size={16} className="shrink-0 text-muted-foreground" />
+              <CheckIcon size={16} className="shrink-0 text-muted-foreground" />
             )}
           </Button>
         ))}
@@ -318,7 +325,7 @@ export const BubbleMenuFormatSelector = ({
       <PopoverTrigger asChild>
         <Button variant="ghost" className="gap-2 rounded-none border-none">
           <span className="whitespace-nowrap text-sm">Format</span>
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDownIcon size={16} />
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -340,10 +347,121 @@ export const BubbleMenuFormatSelector = ({
             <item.icon size={16} className="shrink-0 text-muted-foreground" />
             <span className="flex-1 text-left">{item.name}</span>
             {item.isActive() ? (
-              <Check size={16} className="shrink-0 text-muted-foreground" />
+              <CheckIcon size={16} className="shrink-0 text-muted-foreground" />
             ) : null}
           </Button>
         ))}
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+type BubbleMenuLinkSelectorProperties = {
+  readonly open: boolean;
+  readonly onOpenChange: (open: boolean) => void;
+};
+
+export const BubbleMenuLinkSelector = ({
+  open,
+  onOpenChange,
+}: BubbleMenuLinkSelectorProperties) => {
+  const [url, setUrl] = useState<string>('');
+  const inputReference = useRef<HTMLInputElement>(null);
+  const { editor } = useCurrentEditor();
+
+  const isValidUrl = (text: string): boolean => {
+    try {
+      new URL(text);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const getUrlFromString = (text: string): string | null => {
+    if (isValidUrl(text)) {
+      return text;
+    }
+    try {
+      if (text.includes('.') && !text.includes(' ')) {
+        return new URL(`https://${text}`).toString();
+      }
+
+      return null;
+    } catch {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    inputReference.current?.focus();
+  }, []);
+
+  if (!editor) {
+    return null;
+  }
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+
+    const href = getUrlFromString(url);
+
+    if (href) {
+      editor.chain().focus().setLink({ href }).run();
+      onOpenChange(false);
+    }
+  };
+
+  const defaultValue = (editor.getAttributes('link') as { href?: string }).href;
+
+  return (
+    <Popover modal open={open} onOpenChange={onOpenChange}>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" className="gap-2 rounded-none border-none">
+          <ExternalLinkIcon size={16} />
+          <p
+            className={cn(
+              'underline decoration-text-muted underline-offset-4',
+              {
+                'text-primary': editor.isActive('link'),
+              }
+            )}
+          >
+            Link
+          </p>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-60 p-0" sideOffset={10}>
+        <form onSubmit={handleSubmit} className="flex p-1">
+          <input
+            aria-label="Link URL"
+            ref={inputReference}
+            type="text"
+            placeholder="Paste a link"
+            className="flex-1 bg-background p-1 text-sm outline-none"
+            defaultValue={defaultValue ?? ''}
+            value={url}
+            onChange={(event) => setUrl(event.target.value)}
+          />
+          {editor.getAttributes('link').href ? (
+            <Button
+              size="icon"
+              variant="outline"
+              type="button"
+              className="flex h-8 items-center rounded-sm p-1 text-destructive transition-all hover:bg-destructive-foreground dark:hover:bg-destructive"
+              onClick={() => {
+                editor.chain().focus().unsetLink().run();
+                onOpenChange(false);
+              }}
+            >
+              <TrashIcon size={16} />
+            </Button>
+          ) : (
+            <Button size="icon" variant="secondary" className="h-8">
+              <CheckIcon size={16} />
+            </Button>
+          )}
+        </form>
       </PopoverContent>
     </Popover>
   );
