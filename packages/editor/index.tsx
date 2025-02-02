@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import CharacterCount from '@tiptap/extension-character-count';
 import {
   BubbleMenu as BubbleMenuComponent,
   type BubbleMenuProps as BubbleMenuComponentProps,
@@ -41,10 +42,11 @@ import {
   UnderlineIcon,
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import type { FormEventHandler, HTMLAttributes, ReactNode } from 'react';
+import type { FormEventHandler, HTMLAttributes } from 'react';
 
 export type ProviderProps = EditorProviderProps & {
   className?: string;
+  limit?: number;
 };
 
 // StarterKit contains the following:
@@ -69,20 +71,41 @@ export type ProviderProps = EditorProviderProps & {
 // - Gapcursor
 // - History
 
-const defaultExtensions = [StarterKit];
-
 export const Provider = ({
   className,
   extensions,
+  limit,
   ...props
-}: ProviderProps) => (
-  <div className={className}>
-    <EditorProvider
-      extensions={[...defaultExtensions, ...(extensions ?? [])]}
-      {...props}
-    />
-  </div>
-);
+}: ProviderProps) => {
+  const defaultExtensions = [
+    StarterKit,
+    CharacterCount.configure({
+      limit,
+    }),
+  ];
+
+  return (
+    <div className={className}>
+      <EditorProvider
+        extensions={[...defaultExtensions, ...(extensions ?? [])]}
+        {...props}
+      />
+    </div>
+  );
+};
+
+export const useCharacterCount = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return 0;
+  }
+
+  return {
+    characters: editor.storage.characterCount.characters(),
+    words: editor.storage.characterCount.words(),
+  };
+};
 
 export type FloatingMenuProps = Omit<FloatingMenuComponentProps, 'editor'>;
 
