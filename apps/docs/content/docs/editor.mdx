@@ -29,6 +29,15 @@ import {
   BubbleMenuFormatSubscript,
   BubbleMenuFormatSuperscript,
   BubbleMenuFormatUnderline,
+  BubbleMenuNodeText,
+  BubbleMenuNodeHeading1,
+  BubbleMenuNodeHeading2,
+  BubbleMenuNodeHeading3,
+  BubbleMenuNodeBulletList,
+  BubbleMenuNodeOrderedList,
+  BubbleMenuNodeTaskList,
+  BubbleMenuNodeQuote,
+  BubbleMenuNodeCode,
 } from '@/components/ui/kibo-ui/editor';
 
 const Example = () => {
@@ -39,7 +48,17 @@ const Example = () => {
       <Provider content={content} className="bg-background rounded-lg border w-full h-full p-4">
         <FloatingMenu />
         <BubbleMenu>
-          <BubbleMenuNodeSelector />
+          <BubbleMenuNodeSelector>
+            <BubbleMenuNodeText />
+            <BubbleMenuNodeHeading1 />
+            <BubbleMenuNodeHeading2 />
+            <BubbleMenuNodeHeading3 />
+            <BubbleMenuNodeBulletList />
+            <BubbleMenuNodeOrderedList />
+            <BubbleMenuNodeTaskList />
+            <BubbleMenuNodeQuote />
+            <BubbleMenuNodeCode />
+          </BubbleMenuNodeSelector>
           <BubbleMenuFormatSelector>
             <BubbleMenuFormatBold />
             <BubbleMenuFormatItalic />
