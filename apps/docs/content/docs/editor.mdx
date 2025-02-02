@@ -18,6 +18,8 @@ import {
   BubbleMenu,
   FloatingMenu,
   Provider,
+  BubbleMenuTextButtons,
+  BubbleMenuNodeSelector,
 } from '@/components/ui/kibo-ui/editor';
 
 const Example = () => {
@@ -27,7 +29,10 @@ const Example = () => {
     <div className="bg-secondary flex h-screen w-full items-center justify-center p-8">
       <Provider content={content} className="bg-background rounded-lg border w-full h-full p-4">
         <FloatingMenu />
-        <BubbleMenu />
+        <BubbleMenu>
+          <BubbleMenuNodeSelector />
+          <BubbleMenuTextButtons />
+        </BubbleMenu>
       </Provider>
     </div>
   );
