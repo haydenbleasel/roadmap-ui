@@ -18,8 +18,7 @@ import {
   BubbleMenu,
   FloatingMenu,
   Provider,
-  BubbleMenuFormatSelector,
-  BubbleMenuNodeSelector,
+  BubbleMenuSelector,
   BubbleMenuLinkSelector,
   BubbleMenuTextButtons,
   BubbleMenuFormatBold,
@@ -48,7 +47,7 @@ const Example = () => {
       <Provider content={content} className="bg-background rounded-lg border w-full h-full p-4">
         <FloatingMenu />
         <BubbleMenu>
-          <BubbleMenuNodeSelector>
+          <BubbleMenuSelector title="Text">
             <BubbleMenuNodeText />
             <BubbleMenuNodeHeading1 />
             <BubbleMenuNodeHeading2 />
@@ -58,8 +57,8 @@ const Example = () => {
             <BubbleMenuNodeTaskList />
             <BubbleMenuNodeQuote />
             <BubbleMenuNodeCode />
-          </BubbleMenuNodeSelector>
-          <BubbleMenuFormatSelector>
+          </BubbleMenuSelector>
+          <BubbleMenuSelector title="Format">
             <BubbleMenuFormatBold />
             <BubbleMenuFormatItalic />
             <BubbleMenuFormatUnderline />

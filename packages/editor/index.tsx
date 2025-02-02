@@ -369,18 +369,20 @@ export const BubbleMenuNodeCode = () => {
   );
 };
 
-export type BubbleMenuNodeSelectorProps = HTMLAttributes<HTMLDivElement> & {
+export type BubbleMenuSelectorProps = HTMLAttributes<HTMLDivElement> & {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  title: string;
 };
 
-export const BubbleMenuNodeSelector = ({
+export const BubbleMenuSelector = ({
   open,
   onOpenChange,
+  title,
   className,
   children,
   ...props
-}: BubbleMenuNodeSelectorProps) => {
+}: BubbleMenuSelectorProps) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -391,7 +393,7 @@ export const BubbleMenuNodeSelector = ({
     <Popover modal open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         <Button variant="ghost" className="gap-2 rounded-none border-none">
-          <span className="whitespace-nowrap text-sm">Text</span>
+          <span className="whitespace-nowrap text-sm">{title}</span>
           <ChevronDownIcon size={16} />
         </Button>
       </PopoverTrigger>
@@ -523,45 +525,6 @@ export const BubbleMenuFormatUnderline = () => {
       command={() => editor.chain().focus().toggleUnderline().run()}
       icon={UnderlineIcon}
     />
-  );
-};
-
-export type BubbleMenuFormatSelectorProps = HTMLAttributes<HTMLDivElement> & {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  children?: ReactNode;
-};
-
-export const BubbleMenuFormatSelector = ({
-  className,
-  open,
-  onOpenChange,
-  children,
-  ...props
-}: BubbleMenuFormatSelectorProps) => {
-  const { editor } = useCurrentEditor();
-
-  if (!editor) {
-    return null;
-  }
-
-  return (
-    <Popover modal open={open} onOpenChange={onOpenChange}>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" className="gap-2 rounded-none border-none">
-          <span className="whitespace-nowrap text-sm">Format</span>
-          <ChevronDownIcon size={16} />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        sideOffset={5}
-        align="start"
-        className={cn('w-48 p-1', className)}
-        {...props}
-      >
-        {children}
-      </PopoverContent>
-    </Popover>
   );
 };
 
