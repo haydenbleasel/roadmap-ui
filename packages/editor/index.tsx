@@ -11,9 +11,9 @@ import { cn } from '@/lib/utils';
 import CharacterCount from '@tiptap/extension-character-count';
 import Color from '@tiptap/extension-color';
 import {
-  BubbleMenu as BubbleMenuComponent,
+  BubbleMenu,
   type BubbleMenuProps,
-  FloatingMenu as FloatingMenuComponent,
+  FloatingMenu,
   type FloatingMenuProps,
   EditorProvider as TiptapEditorProvider,
   type EditorProviderProps as TiptapEditorProviderProps,
@@ -114,8 +114,18 @@ export const useCharacterCount = () => {
 
 export type EditorFloatingMenuProps = Omit<FloatingMenuProps, 'editor'>;
 
-export const EditorFloatingMenu = (props: EditorFloatingMenuProps) => (
-  <FloatingMenuComponent editor={null} {...props} />
+export const EditorFloatingMenu = ({
+  className,
+  ...props
+}: EditorFloatingMenuProps) => (
+  <FloatingMenu
+    className={cn(
+      'flex rounded-xl border bg-background p-0.5 shadow',
+      className
+    )}
+    editor={null}
+    {...props}
+  />
 );
 
 export type EditorBubbleMenuProps = Omit<BubbleMenuProps, 'editor'>;
@@ -125,7 +135,7 @@ export const EditorBubbleMenu = ({
   children,
   ...props
 }: EditorBubbleMenuProps) => (
-  <BubbleMenuComponent
+  <BubbleMenu
     className={cn(
       'flex rounded-xl border bg-background p-0.5 shadow',
       '[&>*:first-child]:rounded-l-[9px]',
@@ -149,14 +159,15 @@ export const EditorBubbleMenu = ({
           return acc;
         }, [])
       : children}
-  </BubbleMenuComponent>
+  </BubbleMenu>
 );
 
 type EditorBubbleMenuButtonProps = {
-  name?: string;
+  name: string;
   isActive: () => boolean;
   command: () => void;
   icon: LucideIcon | ((props: LucideProps) => ReactNode);
+  hideName?: boolean;
 };
 
 const BubbleMenuButton = ({
@@ -164,6 +175,7 @@ const BubbleMenuButton = ({
   isActive,
   command,
   icon: Icon,
+  hideName,
 }: EditorBubbleMenuButtonProps) => (
   <Button
     onSelect={() => command()}
@@ -172,14 +184,16 @@ const BubbleMenuButton = ({
     size="sm"
   >
     <Icon size={16} className="shrink-0 text-muted-foreground" />
-    {name && <span className="flex-1 text-left">{name}</span>}
+    {!hideName && <span className="flex-1 text-left">{name}</span>}
     {isActive() ? (
       <CheckIcon size={16} className="shrink-0 text-muted-foreground" />
     ) : null}
   </Button>
 );
 
-export const EditorBubbleMenuClearFormatting = () => {
+export const EditorBubbleMenuClearFormatting = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -191,11 +205,15 @@ export const EditorBubbleMenuClearFormatting = () => {
       command={() => editor.chain().focus().clearNodes().unsetAllMarks().run()}
       icon={RemoveFormattingIcon}
       isActive={() => false}
+      hideName={hideName}
+      name="Clear Formatting"
     />
   );
 };
 
-export const EditorBubbleMenuNodeText = () => {
+export const EditorBubbleMenuNodeText = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -217,11 +235,14 @@ export const EditorBubbleMenuNodeText = () => {
         false
       }
       icon={TextIcon}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuNodeHeading1 = () => {
+export const EditorBubbleMenuNodeHeading1 = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -234,11 +255,14 @@ export const EditorBubbleMenuNodeHeading1 = () => {
       command={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
       icon={Heading1}
       isActive={() => editor.isActive('heading', { level: 1 }) ?? false}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuNodeHeading2 = () => {
+export const EditorBubbleMenuNodeHeading2 = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -251,11 +275,14 @@ export const EditorBubbleMenuNodeHeading2 = () => {
       command={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
       icon={Heading2}
       isActive={() => editor.isActive('heading', { level: 2 }) ?? false}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuNodeHeading3 = () => {
+export const EditorBubbleMenuNodeHeading3 = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -268,11 +295,14 @@ export const EditorBubbleMenuNodeHeading3 = () => {
       command={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
       icon={Heading3}
       isActive={() => editor.isActive('heading', { level: 3 }) ?? false}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuNodeBulletList = () => {
+export const EditorBubbleMenuNodeBulletList = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -285,11 +315,14 @@ export const EditorBubbleMenuNodeBulletList = () => {
       command={() => editor.chain().focus().toggleBulletList().run()}
       icon={ListOrdered}
       isActive={() => editor.isActive('bulletList') ?? false}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuNodeOrderedList = () => {
+export const EditorBubbleMenuNodeOrderedList = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -302,11 +335,14 @@ export const EditorBubbleMenuNodeOrderedList = () => {
       command={() => editor.chain().focus().toggleOrderedList().run()}
       icon={ListOrdered}
       isActive={() => editor.isActive('orderedList') ?? false}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuNodeTaskList = () => {
+export const EditorBubbleMenuNodeTaskList = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -319,11 +355,14 @@ export const EditorBubbleMenuNodeTaskList = () => {
       command={() => editor.chain().focus().toggleTaskList().run()}
       icon={CheckSquare}
       isActive={() => editor.isActive('taskItem') ?? false}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuNodeQuote = () => {
+export const EditorBubbleMenuNodeQuote = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -343,11 +382,14 @@ export const EditorBubbleMenuNodeQuote = () => {
       }
       icon={TextQuote}
       isActive={() => editor.isActive('blockquote') ?? false}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuNodeCode = () => {
+export const EditorBubbleMenuNodeCode = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -360,6 +402,7 @@ export const EditorBubbleMenuNodeCode = () => {
       command={() => editor.chain().focus().toggleCodeBlock().run()}
       icon={Code}
       isActive={() => editor.isActive('codeBlock') ?? false}
+      hideName={hideName}
     />
   );
 };
@@ -408,7 +451,9 @@ export const EditorBubbleMenuSelector = ({
   );
 };
 
-export const EditorBubbleMenuFormatBold = () => {
+export const EditorBubbleMenuFormatBold = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -421,11 +466,14 @@ export const EditorBubbleMenuFormatBold = () => {
       isActive={() => editor.isActive('bold') ?? false}
       command={() => editor.chain().focus().toggleBold().run()}
       icon={BoldIcon}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuFormatItalic = () => {
+export const EditorBubbleMenuFormatItalic = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -438,11 +486,14 @@ export const EditorBubbleMenuFormatItalic = () => {
       isActive={() => editor.isActive('italic') ?? false}
       command={() => editor.chain().focus().toggleItalic().run()}
       icon={ItalicIcon}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuFormatStrike = () => {
+export const EditorBubbleMenuFormatStrike = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -455,11 +506,14 @@ export const EditorBubbleMenuFormatStrike = () => {
       isActive={() => editor.isActive('strike') ?? false}
       command={() => editor.chain().focus().toggleStrike().run()}
       icon={StrikethroughIcon}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuFormatCode = () => {
+export const EditorBubbleMenuFormatCode = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -472,11 +526,14 @@ export const EditorBubbleMenuFormatCode = () => {
       isActive={() => editor.isActive('code') ?? false}
       command={() => editor.chain().focus().toggleCode().run()}
       icon={CodeIcon}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuFormatSubscript = () => {
+export const EditorBubbleMenuFormatSubscript = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -489,11 +546,14 @@ export const EditorBubbleMenuFormatSubscript = () => {
       isActive={() => editor.isActive('subscript') ?? false}
       command={() => editor.chain().focus().toggleSubscript().run()}
       icon={SubscriptIcon}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuFormatSuperscript = () => {
+export const EditorBubbleMenuFormatSuperscript = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -506,11 +566,14 @@ export const EditorBubbleMenuFormatSuperscript = () => {
       isActive={() => editor.isActive('superscript') ?? false}
       command={() => editor.chain().focus().toggleSuperscript().run()}
       icon={SuperscriptIcon}
+      hideName={hideName}
     />
   );
 };
 
-export const EditorBubbleMenuFormatUnderline = () => {
+export const EditorBubbleMenuFormatUnderline = ({
+  hideName = false,
+}: Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -523,6 +586,7 @@ export const EditorBubbleMenuFormatUnderline = () => {
       isActive={() => editor.isActive('underline') ?? false}
       command={() => editor.chain().focus().toggleUnderline().run()}
       icon={UnderlineIcon}
+      hideName={hideName}
     />
   );
 };
@@ -535,7 +599,8 @@ type BubbleMenuLinkSelectorProperties = {
 export const EditorBubbleMenuLinkSelector = ({
   open,
   onOpenChange,
-}: BubbleMenuLinkSelectorProperties) => {
+}: BubbleMenuLinkSelectorProperties &
+  Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const [url, setUrl] = useState<string>('');
   const inputReference = useRef<HTMLInputElement>(null);
   const { editor } = useCurrentEditor();
@@ -650,7 +715,9 @@ export type EditorBubbleMenuColorProps = {
 export const EditorBubbleMenuTextColor = ({
   color,
   name,
-}: EditorBubbleMenuColorProps) => {
+  hideName = false,
+}: EditorBubbleMenuColorProps &
+  Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -668,6 +735,7 @@ export const EditorBubbleMenuTextColor = ({
         />
       )}
       isActive={() => editor.isActive('textStyle', { color }) ?? false}
+      hideName={hideName}
     />
   );
 };
@@ -675,7 +743,9 @@ export const EditorBubbleMenuTextColor = ({
 export const EditorBubbleMenuBackgroundColor = ({
   color,
   name,
-}: EditorBubbleMenuColorProps) => {
+  hideName = false,
+}: EditorBubbleMenuColorProps &
+  Pick<EditorBubbleMenuButtonProps, 'hideName'>) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -693,6 +763,7 @@ export const EditorBubbleMenuBackgroundColor = ({
         />
       )}
       isActive={() => editor.isActive('highlight', { color }) ?? false}
+      hideName={hideName}
     />
   );
 };
