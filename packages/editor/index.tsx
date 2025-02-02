@@ -236,15 +236,14 @@ export const BubbleMenuNodeSelector = ({
               item.command();
               onOpenChange(false);
             }}
-            className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-card"
+            variant="ghost"
+            className="flex w-full gap-2"
           >
-            <div className="flex items-center space-x-2">
-              <div className="rounded-sm bg-background p-1">
-                <item.icon size={12} />
-              </div>
-              <span>{item.name}</span>
-            </div>
-            {activeItem.name === item.name && <Check className="h-4 w-4" />}
+            <item.icon size={16} className="shrink-0 text-muted-foreground" />
+            <span className="flex-1 text-left">{item.name}</span>
+            {activeItem.name === item.name && (
+              <Check size={16} className="shrink-0 text-muted-foreground" />
+            )}
           </Button>
         ))}
       </PopoverContent>
@@ -335,15 +334,14 @@ export const BubbleMenuFormatSelector = ({
               item.command();
               onOpenChange(false);
             }}
-            className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-card"
+            variant="ghost"
+            className="flex w-full gap-2"
           >
-            <div className="flex items-center space-x-2">
-              <div className="rounded-sm bg-background p-1">
-                <item.icon size={12} />
-              </div>
-              <span>{item.name}</span>
-            </div>
-            {item.isActive() ? <Check className="h-4 w-4" /> : null}
+            <item.icon size={16} className="shrink-0 text-muted-foreground" />
+            <span className="flex-1 text-left">{item.name}</span>
+            {item.isActive() ? (
+              <Check size={16} className="shrink-0 text-muted-foreground" />
+            ) : null}
           </Button>
         ))}
       </PopoverContent>
