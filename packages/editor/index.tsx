@@ -804,7 +804,7 @@ export const EditorTextColor = ({
       command={() => editor.chain().focus().setColor(color).run()}
       icon={() => (
         <div
-          className="h-4 w-4 rounded-sm border"
+          className="size-4 rounded-sm border"
           style={{ backgroundColor: color }}
         />
       )}
@@ -831,7 +831,7 @@ export const EditorBackgroundColor = ({
       command={() => editor.chain().focus().setHighlight({ color }).run()}
       icon={() => (
         <div
-          className="h-4 w-4 rounded-sm border"
+          className="size-4 rounded-sm border"
           style={{ backgroundColor: color }}
         />
       )}
@@ -912,7 +912,7 @@ const EditorSlashMenuButton = ({
 
   return (
     <CommandItem onSelect={() => command({ editor, range })}>
-      <div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
+      <div className="flex size-10 items-center justify-center rounded-md border border-muted bg-background">
         <Icon size={16} />
       </div>
       <div>
