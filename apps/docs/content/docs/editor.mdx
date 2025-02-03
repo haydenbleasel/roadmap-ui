@@ -39,6 +39,8 @@ import {
   EditorNodeCode,
   EditorTextColor,
   EditorBackgroundColor,
+  EditorSlashMenu,
+  EditorSlashTextButton,
 } from '@/components/ui/kibo-ui/editor';
 
 const Example = () => {
@@ -99,6 +101,9 @@ const Example = () => {
           <EditorLinkSelector />
           <EditorClearFormatting />
         </EditorBubbleMenu>
+        <EditorSlashMenu>
+          <EditorSlashTextButton />
+        </EditorSlashMenu>
       </EditorProvider>
     </div>
   );

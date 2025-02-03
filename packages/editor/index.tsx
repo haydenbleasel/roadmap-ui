@@ -2,12 +2,20 @@
 
 import { Button } from '@/components/ui/button';
 import {
+  Command,
+  CommandEmpty,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { Extension } from '@tiptap/core';
+import type { Editor, Range } from '@tiptap/core';
 import CharacterCount from '@tiptap/extension-character-count';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Color from '@tiptap/extension-color';
@@ -23,6 +31,7 @@ import {
   useCurrentEditor,
 } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Suggestion, { type SuggestionOptions } from '@tiptap/suggestion';
 import { all, createLowlight } from 'lowlight';
 import {
   BoldIcon,
@@ -48,11 +57,57 @@ import {
   TrashIcon,
   UnderlineIcon,
 } from 'lucide-react';
-import type { ReactNode } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { Children, useEffect, useRef, useState } from 'react';
 import type { FormEventHandler, HTMLAttributes } from 'react';
+import type { ReactNode } from 'react';
 
-// create a lowlight instance with all languages loaded
+const SlashCommand = Extension.create({
+  name: 'slashCommand',
+  addOptions() {
+    const suggestion: Omit<SuggestionOptions, 'editor'> = {
+      char: '/',
+      command: ({ editor, range, props }) => props.command({ editor, range }),
+      render: () => {
+        return {
+          onStart: ({ editor }) => {
+            editor.storage.slashCommand.open = true;
+          },
+          onExit: ({ editor }) => {
+            editor.storage.slashCommand.open = false;
+          },
+        };
+      },
+    };
+
+    return {
+      suggestion,
+    };
+  },
+  addStorage() {
+    return {
+      open: false,
+      range: null,
+    };
+  },
+  addProseMirrorPlugins() {
+    return [
+      Suggestion({
+        editor: this.editor,
+        ...this.options.suggestion,
+      }),
+    ];
+  },
+});
+
+export interface SuggestionItem {
+  title: string;
+  description: string;
+  icon: ReactNode;
+  searchTerms?: string[];
+  command?: (props: { editor: Editor; range: Range }) => void;
+}
+
+// Create a lowlight instance with all languages loaded
 const lowlight = createLowlight(all);
 
 export type EditorProviderProps = TiptapEditorProviderProps & {
@@ -107,6 +162,7 @@ export const EditorProvider = ({
     CodeBlockLowlight.configure({
       lowlight,
     }),
+    SlashCommand,
   ];
 
   return (
@@ -784,3 +840,101 @@ export const EditorBackgroundColor = ({
     />
   );
 };
+
+type EditorSlashMenuProps = {
+  children: ReactNode;
+  className?: string;
+};
+
+export const EditorSlashMenu = ({
+  children,
+  className,
+  ...props
+}: EditorSlashMenuProps) => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenu
+      className={cn(
+        'flex rounded-xl border bg-background p-0.5 shadow',
+        '[&>*:first-child]:rounded-l-[9px]',
+        '[&>*:last-child]:rounded-r-[9px]',
+        className
+      )}
+      shouldShow={() => editor.storage.slashCommand.open}
+      tippyOptions={{
+        maxWidth: 'none',
+      }}
+      editor={null}
+      {...props}
+    >
+      <Command>
+        <CommandEmpty className="px-2 text-muted-foreground">
+          No results
+        </CommandEmpty>
+        <CommandList>
+          {Children.map(children, (child) => (
+            <CommandItem asChild>{child}</CommandItem>
+          ))}
+        </CommandList>
+      </Command>
+    </BubbleMenu>
+  );
+};
+
+type EditorSlashMenuButtonProps = {
+  title: string;
+  description: string;
+  searchTerms: string[];
+  icon: LucideIcon;
+  command: (props: { editor: Editor; range: Range }) => void;
+};
+
+const EditorSlashMenuButton = ({
+  title,
+  description,
+  searchTerms,
+  icon: Icon,
+  command,
+}: EditorSlashMenuButtonProps) => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <CommandItem
+      onSelect={() => command({ editor, range: editor.state.selection })}
+    >
+      <div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
+        <Icon size={16} />
+      </div>
+      <div>
+        <p className="font-medium">{title}</p>
+        <p className="text-muted-foreground text-xs">{description}</p>
+      </div>
+    </CommandItem>
+  );
+};
+
+export const EditorSlashTextButton = () => (
+  <EditorSlashMenuButton
+    title="Text"
+    description="Just start typing with plain text."
+    searchTerms={['p', 'paragraph']}
+    icon={TextIcon}
+    command={({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .toggleNode('paragraph', 'paragraph')
+        .run();
+    }}
+  />
+);
