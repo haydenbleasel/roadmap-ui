@@ -907,10 +907,11 @@ const EditorSlashMenuButton = ({
     return null;
   }
 
+  const { from, to } = editor.state.selection;
+  const range: Range = { from, to };
+
   return (
-    <CommandItem
-      onSelect={() => command({ editor, range: editor.state.selection })}
-    >
+    <CommandItem onSelect={() => command({ editor, range })}>
       <div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
         <Icon size={16} />
       </div>
