@@ -50,6 +50,20 @@ import {
   EditorSlashQuoteButton,
   EditorSlashCodeButton,
   EditorSlashImageButton,
+  EditorSlashTableButton,
+  EditorTableMenu,
+  EditorTableGlobalMenu,
+  EditorTableColumnMenu,
+  EditorTableRowMenu,
+  EditorTableColumnBefore,
+  EditorTableColumnAfter,
+  EditorTableRowBefore,
+  EditorTableRowAfter,
+  EditorTableColumnDelete,
+  EditorTableRowDelete,
+  EditorTableHeaderColumnToggle,
+  EditorTableHeaderRowToggle,
+  EditorTableDelete,
 } from '@/components/ui/kibo-ui/editor';
 
 const textColors = [
@@ -124,7 +138,25 @@ const Example = () => {
           <EditorSlashQuoteButton />
           <EditorSlashCodeButton />
           <EditorSlashImageButton />
+          <EditorSlashTableButton />
         </EditorSlashMenu>
+        <EditorTableMenu>
+          <EditorTableColumnMenu>
+            <EditorTableColumnBefore />
+            <EditorTableColumnAfter />
+            <EditorTableColumnDelete />
+          </EditorTableColumnMenu>
+          <EditorTableRowMenu>
+            <EditorTableRowBefore />
+            <EditorTableRowAfter />
+            <EditorTableRowDelete />
+          </EditorTableRowMenu>
+          <EditorTableGlobalMenu>
+            <EditorTableHeaderColumnToggle />
+            <EditorTableHeaderRowToggle />
+            <EditorTableDelete />
+          </EditorTableGlobalMenu>
+        </EditorTableMenu>
       </EditorProvider>
     </div>
   );

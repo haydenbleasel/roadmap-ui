@@ -8,6 +8,12 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -40,6 +46,10 @@ import StarterKit from '@tiptap/starter-kit';
 import Suggestion, { type SuggestionOptions } from '@tiptap/suggestion';
 import { all, createLowlight } from 'lowlight';
 import {
+  ArrowDownIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ArrowUpIcon,
   BoldIcon,
   CheckIcon,
   CheckSquare,
@@ -47,6 +57,9 @@ import {
   ChevronDownIcon,
   Code,
   CodeIcon,
+  ColumnsIcon,
+  EllipsisIcon,
+  EllipsisVerticalIcon,
   ExternalLinkIcon,
   Heading1,
   Heading1Icon,
@@ -62,16 +75,16 @@ import {
   type LucideIcon,
   type LucideProps,
   RemoveFormattingIcon,
+  RowsIcon,
   StrikethroughIcon,
   SubscriptIcon,
   SuperscriptIcon,
+  TableIcon,
   TextIcon,
   TextQuote,
   TextQuoteIcon,
   TrashIcon,
-  TwitterIcon,
   UnderlineIcon,
-  YoutubeIcon,
 } from 'lucide-react';
 import { Children, useEffect, useRef, useState } from 'react';
 import type { FormEventHandler, HTMLAttributes } from 'react';
@@ -219,7 +232,7 @@ export const EditorProvider = ({
     Table.configure({
       HTMLAttributes: {
         class:
-          'table-fixed m-0 overflow-hidden mx-auto my-3 border-collapse rounded-none',
+          'table-fixed w-full relative m-0 overflow-hidden mx-auto my-3 border-collapse rounded-none',
       },
       allowTableNodeSelection: true,
     }),
@@ -938,8 +951,6 @@ export const EditorSlashMenu = ({
     return null;
   }
 
-  console.log('slashCommandOpen', editor.storage.slashCommand.open);
-
   return (
     <BubbleMenu
       className={cn(
@@ -1169,58 +1180,376 @@ export const EditorSlashImageButton = () => (
   />
 );
 
-export const EditorSlashYoutubeButton = () => (
+export const EditorSlashTableButton = () => (
   <EditorSlashMenuButton
-    title="Youtube"
-    description="Embed a Youtube video."
-    searchTerms={['video', 'youtube', 'embed']}
-    icon={YoutubeIcon}
-    command={({ editor, range }) => {
-      const videoLink = prompt('Please enter Youtube Video Link');
-      const ytregex = new RegExp(
-        /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/
-      );
-
-      if (ytregex.test(videoLink)) {
-        editor
-          .chain()
-          .focus()
-          .deleteRange(range)
-          .setYoutubeVideo({
-            src: videoLink,
-          })
-          .run();
-      } else if (videoLink !== null) {
-        alert('Please enter a correct Youtube Video Link');
-      }
-    }}
+    title="Table"
+    description="Add a table view to organize data."
+    searchTerms={['table']}
+    icon={TableIcon}
+    command={({ editor, range }) =>
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+        .run()
+    }
   />
 );
 
-export const EditorSlashTwitterButton = () => (
-  <EditorSlashMenuButton
-    title="Twitter"
-    description="Embed a Tweet."
-    searchTerms={['twitter', 'embed']}
-    icon={TwitterIcon}
-    command={({ editor, range }) => {
-      const tweetLink = prompt('Please enter Twitter Link');
-      const tweetRegex = new RegExp(
-        /^https?:\/\/(www\.)?x\.com\/([a-zA-Z0-9_]{1,15})(\/status\/(\d+))?(\/\S*)?$/
-      );
+export type EditorTableMenuProps = {
+  children: ReactNode;
+};
 
-      if (tweetRegex.test(tweetLink)) {
-        editor
-          .chain()
-          .focus()
-          .deleteRange(range)
-          .setTweet({
-            src: tweetLink,
-          })
-          .run();
-      } else if (tweetLink !== null) {
-        alert('Please enter a correct Twitter Link');
+export const EditorTableMenu = ({ children }: EditorTableMenuProps) => children;
+
+export type EditorTableGlobalMenuProps = {
+  children: ReactNode;
+};
+
+export const EditorTableGlobalMenu = ({
+  children,
+}: EditorTableGlobalMenuProps) => {
+  const { editor } = useCurrentEditor();
+  const [top, setTop] = useState(0);
+  const [left, setLeft] = useState(0);
+
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    editor.on('selectionUpdate', () => {
+      const selection = window.getSelection();
+
+      if (!selection || !editor.isActive('table')) {
+        return;
       }
-    }}
-  />
-);
+
+      const range = selection.getRangeAt(0);
+      let startContainer = range.startContainer as HTMLElement | string;
+
+      if (!(startContainer instanceof HTMLElement)) {
+        startContainer = range.startContainer.parentElement as HTMLElement;
+      }
+
+      const tableNode = startContainer.closest('table');
+
+      if (!tableNode) {
+        return;
+      }
+
+      setTop(tableNode.offsetTop);
+      setLeft(tableNode.offsetLeft);
+    });
+
+    return () => {
+      editor.off('selectionUpdate');
+    };
+  }, [editor]);
+
+  if (!editor || !editor?.isActive('table')) {
+    return null;
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        asChild
+        className="-translate-x-1/2 -translate-y-1/2 absolute flex overflow-hidden rounded-md border border-border/50 bg-background/90 shadow-xl backdrop-blur-lg"
+        style={{ top, left }}
+      >
+        <Button variant="ghost" size="icon">
+          <EllipsisIcon size={16} className="text-muted-foreground" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>{children}</DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export type EditorTableColumnMenuProps = {
+  children: ReactNode;
+};
+
+export const EditorTableColumnMenu = ({
+  children,
+}: EditorTableColumnMenuProps) => {
+  const { editor } = useCurrentEditor();
+  const [top, setTop] = useState(0);
+  const [left, setLeft] = useState(0);
+
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    editor.on('selectionUpdate', () => {
+      const selection = window.getSelection();
+
+      if (!selection || !editor.isActive('table')) {
+        return;
+      }
+
+      const range = selection.getRangeAt(0);
+      let startContainer = range.startContainer as HTMLElement | string;
+
+      if (!(startContainer instanceof HTMLElement)) {
+        startContainer = range.startContainer.parentElement as HTMLElement;
+      }
+
+      // Get the closest table cell (td or th)
+      const tableCell = startContainer.closest('td, th');
+
+      if (!tableCell) {
+        return;
+      }
+
+      const cellRect = tableCell.getBoundingClientRect();
+      const editorRect = editor.view.dom.getBoundingClientRect();
+
+      setTop(cellRect.top - (editorRect?.top ?? 0));
+      setLeft(cellRect.left + cellRect.width / 2 - (editorRect?.left ?? 0));
+    });
+
+    return () => {
+      editor.off('selectionUpdate');
+    };
+  }, [editor]);
+
+  if (!editor || !editor?.isActive('table')) {
+    return null;
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        asChild
+        className="-translate-x-1/2 -translate-y-1/2 absolute flex overflow-hidden rounded-md border border-border/50 bg-background/90 shadow-xl backdrop-blur-lg"
+        style={{ top, left }}
+      >
+        <Button variant="ghost" size="icon">
+          <EllipsisIcon size={16} className="text-muted-foreground" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>{children}</DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export type EditorTableRowMenuProps = {
+  children: ReactNode;
+};
+
+export const EditorTableRowMenu = ({ children }: EditorTableRowMenuProps) => {
+  const { editor } = useCurrentEditor();
+  const [top, setTop] = useState(0);
+  const [left, setLeft] = useState(0);
+
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    editor.on('selectionUpdate', () => {
+      const selection = window.getSelection();
+
+      if (!selection || !editor.isActive('table')) {
+        return;
+      }
+
+      const range = selection.getRangeAt(0);
+      let startContainer = range.startContainer as HTMLElement | string;
+
+      if (!(startContainer instanceof HTMLElement)) {
+        startContainer = range.startContainer.parentElement as HTMLElement;
+      }
+
+      const tableRow = startContainer.closest('tr');
+
+      if (!tableRow) {
+        return;
+      }
+
+      const rowRect = tableRow.getBoundingClientRect();
+      const editorRect = editor.view.dom.getBoundingClientRect();
+
+      setTop(rowRect.top + rowRect.height / 2 - (editorRect?.top ?? 0));
+      setLeft(rowRect.left - (editorRect?.left ?? 0));
+    });
+
+    return () => {
+      editor.off('selectionUpdate');
+    };
+  }, [editor]);
+
+  if (!editor || !editor?.isActive('table')) {
+    return null;
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        asChild
+        className="-translate-x-1/2 -translate-y-1/2 absolute flex overflow-hidden rounded-md border border-border/50 bg-background/90 shadow-xl backdrop-blur-lg"
+        style={{ top, left }}
+      >
+        <Button variant="ghost" size="icon">
+          <EllipsisVerticalIcon size={16} className="text-muted-foreground" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>{children}</DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export const EditorTableColumnBefore = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().addColumnBefore().run()}
+    >
+      <ArrowLeftIcon size={16} />
+      <span>Add column before</span>
+    </DropdownMenuItem>
+  );
+};
+
+export const EditorTableColumnAfter = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().addColumnAfter().run()}
+    >
+      <ArrowRightIcon size={16} />
+      <span>Add column after</span>
+    </DropdownMenuItem>
+  );
+};
+
+export const EditorTableRowBefore = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().addRowBefore().run()}
+    >
+      <ArrowUpIcon size={16} />
+      <span>Add row before</span>
+    </DropdownMenuItem>
+  );
+};
+
+export const EditorTableRowAfter = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().addRowAfter().run()}
+    >
+      <ArrowDownIcon size={16} />
+      <span>Add row after</span>
+    </DropdownMenuItem>
+  );
+};
+
+export const EditorTableColumnDelete = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().deleteColumn().run()}
+    >
+      <TrashIcon size={16} className="text-destructive" />
+      <span>Delete column</span>
+    </DropdownMenuItem>
+  );
+};
+
+export const EditorTableRowDelete = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem onClick={() => editor.chain().focus().deleteRow().run()}>
+      <TrashIcon size={16} className="text-destructive" />
+      <span>Delete row</span>
+    </DropdownMenuItem>
+  );
+};
+
+export const EditorTableHeaderColumnToggle = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
+    >
+      <ColumnsIcon size={16} />
+      <span>Toggle header column</span>
+    </DropdownMenuItem>
+  );
+};
+
+export const EditorTableHeaderRowToggle = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().toggleHeaderRow().run()}
+    >
+      <RowsIcon size={16} />
+      <span>Toggle header row</span>
+    </DropdownMenuItem>
+  );
+};
+
+export const EditorTableDelete = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().deleteTable().run()}
+    >
+      <TrashIcon size={16} className="text-destructive" />
+      <span>Delete table</span>
+    </DropdownMenuItem>
+  );
+};
