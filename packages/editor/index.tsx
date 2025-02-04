@@ -43,15 +43,22 @@ import {
   BoldIcon,
   CheckIcon,
   CheckSquare,
+  CheckSquareIcon,
   ChevronDownIcon,
   Code,
   CodeIcon,
   ExternalLinkIcon,
   Heading1,
+  Heading1Icon,
   Heading2,
+  Heading2Icon,
   Heading3,
+  Heading3Icon,
+  ImageIcon,
   ItalicIcon,
+  ListIcon,
   ListOrdered,
+  ListOrderedIcon,
   type LucideIcon,
   type LucideProps,
   RemoveFormattingIcon,
@@ -60,8 +67,11 @@ import {
   SuperscriptIcon,
   TextIcon,
   TextQuote,
+  TextQuoteIcon,
   TrashIcon,
+  TwitterIcon,
   UnderlineIcon,
+  YoutubeIcon,
 } from 'lucide-react';
 import { Children, useEffect, useRef, useState } from 'react';
 import type { FormEventHandler, HTMLAttributes } from 'react';
@@ -928,18 +938,22 @@ export const EditorSlashMenu = ({
     return null;
   }
 
+  console.log('slashCommandOpen', editor.storage.slashCommand.open);
+
   return (
     <BubbleMenu
       className={cn(
         'flex rounded-xl border bg-background p-0.5 shadow',
         '[&>*:first-child]:rounded-l-[9px]',
         '[&>*:last-child]:rounded-r-[9px]',
+        { hidden: !editor.storage.slashCommand.open },
         className
       )}
-      shouldShow={() => editor.storage.slashCommand.open}
       tippyOptions={{
         maxWidth: 'none',
+        placement: 'bottom',
       }}
+      shouldShow={() => true}
       editor={null}
       {...props}
     >
@@ -982,7 +996,10 @@ const EditorSlashMenuButton = ({
   const range: Range = { from, to };
 
   return (
-    <CommandItem onSelect={() => command({ editor, range })}>
+    <CommandItem
+      onSelect={() => command({ editor, range })}
+      className="flex items-center gap-2"
+    >
       <div className="flex size-10 items-center justify-center rounded-md border border-muted bg-background">
         <Icon size={16} />
       </div>
@@ -1007,6 +1024,203 @@ export const EditorSlashTextButton = () => (
         .deleteRange(range)
         .toggleNode('paragraph', 'paragraph')
         .run();
+    }}
+  />
+);
+
+export const EditorSlashHeading1Button = () => (
+  <EditorSlashMenuButton
+    title="Heading 1"
+    description="Big section heading."
+    searchTerms={['title', 'big', 'large']}
+    icon={Heading1Icon}
+    command={({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .setNode('heading', { level: 1 })
+        .run();
+    }}
+  />
+);
+
+export const EditorSlashHeading2Button = () => (
+  <EditorSlashMenuButton
+    title="Heading 2"
+    description="Medium section heading."
+    searchTerms={['subtitle', 'medium']}
+    icon={Heading2Icon}
+    command={({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .setNode('heading', { level: 2 })
+        .run();
+    }}
+  />
+);
+
+export const EditorSlashHeading3Button = () => (
+  <EditorSlashMenuButton
+    title="Heading 3"
+    description="Small section heading."
+    searchTerms={['subtitle', 'small']}
+    icon={Heading3Icon}
+    command={({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .setNode('heading', { level: 3 })
+        .run();
+    }}
+  />
+);
+
+export const EditorSlashBulletListButton = () => (
+  <EditorSlashMenuButton
+    title="Bullet List"
+    description="Create a simple bullet list."
+    searchTerms={['unordered', 'point']}
+    icon={ListIcon}
+    command={({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).toggleBulletList().run();
+    }}
+  />
+);
+
+export const EditorSlashOrderedListButton = () => (
+  <EditorSlashMenuButton
+    title="Numbered List"
+    description="Create a list with numbering."
+    searchTerms={['ordered']}
+    icon={ListOrderedIcon}
+    command={({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).toggleOrderedList().run();
+    }}
+  />
+);
+
+export const EditorSlashTaskListButton = () => (
+  <EditorSlashMenuButton
+    title="To-do List"
+    description="Track tasks with a to-do list."
+    searchTerms={['todo', 'task', 'list', 'check', 'checkbox']}
+    icon={CheckSquareIcon}
+    command={({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).toggleTaskList().run();
+    }}
+  />
+);
+
+export const EditorSlashQuoteButton = () => (
+  <EditorSlashMenuButton
+    title="Quote"
+    description="Capture a quote."
+    searchTerms={['blockquote']}
+    icon={TextQuoteIcon}
+    command={({ editor, range }) =>
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .toggleNode('paragraph', 'paragraph')
+        .toggleBlockquote()
+        .run()
+    }
+  />
+);
+
+export const EditorSlashCodeButton = () => (
+  <EditorSlashMenuButton
+    title="Code"
+    description="Capture a code snippet."
+    searchTerms={['codeblock']}
+    icon={CodeIcon}
+    command={({ editor, range }) =>
+      editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
+    }
+  />
+);
+
+export const EditorSlashImageButton = () => (
+  <EditorSlashMenuButton
+    title="Image"
+    description="Upload an image from your computer."
+    searchTerms={['photo', 'picture', 'media']}
+    icon={ImageIcon}
+    command={({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).run();
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = async () => {
+        if (input.files?.length) {
+          const file = input.files[0];
+          const pos = editor.view.state.selection.from;
+          // uploadFn(file, editor.view, pos);
+          console.log('file', file, pos);
+        }
+      };
+      input.click();
+    }}
+  />
+);
+
+export const EditorSlashYoutubeButton = () => (
+  <EditorSlashMenuButton
+    title="Youtube"
+    description="Embed a Youtube video."
+    searchTerms={['video', 'youtube', 'embed']}
+    icon={YoutubeIcon}
+    command={({ editor, range }) => {
+      const videoLink = prompt('Please enter Youtube Video Link');
+      const ytregex = new RegExp(
+        /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/
+      );
+
+      if (ytregex.test(videoLink)) {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setYoutubeVideo({
+            src: videoLink,
+          })
+          .run();
+      } else if (videoLink !== null) {
+        alert('Please enter a correct Youtube Video Link');
+      }
+    }}
+  />
+);
+
+export const EditorSlashTwitterButton = () => (
+  <EditorSlashMenuButton
+    title="Twitter"
+    description="Embed a Tweet."
+    searchTerms={['twitter', 'embed']}
+    icon={TwitterIcon}
+    command={({ editor, range }) => {
+      const tweetLink = prompt('Please enter Twitter Link');
+      const tweetRegex = new RegExp(
+        /^https?:\/\/(www\.)?x\.com\/([a-zA-Z0-9_]{1,15})(\/status\/(\d+))?(\/\S*)?$/
+      );
+
+      if (tweetRegex.test(tweetLink)) {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setTweet({
+            src: tweetLink,
+          })
+          .run();
+      } else if (tweetLink !== null) {
+        alert('Please enter a correct Twitter Link');
+      }
     }}
   />
 );
