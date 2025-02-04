@@ -153,7 +153,7 @@ export const EditorProvider = ({
     Typography,
     Placeholder.configure({
       placeholder,
-      emptyNodeClass:
+      emptyEditorClass:
         'before:text-muted-foreground before:content-[attr(data-placeholder)] before:float-left before:h-0 before:pointer-events-none',
     }),
     CharacterCount.configure({
