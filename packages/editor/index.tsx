@@ -233,27 +233,31 @@ export const EditorProvider = ({
     SlashCommand,
     Table.configure({
       HTMLAttributes: {
-        class:
-          'table-fixed w-full relative m-0 overflow-hidden mx-auto my-3 border-collapse rounded-none',
+        class: cn(
+          'relative m-0 mx-auto my-3 w-full table-fixed border-collapse overflow-hidden rounded-none text-sm'
+        ),
       },
       allowTableNodeSelection: true,
     }),
     TableRow.configure({
       HTMLAttributes: {
-        class:
-          'border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1',
+        class: cn(
+          'relative box-border min-w-[1em] border p-1 text-start align-top'
+        ),
       },
     }),
     TableCell.configure({
       HTMLAttributes: {
-        class:
-          'border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1',
+        class: cn(
+          'relative box-border min-w-[1em] border p-1 text-start align-top'
+        ),
       },
     }),
     TableHeader.configure({
       HTMLAttributes: {
-        class:
-          'bg-background font-semibold border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1',
+        class: cn(
+          'relative box-border min-w-[1em] border bg-secondary p-1 text-start align-top font-medium font-semibold text-muted-foreground'
+        ),
       },
     }),
   ];
@@ -1300,7 +1304,12 @@ export const EditorTableGlobalMenu = ({
 
   return (
     <div
-      className="-translate-x-1/2 absolute flex translate-y-1/2 items-center rounded-full border bg-background shadow-xl"
+      className={cn(
+        '-translate-x-1/2 absolute flex translate-y-1/2 items-center rounded-full border bg-background shadow-xl',
+        {
+          hidden: !left && !top,
+        }
+      )}
       style={{ top, left }}
     >
       {children}
@@ -1360,7 +1369,12 @@ export const EditorTableColumnMenu = ({
     <DropdownMenu>
       <DropdownMenuTrigger
         asChild
-        className="-translate-x-1/2 -translate-y-1/2 absolute flex h-4 w-7 overflow-hidden rounded-md border bg-background shadow-xl"
+        className={cn(
+          '-translate-x-1/2 -translate-y-1/2 absolute flex h-4 w-7 overflow-hidden rounded-md border bg-background shadow-xl',
+          {
+            hidden: !left && !top,
+          }
+        )}
         style={{ top, left }}
       >
         <Button variant="ghost" size="icon">
@@ -1423,7 +1437,12 @@ export const EditorTableRowMenu = ({ children }: EditorTableRowMenuProps) => {
         <Button
           variant="ghost"
           size="icon"
-          className="-translate-x-1/2 -translate-y-1/2 absolute flex h-7 w-4 overflow-hidden rounded-md border bg-background shadow-xl"
+          className={cn(
+            '-translate-x-1/2 -translate-y-1/2 absolute flex h-7 w-4 overflow-hidden rounded-md border bg-background shadow-xl',
+            {
+              hidden: !left && !top,
+            }
+          )}
           style={{ top, left }}
         >
           <EllipsisVerticalIcon size={12} className="text-muted-foreground" />
