@@ -199,6 +199,9 @@ export const EditorFloatingMenu = ({
       'flex rounded-xl border bg-background p-0.5 shadow',
       className
     )}
+    tippyOptions={{
+      placement: 'bottom',
+    }}
     editor={null}
     {...props}
   />
