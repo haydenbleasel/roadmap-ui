@@ -166,7 +166,7 @@ export const EditorProvider = ({
   ];
 
   return (
-    <div className={className}>
+    <div className={cn(className, '[&>.ProseMirror-focused]:outline-none')}>
       <TiptapEditorProvider
         extensions={[...defaultExtensions, ...(extensions ?? [])]}
         {...props}
