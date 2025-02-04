@@ -22,6 +22,10 @@ import Color from '@tiptap/extension-color';
 import Placeholder from '@tiptap/extension-placeholder';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
 import Typography from '@tiptap/extension-typography';
 import {
   BubbleMenu,
@@ -202,6 +206,31 @@ export const EditorProvider = ({
     Superscript,
     Subscript,
     SlashCommand,
+    Table.configure({
+      HTMLAttributes: {
+        class:
+          'table-fixed m-0 overflow-hidden mx-auto my-3 border-collapse rounded-none',
+      },
+      allowTableNodeSelection: true,
+    }),
+    TableRow.configure({
+      HTMLAttributes: {
+        class:
+          'border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1',
+      },
+    }),
+    TableCell.configure({
+      HTMLAttributes: {
+        class:
+          'border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1',
+      },
+    }),
+    TableHeader.configure({
+      HTMLAttributes: {
+        class:
+          'bg-background font-semibold border box-border min-w-[1em] py-2 px-1 relative align-top text-start !py-1',
+      },
+    }),
   ];
 
   return (
