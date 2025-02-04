@@ -150,6 +150,41 @@ export const EditorProvider = ({
   const defaultExtensions = [
     StarterKit.configure({
       codeBlock: false,
+      bulletList: {
+        HTMLAttributes: {
+          class: cn('-mt-2 list-outside list-disc leading-3'),
+        },
+      },
+      orderedList: {
+        HTMLAttributes: {
+          class: cn('-mt-2 list-outside list-decimal leading-3'),
+        },
+      },
+      listItem: {
+        HTMLAttributes: {
+          class: cn('-mb-2 leading-normal'),
+        },
+      },
+      blockquote: {
+        HTMLAttributes: {
+          class: cn('border-primary border-l-4'),
+        },
+      },
+      code: {
+        HTMLAttributes: {
+          class: cn('rounded-md bg-muted px-1.5 py-1 font-medium font-mono'),
+          spellcheck: 'false',
+        },
+      },
+      horizontalRule: {
+        HTMLAttributes: {
+          class: cn('mt-4 mb-6 border-muted-foreground border-t'),
+        },
+      },
+      dropcursor: {
+        color: 'var(--border)',
+        width: 4,
+      },
     }),
     Color,
     Typography,

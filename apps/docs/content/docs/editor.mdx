@@ -43,20 +43,23 @@ import {
   EditorSlashTextButton,
 } from '@/components/ui/kibo-ui/editor';
 
-const Example = () => {
-  const textColors = [
-    { name: 'Red', color: '#b91c1c' },
-    { name: 'Orange', color: '#c2410c' },
-    { name: 'Amber', color: '#b45309' },
-    { name: 'Yellow', color: '#a16207' },
-  ]
+const textColors = [
+  { name: 'Red', color: '#b91c1c' },
+  { name: 'Orange', color: '#c2410c' },
+  { name: 'Amber', color: '#b45309' },
+  { name: 'Yellow', color: '#a16207' },
+];
 
-  const backgroundColors = [
-    { name: 'Red', color: '#fca5a5' },
-    { name: 'Orange', color: '#fdba74' },
-    { name: 'Amber', color: '#fcd34d' },
-    { name: 'Yellow', color: '#fde047' },
-  ]
+const backgroundColors = [
+  { name: 'Red', color: '#fca5a5' },
+  { name: 'Orange', color: '#fdba74' },
+  { name: 'Amber', color: '#fcd34d' },
+  { name: 'Yellow', color: '#fde047' },
+];
+
+const Example = () => {
+  const [content, setContent] = useState(null);
+
   return (
     <div className="bg-secondary flex h-screen w-full items-center justify-center p-8">
       <EditorProvider
