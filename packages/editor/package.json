@@ -9,6 +9,8 @@
     "@tiptap/extension-code-block-lowlight": "^2.11.5",
     "@tiptap/extension-color": "^2.11.5",
     "@tiptap/extension-placeholder": "^2.11.5",
+    "@tiptap/extension-subscript": "^2.11.5",
+    "@tiptap/extension-superscript": "^2.11.5",
     "@tiptap/extension-typography": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",

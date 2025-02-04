@@ -20,6 +20,8 @@ import CharacterCount from '@tiptap/extension-character-count';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Color from '@tiptap/extension-color';
 import Placeholder from '@tiptap/extension-placeholder';
+import Subscript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
 import Typography from '@tiptap/extension-typography';
 import {
   BubbleMenu,
@@ -162,6 +164,8 @@ export const EditorProvider = ({
     CodeBlockLowlight.configure({
       lowlight,
     }),
+    Superscript,
+    Subscript,
     SlashCommand,
   ];
 
