@@ -254,7 +254,7 @@ const BubbleMenuButton = ({
   hideName,
 }: EditorButtonProps) => (
   <Button
-    onSelect={() => command()}
+    onClick={() => command()}
     variant="ghost"
     className="flex w-full gap-2"
     size="sm"
