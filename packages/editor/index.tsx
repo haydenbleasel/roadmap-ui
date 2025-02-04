@@ -19,6 +19,12 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { Extension } from '@tiptap/core';
 import type { Editor, Range } from '@tiptap/core';
@@ -51,26 +57,21 @@ import {
   ArrowRightIcon,
   ArrowUpIcon,
   BoldIcon,
+  BoltIcon,
   CheckIcon,
-  CheckSquare,
   CheckSquareIcon,
   ChevronDownIcon,
-  Code,
   CodeIcon,
   ColumnsIcon,
   EllipsisIcon,
   EllipsisVerticalIcon,
   ExternalLinkIcon,
-  Heading1,
   Heading1Icon,
-  Heading2,
   Heading2Icon,
-  Heading3,
   Heading3Icon,
   ImageIcon,
   ItalicIcon,
   ListIcon,
-  ListOrdered,
   ListOrderedIcon,
   type LucideIcon,
   type LucideProps,
@@ -79,9 +80,10 @@ import {
   StrikethroughIcon,
   SubscriptIcon,
   SuperscriptIcon,
+  TableCellsMergeIcon,
+  TableColumnsSplitIcon,
   TableIcon,
   TextIcon,
-  TextQuote,
   TextQuoteIcon,
   TrashIcon,
   UnderlineIcon,
@@ -257,12 +259,14 @@ export const EditorProvider = ({
   ];
 
   return (
-    <div className={cn(className, '[&>.ProseMirror-focused]:outline-none')}>
-      <TiptapEditorProvider
-        extensions={[...defaultExtensions, ...(extensions ?? [])]}
-        {...props}
-      />
-    </div>
+    <TooltipProvider>
+      <div className={cn(className, '[&_.ProseMirror-focused]:outline-none')}>
+        <TiptapEditorProvider
+          extensions={[...defaultExtensions, ...(extensions ?? [])]}
+          {...props}
+        />
+      </div>
+    </TooltipProvider>
   );
 };
 
@@ -423,7 +427,7 @@ export const EditorNodeHeading1 = ({
     <BubbleMenuButton
       name="Heading 1"
       command={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-      icon={Heading1}
+      icon={Heading1Icon}
       isActive={() => editor.isActive('heading', { level: 1 }) ?? false}
       hideName={hideName}
     />
@@ -443,7 +447,7 @@ export const EditorNodeHeading2 = ({
     <BubbleMenuButton
       name="Heading 2"
       command={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-      icon={Heading2}
+      icon={Heading2Icon}
       isActive={() => editor.isActive('heading', { level: 2 }) ?? false}
       hideName={hideName}
     />
@@ -463,7 +467,7 @@ export const EditorNodeHeading3 = ({
     <BubbleMenuButton
       name="Heading 3"
       command={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-      icon={Heading3}
+      icon={Heading3Icon}
       isActive={() => editor.isActive('heading', { level: 3 }) ?? false}
       hideName={hideName}
     />
@@ -483,7 +487,7 @@ export const EditorNodeBulletList = ({
     <BubbleMenuButton
       name="Bullet List"
       command={() => editor.chain().focus().toggleBulletList().run()}
-      icon={ListOrdered}
+      icon={ListIcon}
       isActive={() => editor.isActive('bulletList') ?? false}
       hideName={hideName}
     />
@@ -503,7 +507,7 @@ export const EditorNodeOrderedList = ({
     <BubbleMenuButton
       name="Numbered List"
       command={() => editor.chain().focus().toggleOrderedList().run()}
-      icon={ListOrdered}
+      icon={ListOrderedIcon}
       isActive={() => editor.isActive('orderedList') ?? false}
       hideName={hideName}
     />
@@ -523,7 +527,7 @@ export const EditorNodeTaskList = ({
     <BubbleMenuButton
       name="To-do List"
       command={() => editor.chain().focus().toggleTaskList().run()}
-      icon={CheckSquare}
+      icon={CheckSquareIcon}
       isActive={() => editor.isActive('taskItem') ?? false}
       hideName={hideName}
     />
@@ -550,7 +554,7 @@ export const EditorNodeQuote = ({
           .toggleBlockquote()
           .run()
       }
-      icon={TextQuote}
+      icon={TextQuoteIcon}
       isActive={() => editor.isActive('blockquote') ?? false}
       hideName={hideName}
     />
@@ -570,8 +574,34 @@ export const EditorNodeCode = ({
     <BubbleMenuButton
       name="Code"
       command={() => editor.chain().focus().toggleCodeBlock().run()}
-      icon={Code}
+      icon={CodeIcon}
       isActive={() => editor.isActive('codeBlock') ?? false}
+      hideName={hideName}
+    />
+  );
+};
+
+export const EditorNodeTable = ({
+  hideName = false,
+}: Pick<EditorButtonProps, 'hideName'>) => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <BubbleMenuButton
+      name="Table"
+      command={() =>
+        editor
+          .chain()
+          .focus()
+          .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+          .run()
+      }
+      icon={TableIcon}
+      isActive={() => editor.isActive('table') ?? false}
       hideName={hideName}
     />
   );
@@ -1201,7 +1231,25 @@ export type EditorTableMenuProps = {
   children: ReactNode;
 };
 
-export const EditorTableMenu = ({ children }: EditorTableMenuProps) => children;
+export const EditorTableMenu = ({ children }: EditorTableMenuProps) => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  const isActive = editor.isActive('table');
+
+  return (
+    <div
+      className={cn({
+        hidden: !isActive,
+      })}
+    >
+      {children}
+    </div>
+  );
+};
 
 export type EditorTableGlobalMenuProps = {
   children: ReactNode;
@@ -1222,7 +1270,7 @@ export const EditorTableGlobalMenu = ({
     editor.on('selectionUpdate', () => {
       const selection = window.getSelection();
 
-      if (!selection || !editor.isActive('table')) {
+      if (!selection) {
         return;
       }
 
@@ -1239,8 +1287,10 @@ export const EditorTableGlobalMenu = ({
         return;
       }
 
-      setTop(tableNode.offsetTop);
-      setLeft(tableNode.offsetLeft);
+      const tableRect = tableNode.getBoundingClientRect();
+
+      setTop(tableRect.top + tableRect.height);
+      setLeft(tableRect.left + tableRect.width / 2);
     });
 
     return () => {
@@ -1248,23 +1298,13 @@ export const EditorTableGlobalMenu = ({
     };
   }, [editor]);
 
-  if (!editor || !editor?.isActive('table')) {
-    return null;
-  }
-
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        asChild
-        className="-translate-x-1/2 -translate-y-1/2 absolute flex overflow-hidden rounded-md border border-border/50 bg-background/90 shadow-xl backdrop-blur-lg"
-        style={{ top, left }}
-      >
-        <Button variant="ghost" size="icon">
-          <EllipsisIcon size={16} className="text-muted-foreground" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>{children}</DropdownMenuContent>
-    </DropdownMenu>
+    <div
+      className="-translate-x-1/2 absolute flex translate-y-1/2 items-center rounded-full border bg-background shadow-xl"
+      style={{ top, left }}
+    >
+      {children}
+    </div>
   );
 };
 
@@ -1287,7 +1327,7 @@ export const EditorTableColumnMenu = ({
     editor.on('selectionUpdate', () => {
       const selection = window.getSelection();
 
-      if (!selection || !editor.isActive('table')) {
+      if (!selection) {
         return;
       }
 
@@ -1306,10 +1346,9 @@ export const EditorTableColumnMenu = ({
       }
 
       const cellRect = tableCell.getBoundingClientRect();
-      const editorRect = editor.view.dom.getBoundingClientRect();
 
-      setTop(cellRect.top - (editorRect?.top ?? 0));
-      setLeft(cellRect.left + cellRect.width / 2 - (editorRect?.left ?? 0));
+      setTop(cellRect.top);
+      setLeft(cellRect.left + cellRect.width / 2);
     });
 
     return () => {
@@ -1317,15 +1356,11 @@ export const EditorTableColumnMenu = ({
     };
   }, [editor]);
 
-  if (!editor || !editor?.isActive('table')) {
-    return null;
-  }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         asChild
-        className="-translate-x-1/2 -translate-y-1/2 absolute flex overflow-hidden rounded-md border border-border/50 bg-background/90 shadow-xl backdrop-blur-lg"
+        className="-translate-x-1/2 -translate-y-1/2 absolute flex h-4 w-7 overflow-hidden rounded-md border bg-background shadow-xl"
         style={{ top, left }}
       >
         <Button variant="ghost" size="icon">
@@ -1354,7 +1389,7 @@ export const EditorTableRowMenu = ({ children }: EditorTableRowMenuProps) => {
     editor.on('selectionUpdate', () => {
       const selection = window.getSelection();
 
-      if (!selection || !editor.isActive('table')) {
+      if (!selection) {
         return;
       }
 
@@ -1372,10 +1407,9 @@ export const EditorTableRowMenu = ({ children }: EditorTableRowMenuProps) => {
       }
 
       const rowRect = tableRow.getBoundingClientRect();
-      const editorRect = editor.view.dom.getBoundingClientRect();
 
-      setTop(rowRect.top + rowRect.height / 2 - (editorRect?.top ?? 0));
-      setLeft(rowRect.left - (editorRect?.left ?? 0));
+      setTop(rowRect.top + rowRect.height / 2);
+      setLeft(rowRect.left);
     });
 
     return () => {
@@ -1383,19 +1417,16 @@ export const EditorTableRowMenu = ({ children }: EditorTableRowMenuProps) => {
     };
   }, [editor]);
 
-  if (!editor || !editor?.isActive('table')) {
-    return null;
-  }
-
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        asChild
-        className="-translate-x-1/2 -translate-y-1/2 absolute flex overflow-hidden rounded-md border border-border/50 bg-background/90 shadow-xl backdrop-blur-lg"
-        style={{ top, left }}
-      >
-        <Button variant="ghost" size="icon">
-          <EllipsisVerticalIcon size={16} className="text-muted-foreground" />
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="-translate-x-1/2 -translate-y-1/2 absolute flex h-7 w-4 overflow-hidden rounded-md border bg-background shadow-xl"
+          style={{ top, left }}
+        >
+          <EllipsisVerticalIcon size={12} className="text-muted-foreground" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>{children}</DropdownMenuContent>
@@ -1412,9 +1443,10 @@ export const EditorTableColumnBefore = () => {
 
   return (
     <DropdownMenuItem
+      className="flex items-center gap-2"
       onClick={() => editor.chain().focus().addColumnBefore().run()}
     >
-      <ArrowLeftIcon size={16} />
+      <ArrowLeftIcon size={16} className="text-muted-foreground" />
       <span>Add column before</span>
     </DropdownMenuItem>
   );
@@ -1429,9 +1461,10 @@ export const EditorTableColumnAfter = () => {
 
   return (
     <DropdownMenuItem
+      className="flex items-center gap-2"
       onClick={() => editor.chain().focus().addColumnAfter().run()}
     >
-      <ArrowRightIcon size={16} />
+      <ArrowRightIcon size={16} className="text-muted-foreground" />
       <span>Add column after</span>
     </DropdownMenuItem>
   );
@@ -1446,9 +1479,10 @@ export const EditorTableRowBefore = () => {
 
   return (
     <DropdownMenuItem
+      className="flex items-center gap-2"
       onClick={() => editor.chain().focus().addRowBefore().run()}
     >
-      <ArrowUpIcon size={16} />
+      <ArrowUpIcon size={16} className="text-muted-foreground" />
       <span>Add row before</span>
     </DropdownMenuItem>
   );
@@ -1463,9 +1497,10 @@ export const EditorTableRowAfter = () => {
 
   return (
     <DropdownMenuItem
+      className="flex items-center gap-2"
       onClick={() => editor.chain().focus().addRowAfter().run()}
     >
-      <ArrowDownIcon size={16} />
+      <ArrowDownIcon size={16} className="text-muted-foreground" />
       <span>Add row after</span>
     </DropdownMenuItem>
   );
@@ -1480,6 +1515,7 @@ export const EditorTableColumnDelete = () => {
 
   return (
     <DropdownMenuItem
+      className="flex items-center gap-2"
       onClick={() => editor.chain().focus().deleteColumn().run()}
     >
       <TrashIcon size={16} className="text-destructive" />
@@ -1496,7 +1532,10 @@ export const EditorTableRowDelete = () => {
   }
 
   return (
-    <DropdownMenuItem onClick={() => editor.chain().focus().deleteRow().run()}>
+    <DropdownMenuItem
+      className="flex items-center gap-2"
+      onClick={() => editor.chain().focus().deleteRow().run()}
+    >
       <TrashIcon size={16} className="text-destructive" />
       <span>Delete row</span>
     </DropdownMenuItem>
@@ -1511,12 +1550,21 @@ export const EditorTableHeaderColumnToggle = () => {
   }
 
   return (
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
-    >
-      <ColumnsIcon size={16} />
-      <span>Toggle header column</span>
-    </DropdownMenuItem>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="flex items-center gap-2 rounded-full"
+          onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
+        >
+          <ColumnsIcon size={16} className="text-muted-foreground" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <span>Toggle header column</span>
+      </TooltipContent>
+    </Tooltip>
   );
 };
 
@@ -1528,12 +1576,21 @@ export const EditorTableHeaderRowToggle = () => {
   }
 
   return (
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().toggleHeaderRow().run()}
-    >
-      <RowsIcon size={16} />
-      <span>Toggle header row</span>
-    </DropdownMenuItem>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="flex items-center gap-2 rounded-full"
+          onClick={() => editor.chain().focus().toggleHeaderRow().run()}
+        >
+          <RowsIcon size={16} className="text-muted-foreground" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <span>Toggle header row</span>
+      </TooltipContent>
+    </Tooltip>
   );
 };
 
@@ -1545,11 +1602,98 @@ export const EditorTableDelete = () => {
   }
 
   return (
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().deleteTable().run()}
-    >
-      <TrashIcon size={16} className="text-destructive" />
-      <span>Delete table</span>
-    </DropdownMenuItem>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="flex items-center gap-2 rounded-full"
+          onClick={() => editor.chain().focus().deleteTable().run()}
+        >
+          <TrashIcon size={16} className="text-destructive" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <span>Delete table</span>
+      </TooltipContent>
+    </Tooltip>
+  );
+};
+
+export const EditorTableMergeCells = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="flex items-center gap-2 rounded-full"
+          onClick={() => editor.chain().focus().mergeCells().run()}
+        >
+          <TableCellsMergeIcon size={16} className="text-muted-foreground" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <span>Merge cells</span>
+      </TooltipContent>
+    </Tooltip>
+  );
+};
+
+export const EditorTableSplitCell = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="flex items-center gap-2 rounded-full"
+          onClick={() => editor.chain().focus().splitCell().run()}
+        >
+          <TableColumnsSplitIcon size={16} className="text-muted-foreground" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <span>Split cell</span>
+      </TooltipContent>
+    </Tooltip>
+  );
+};
+
+export const EditorTableFix = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="flex items-center gap-2 rounded-full"
+          onClick={() => editor.chain().focus().fixTables().run()}
+        >
+          <BoltIcon size={16} className="text-muted-foreground" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <span>Fix table</span>
+      </TooltipContent>
+    </Tooltip>
   );
 };

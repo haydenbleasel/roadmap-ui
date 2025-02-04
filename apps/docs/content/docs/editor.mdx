@@ -37,6 +37,7 @@ import {
   EditorNodeTaskList,
   EditorNodeQuote,
   EditorNodeCode,
+  EditorNodeTable,
   EditorTextColor,
   EditorBackgroundColor,
   EditorSlashMenu,
@@ -64,6 +65,9 @@ import {
   EditorTableHeaderColumnToggle,
   EditorTableHeaderRowToggle,
   EditorTableDelete,
+  EditorTableMergeCells,
+  EditorTableSplitCell,
+  EditorTableFix,
 } from '@/components/ui/kibo-ui/editor';
 
 const textColors = [
@@ -94,6 +98,7 @@ const Example = () => {
           <EditorNodeBulletList hideName />
           <EditorNodeQuote hideName />
           <EditorNodeCode hideName />
+          <EditorNodeTable hideName />
         </EditorFloatingMenu>
         <EditorBubbleMenu>
           <EditorSelector title="Text">
@@ -155,6 +160,9 @@ const Example = () => {
             <EditorTableHeaderColumnToggle />
             <EditorTableHeaderRowToggle />
             <EditorTableDelete />
+            <EditorTableMergeCells />
+            <EditorTableSplitCell />
+            <EditorTableFix />
           </EditorTableGlobalMenu>
         </EditorTableMenu>
       </EditorProvider>
