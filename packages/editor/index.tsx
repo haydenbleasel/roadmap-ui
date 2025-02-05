@@ -482,6 +482,7 @@ const EditorSlashMenu = ({ items, editor, range }: EditorSlashMenuProps) => (
 const handleCommandNavigation = (event: KeyboardEvent) => {
   if (['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
     const slashCommand = document.querySelector('#slash-command');
+
     if (slashCommand) {
       event.preventDefault();
 
@@ -531,7 +532,7 @@ export const EditorProvider = ({
       },
       blockquote: {
         HTMLAttributes: {
-          class: cn('border-primary border-l-4'),
+          class: cn('border-l border-l-2 pl-2'),
         },
       },
       code: {
