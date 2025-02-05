@@ -7,8 +7,9 @@ icon: NotebookPen
 import { AutoTypeTable } from 'fumadocs-typescript/ui';
 
 <PoweredBy packages={[
-  { name: 'tiptap', url: 'https://tiptap.dev/' },
+  { name: 'Tiptap', url: 'https://tiptap.dev/' },
   { name: 'Lucide', url: 'https://lucide.dev/' },
+  { name: 'lowlight', url: 'https://github.com/wooorm/lowlight' },
 ]} />
 
 <Preview name="editor" code={`'use client';
@@ -68,6 +69,7 @@ import {
   EditorTableMergeCells,
   EditorTableSplitCell,
   EditorTableFix,
+  EditorCharacterCount,
 } from '@/components/ui/kibo-ui/editor';
 
 const textColors = [
@@ -165,6 +167,7 @@ const Example = () => {
             <EditorTableFix />
           </EditorTableGlobalMenu>
         </EditorTableMenu>
+        <EditorCharacterCount.Words>Words: </EditorCharacterCount.Words>
       </EditorProvider>
     </div>
   );

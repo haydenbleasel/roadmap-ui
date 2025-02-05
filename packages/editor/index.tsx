@@ -274,37 +274,44 @@ export const EditorProvider = ({
   );
 };
 
-export const useCharacterCount = () => {
-  const { editor } = useCurrentEditor();
-
-  if (!editor) {
-    return 0;
-  }
-
-  return {
-    characters: editor.storage.characterCount.characters(),
-    words: editor.storage.characterCount.words(),
-  };
-};
-
 export type EditorFloatingMenuProps = Omit<FloatingMenuProps, 'editor'>;
 
 export const EditorFloatingMenu = ({
   className,
   ...props
-}: EditorFloatingMenuProps) => (
-  <FloatingMenu
-    className={cn(
-      'flex rounded-xl border bg-background p-0.5 shadow',
-      className
-    )}
-    tippyOptions={{
-      placement: 'bottom',
-    }}
-    editor={null}
-    {...props}
-  />
-);
+}: EditorFloatingMenuProps) => {
+  const { editor } = useCurrentEditor();
+  const [left, setLeft] = useState(0);
+
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    editor.on('update', () => {
+      const placeholder = document.querySelector('p[data-placeholder]');
+      if (placeholder) {
+        const rect = placeholder.getBoundingClientRect();
+        setLeft(rect.left + rect.width);
+      }
+    });
+
+    return () => {
+      editor.off('update');
+    };
+  }, [editor]);
+
+  return (
+    <FloatingMenu
+      className={cn('flex items-center', className)}
+      tippyOptions={{
+        inlinePositioning: true,
+      }}
+      editor={null}
+      {...props}
+    />
+  );
+};
 
 export type EditorBubbleMenuProps = Omit<BubbleMenuProps, 'editor'>;
 
@@ -1715,4 +1722,51 @@ export const EditorTableFix = () => {
       </TooltipContent>
     </Tooltip>
   );
+};
+
+export type EditorCharacterCountProps = {
+  children: ReactNode;
+  className?: string;
+};
+
+export const EditorCharacterCount = {
+  Characters({ children, className }: EditorCharacterCountProps) {
+    const { editor } = useCurrentEditor();
+
+    if (!editor) {
+      return null;
+    }
+
+    return (
+      <div
+        className={cn(
+          'absolute right-4 bottom-4 rounded-md border bg-background p-2 text-muted-foreground text-sm shadow',
+          className
+        )}
+      >
+        {children}
+        {editor.storage.characterCount.characters()}
+      </div>
+    );
+  },
+
+  Words({ children, className }: EditorCharacterCountProps) {
+    const { editor } = useCurrentEditor();
+
+    if (!editor) {
+      return null;
+    }
+
+    return (
+      <div
+        className={cn(
+          'absolute right-4 bottom-4 rounded-md border bg-background p-2 text-muted-foreground text-sm shadow',
+          className
+        )}
+      >
+        {children}
+        {editor.storage.characterCount.words()}
+      </div>
+    );
+  },
 };
