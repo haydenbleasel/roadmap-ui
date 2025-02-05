@@ -38,6 +38,8 @@ import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
+import { TaskItem } from '@tiptap/extension-task-item';
+import { TaskList } from '@tiptap/extension-task-list';
 import Typography from '@tiptap/extension-typography';
 import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model';
 import { PluginKey } from '@tiptap/pm/state';
@@ -658,6 +660,18 @@ export const EditorProvider = ({
           'relative box-border min-w-[1em] border bg-secondary p-1 text-start align-top font-medium font-semibold text-muted-foreground'
         ),
       },
+    }),
+    TaskList.configure({
+      HTMLAttributes: {
+        // 17px = the width of the checkbox + the gap between the checkbox and the text
+        class: 'before:translate-x-[17px]',
+      },
+    }),
+    TaskItem.configure({
+      HTMLAttributes: {
+        class: 'flex items-start gap-1',
+      },
+      nested: true,
     }),
   ];
 
