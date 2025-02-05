@@ -124,7 +124,7 @@ const SlashPluginKey = new PluginKey('slash');
 export interface SuggestionItem {
   title: string;
   description: string;
-  icon: ReactNode;
+  icon: LucideIcon;
   searchTerms: string[];
   command: (props: { editor: Editor; range: Range }) => void;
 }
@@ -135,7 +135,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Text',
       description: 'Just start typing with plain text.',
       searchTerms: ['p', 'paragraph'],
-      icon: <TextIcon size={18} />,
+      icon: TextIcon,
       command: ({ editor, range }) => {
         editor
           .chain()
@@ -149,7 +149,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'To-do List',
       description: 'Track tasks with a to-do list.',
       searchTerms: ['todo', 'task', 'list', 'check', 'checkbox'],
-      icon: <CheckSquareIcon size={18} />,
+      icon: CheckSquareIcon,
       command: ({ editor, range }) => {
         editor.chain().focus().deleteRange(range).toggleTaskList().run();
       },
@@ -158,7 +158,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Heading 1',
       description: 'Big section heading.',
       searchTerms: ['title', 'big', 'large'],
-      icon: <Heading1Icon size={18} />,
+      icon: Heading1Icon,
       command: ({ editor, range }) => {
         editor
           .chain()
@@ -172,7 +172,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Heading 2',
       description: 'Medium section heading.',
       searchTerms: ['subtitle', 'medium'],
-      icon: <Heading2Icon size={18} />,
+      icon: Heading2Icon,
       command: ({ editor, range }) => {
         editor
           .chain()
@@ -186,7 +186,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Heading 3',
       description: 'Small section heading.',
       searchTerms: ['subtitle', 'small'],
-      icon: <Heading3Icon size={18} />,
+      icon: Heading3Icon,
       command: ({ editor, range }) => {
         editor
           .chain()
@@ -200,7 +200,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Bullet List',
       description: 'Create a simple bullet list.',
       searchTerms: ['unordered', 'point'],
-      icon: <ListIcon size={18} />,
+      icon: ListIcon,
       command: ({ editor, range }) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run();
       },
@@ -209,7 +209,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Numbered List',
       description: 'Create a list with numbering.',
       searchTerms: ['ordered'],
-      icon: <ListOrderedIcon size={18} />,
+      icon: ListOrderedIcon,
       command: ({ editor, range }) => {
         editor.chain().focus().deleteRange(range).toggleOrderedList().run();
       },
@@ -218,7 +218,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Quote',
       description: 'Capture a quote.',
       searchTerms: ['blockquote'],
-      icon: <TextQuoteIcon size={18} />,
+      icon: TextQuoteIcon,
       command: ({ editor, range }) =>
         editor
           .chain()
@@ -232,7 +232,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Code',
       description: 'Capture a code snippet.',
       searchTerms: ['codeblock'],
-      icon: <CodeIcon size={18} />,
+      icon: CodeIcon,
       command: ({ editor, range }) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
@@ -240,7 +240,7 @@ export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items']
       title: 'Table',
       description: 'Add a table view to organize data.',
       searchTerms: ['table'],
-      icon: <TableIcon size={18} />,
+      icon: TableIcon,
       command: ({ editor, range }) =>
         editor
           .chain()
@@ -462,9 +462,11 @@ const EditorSlashMenu = ({ items, editor, range }: EditorSlashMenuProps) => (
         <CommandItem
           key={item.title}
           onSelect={() => item.command({ editor, range })}
-          className="flex items-center gap-2 px-4"
+          className="flex items-center gap-3 pr-3"
         >
-          {item.icon}
+          <div className="flex size-9 shrink-0 items-center justify-center rounded border bg-secondary">
+            <item.icon size={16} className="text-muted-foreground" />
+          </div>
           <div className="flex flex-col">
             <span className="font-medium text-sm">{item.title}</span>
             <span className="text-muted-foreground text-xs">
@@ -760,7 +762,7 @@ const BubbleMenuButton = ({
   <Button
     onClick={() => command()}
     variant="ghost"
-    className="flex w-full gap-2"
+    className="flex w-full gap-4"
     size="sm"
   >
     <Icon size={12} className="shrink-0 text-muted-foreground" />
