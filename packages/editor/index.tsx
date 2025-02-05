@@ -443,7 +443,13 @@ type EditorSlashMenuProps = {
 };
 
 const EditorSlashMenu = ({ items, command }: EditorSlashMenuProps) => (
-  <Command id="slash-command" className="border shadow">
+  <Command
+    id="slash-command"
+    className="border shadow"
+    onKeyDown={(e) => {
+      e.stopPropagation();
+    }}
+  >
     <CommandEmpty className="px-2 text-muted-foreground">
       No results
     </CommandEmpty>
