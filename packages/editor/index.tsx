@@ -123,8 +123,8 @@ export interface SuggestionItem {
   title: string;
   description: string;
   icon: ReactNode;
-  searchTerms?: string[];
-  command?: (props: { editor: Editor; range: Range }) => void;
+  searchTerms: string[];
+  command: (props: { editor: Editor; range: Range }) => void;
 }
 
 export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items'] =
@@ -441,9 +441,10 @@ type EditorSlashMenuProps = {
   items: SuggestionItem[];
   command: (item: SuggestionItem) => void;
   editor: Editor;
+  range: Range;
 };
 
-const EditorSlashMenu = ({ items, command }: EditorSlashMenuProps) => (
+const EditorSlashMenu = ({ items, editor, range }: EditorSlashMenuProps) => (
   <Command
     id="slash-command"
     className="border shadow"
@@ -458,7 +459,7 @@ const EditorSlashMenu = ({ items, command }: EditorSlashMenuProps) => (
       {items.map((item) => (
         <CommandItem
           key={item.title}
-          onSelect={() => command(item)}
+          onSelect={() => item.command({ editor, range })}
           className="flex items-center gap-2 px-4"
         >
           {item.icon}
@@ -478,6 +479,16 @@ const handleCommandNavigation = (event: KeyboardEvent) => {
   if (['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
     const slashCommand = document.querySelector('#slash-command');
     if (slashCommand) {
+      event.preventDefault();
+
+      slashCommand.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: event.key,
+          cancelable: true,
+          bubbles: true,
+        })
+      );
+
       return true;
     }
   }
