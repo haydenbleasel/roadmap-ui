@@ -20,6 +20,7 @@
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
     "@tiptap/suggestion": "^2.11.5",
+    "fuse.js": "^7.1.0",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.474.0",
     "react": "^19.0.0",

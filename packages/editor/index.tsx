@@ -53,6 +53,7 @@ import {
 } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Suggestion, { type SuggestionOptions } from '@tiptap/suggestion';
+import Fuse from 'fuse.js';
 import { all, createLowlight } from 'lowlight';
 import {
   ArrowDownIcon,
@@ -450,8 +451,8 @@ const EditorSlashMenu = ({ items, command }: EditorSlashMenuProps) => (
       e.stopPropagation();
     }}
   >
-    <CommandEmpty className="px-2 text-muted-foreground">
-      No results
+    <CommandEmpty className="flex w-full items-center justify-center p-4 text-muted-foreground text-sm">
+      <p>No results</p>
     </CommandEmpty>
     <CommandList>
       {items.map((item) => (
@@ -558,9 +559,15 @@ export const EditorProvider = ({
             return items;
           }
 
-          return items.filter((item) =>
-            item.searchTerms?.some((term) => query.includes(term))
-          );
+          const slashFuse = new Fuse(items, {
+            keys: ['title', 'description', 'searchTerms'],
+            threshold: 0.2,
+            minMatchCharLength: 1,
+          });
+
+          const results = slashFuse.search(query);
+
+          return results.map((result) => result.item);
         },
         char: '/',
         render: () => {
