@@ -181,17 +181,17 @@ export const EditorProvider = ({
       codeBlock: false,
       bulletList: {
         HTMLAttributes: {
-          class: cn('-mt-2 list-outside list-disc leading-3'),
+          class: cn('list-outside list-disc pl-3'),
         },
       },
       orderedList: {
         HTMLAttributes: {
-          class: cn('-mt-2 list-outside list-decimal leading-3'),
+          class: cn('list-outside list-decimal pl-3'),
         },
       },
       listItem: {
         HTMLAttributes: {
-          class: cn('-mb-2 leading-normal'),
+          class: cn('leading-normal'),
         },
       },
       blockquote: {
@@ -279,39 +279,16 @@ export type EditorFloatingMenuProps = Omit<FloatingMenuProps, 'editor'>;
 export const EditorFloatingMenu = ({
   className,
   ...props
-}: EditorFloatingMenuProps) => {
-  const { editor } = useCurrentEditor();
-  const [left, setLeft] = useState(0);
-
-  useEffect(() => {
-    if (!editor) {
-      return;
-    }
-
-    editor.on('update', () => {
-      const placeholder = document.querySelector('p[data-placeholder]');
-      if (placeholder) {
-        const rect = placeholder.getBoundingClientRect();
-        setLeft(rect.left + rect.width);
-      }
-    });
-
-    return () => {
-      editor.off('update');
-    };
-  }, [editor]);
-
-  return (
-    <FloatingMenu
-      className={cn('flex items-center', className)}
-      tippyOptions={{
-        inlinePositioning: true,
-      }}
-      editor={null}
-      {...props}
-    />
-  );
-};
+}: EditorFloatingMenuProps) => (
+  <FloatingMenu
+    className={cn('flex items-center bg-secondary', className)}
+    tippyOptions={{
+      offset: [32, 0],
+    }}
+    editor={null}
+    {...props}
+  />
+);
 
 export type EditorBubbleMenuProps = Omit<BubbleMenuProps, 'editor'>;
 
