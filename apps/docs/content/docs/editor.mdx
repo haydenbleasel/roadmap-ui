@@ -10,6 +10,7 @@ import { AutoTypeTable } from 'fumadocs-typescript/ui';
   { name: 'Tiptap', url: 'https://tiptap.dev/' },
   { name: 'Lucide', url: 'https://lucide.dev/' },
   { name: 'lowlight', url: 'https://github.com/wooorm/lowlight' },
+  { name: 'tippy.js', url: 'https://atomiks.github.io/tippyjs/' },
 ]} />
 
 <Preview name="editor" code={`'use client';
@@ -41,18 +42,6 @@ import {
   EditorNodeTable,
   EditorTextColor,
   EditorBackgroundColor,
-  EditorSlashMenu,
-  EditorSlashTextButton,
-  EditorSlashHeading1Button,
-  EditorSlashHeading2Button,
-  EditorSlashHeading3Button,
-  EditorSlashBulletListButton,
-  EditorSlashOrderedListButton,
-  EditorSlashTaskListButton,
-  EditorSlashQuoteButton,
-  EditorSlashCodeButton,
-  EditorSlashImageButton,
-  EditorSlashTableButton,
   EditorTableMenu,
   EditorTableGlobalMenu,
   EditorTableColumnMenu,
@@ -134,19 +123,6 @@ const Example = () => {
           <EditorLinkSelector />
           <EditorClearFormatting />
         </EditorBubbleMenu>
-        <EditorSlashMenu>
-          <EditorSlashTextButton />
-          <EditorSlashHeading1Button />
-          <EditorSlashHeading2Button />
-          <EditorSlashHeading3Button />
-          <EditorSlashBulletListButton />
-          <EditorSlashOrderedListButton />
-          <EditorSlashTaskListButton />
-          <EditorSlashQuoteButton />
-          <EditorSlashCodeButton />
-          <EditorSlashImageButton />
-          <EditorSlashTableButton />
-        </EditorSlashMenu>
         <EditorTableMenu>
           <EditorTableColumnMenu>
             <EditorTableColumnBefore />

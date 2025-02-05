@@ -26,8 +26,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { Extension } from '@tiptap/core';
 import type { Editor, Range } from '@tiptap/core';
+import { Node, mergeAttributes } from '@tiptap/core';
 import CharacterCount from '@tiptap/extension-character-count';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Color from '@tiptap/extension-color';
@@ -39,11 +39,14 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import Typography from '@tiptap/extension-typography';
+import type { DOMOutputSpec, Node as ProseMirrorNode } from '@tiptap/pm/model';
+import { PluginKey } from '@tiptap/pm/state';
 import {
   BubbleMenu,
   type BubbleMenuProps,
   FloatingMenu,
   type FloatingMenuProps,
+  ReactRenderer,
   EditorProvider as TiptapEditorProvider,
   type EditorProviderProps as TiptapEditorProviderProps,
   useCurrentEditor,
@@ -69,7 +72,6 @@ import {
   Heading1Icon,
   Heading2Icon,
   Heading3Icon,
-  ImageIcon,
   ItalicIcon,
   ListIcon,
   ListOrderedIcon,
@@ -88,38 +90,339 @@ import {
   TrashIcon,
   UnderlineIcon,
 } from 'lucide-react';
-import { Children, useEffect, useRef, useState } from 'react';
-import type { FormEventHandler, HTMLAttributes } from 'react';
-import type { ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { FormEventHandler, HTMLAttributes, ReactNode } from 'react';
+import tippy, { type Instance as TippyInstance } from 'tippy.js';
 
-const SlashCommand = Extension.create({
-  name: 'slashCommand',
+interface SlashNodeAttrs {
+  id: string | null;
+  label?: string | null;
+}
+
+type SlashOptions<
+  SuggestionItem = unknown,
+  Attrs extends Record<string, unknown> = SlashNodeAttrs,
+> = {
+  HTMLAttributes: Record<string, unknown>;
+  renderText: (props: {
+    options: SlashOptions<SuggestionItem, Attrs>;
+    node: ProseMirrorNode;
+  }) => string;
+  renderHTML: (props: {
+    options: SlashOptions<SuggestionItem, Attrs>;
+    node: ProseMirrorNode;
+  }) => DOMOutputSpec;
+  deleteTriggerWithBackspace: boolean;
+  suggestion: Omit<SuggestionOptions<SuggestionItem, Attrs>, 'editor'>;
+};
+
+const SlashPluginKey = new PluginKey('slash');
+
+export interface SuggestionItem {
+  title: string;
+  description: string;
+  icon: ReactNode;
+  searchTerms?: string[];
+  command?: (props: { editor: Editor; range: Range }) => void;
+}
+
+export const defaultSlashSuggestions: SuggestionOptions<SuggestionItem>['items'] =
+  () => [
+    {
+      title: 'Text',
+      description: 'Just start typing with plain text.',
+      searchTerms: ['p', 'paragraph'],
+      icon: <TextIcon size={18} />,
+      command: ({ editor, range }) => {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .toggleNode('paragraph', 'paragraph')
+          .run();
+      },
+    },
+    {
+      title: 'To-do List',
+      description: 'Track tasks with a to-do list.',
+      searchTerms: ['todo', 'task', 'list', 'check', 'checkbox'],
+      icon: <CheckSquareIcon size={18} />,
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).toggleTaskList().run();
+      },
+    },
+    {
+      title: 'Heading 1',
+      description: 'Big section heading.',
+      searchTerms: ['title', 'big', 'large'],
+      icon: <Heading1Icon size={18} />,
+      command: ({ editor, range }) => {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setNode('heading', { level: 1 })
+          .run();
+      },
+    },
+    {
+      title: 'Heading 2',
+      description: 'Medium section heading.',
+      searchTerms: ['subtitle', 'medium'],
+      icon: <Heading2Icon size={18} />,
+      command: ({ editor, range }) => {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setNode('heading', { level: 2 })
+          .run();
+      },
+    },
+    {
+      title: 'Heading 3',
+      description: 'Small section heading.',
+      searchTerms: ['subtitle', 'small'],
+      icon: <Heading3Icon size={18} />,
+      command: ({ editor, range }) => {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setNode('heading', { level: 3 })
+          .run();
+      },
+    },
+    {
+      title: 'Bullet List',
+      description: 'Create a simple bullet list.',
+      searchTerms: ['unordered', 'point'],
+      icon: <ListIcon size={18} />,
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).toggleBulletList().run();
+      },
+    },
+    {
+      title: 'Numbered List',
+      description: 'Create a list with numbering.',
+      searchTerms: ['ordered'],
+      icon: <ListOrderedIcon size={18} />,
+      command: ({ editor, range }) => {
+        editor.chain().focus().deleteRange(range).toggleOrderedList().run();
+      },
+    },
+    {
+      title: 'Quote',
+      description: 'Capture a quote.',
+      searchTerms: ['blockquote'],
+      icon: <TextQuoteIcon size={18} />,
+      command: ({ editor, range }) =>
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .toggleNode('paragraph', 'paragraph')
+          .toggleBlockquote()
+          .run(),
+    },
+    {
+      title: 'Code',
+      description: 'Capture a code snippet.',
+      searchTerms: ['codeblock'],
+      icon: <CodeIcon size={18} />,
+      command: ({ editor, range }) =>
+        editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
+    },
+    {
+      title: 'Table',
+      description: 'Add a table view to organize data.',
+      searchTerms: ['table'],
+      icon: <TableIcon size={18} />,
+      command: ({ editor, range }) =>
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+          .run(),
+    },
+  ];
+
+const Slash = Node.create<SlashOptions>({
+  name: 'slash',
+  priority: 101,
   addOptions() {
-    const suggestion: Omit<SuggestionOptions, 'editor'> = {
-      char: '/',
-      command: ({ editor, range, props }) => props.command({ editor, range }),
-      render: () => {
-        return {
-          onStart: ({ editor }) => {
-            editor.storage.slashCommand.open = true;
-          },
-          onExit: ({ editor }) => {
-            editor.storage.slashCommand.open = false;
-          },
-        };
+    return {
+      HTMLAttributes: {},
+      renderText({ options, node }) {
+        return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`;
+      },
+      deleteTriggerWithBackspace: false,
+      renderHTML({ options, node }) {
+        return [
+          'span',
+          mergeAttributes(this.HTMLAttributes, options.HTMLAttributes),
+          `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`,
+        ];
+      },
+      suggestion: {
+        char: '/',
+        pluginKey: SlashPluginKey,
+        command: ({ editor, range, props }) => {
+          // increase range.to by one when the next node is of type "text"
+          // and starts with a space character
+          const nodeAfter = editor.view.state.selection.$to.nodeAfter;
+          const overrideSpace = nodeAfter?.text?.startsWith(' ');
+
+          if (overrideSpace) {
+            range.to += 1;
+          }
+
+          editor
+            .chain()
+            .focus()
+            .insertContentAt(range, [
+              {
+                type: this.name,
+                attrs: props,
+              },
+              {
+                type: 'text',
+                text: ' ',
+              },
+            ])
+            .run();
+
+          // get reference to `window` object from editor element, to support cross-frame JS usage
+          editor.view.dom.ownerDocument.defaultView
+            ?.getSelection()
+            ?.collapseToEnd();
+        },
+        allow: ({ state, range }) => {
+          const $from = state.doc.resolve(range.from);
+          const type = state.schema.nodes[this.name];
+          const allow = !!$from.parent.type.contentMatch.matchType(type);
+
+          return allow;
+        },
       },
     };
+  },
 
+  group: 'inline',
+
+  inline: true,
+
+  selectable: false,
+
+  atom: true,
+
+  addAttributes() {
     return {
-      suggestion,
+      id: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('data-id'),
+        renderHTML: (attributes) => {
+          if (!attributes.id) {
+            return {};
+          }
+
+          return {
+            'data-id': attributes.id,
+          };
+        },
+      },
+
+      label: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('data-label'),
+        renderHTML: (attributes) => {
+          if (!attributes.label) {
+            return {};
+          }
+
+          return {
+            'data-label': attributes.label,
+          };
+        },
+      },
     };
   },
-  addStorage() {
+
+  parseHTML() {
+    return [
+      {
+        tag: `span[data-type="${this.name}"]`,
+      },
+    ];
+  },
+
+  renderHTML({ node, HTMLAttributes }) {
+    const mergedOptions = { ...this.options };
+
+    mergedOptions.HTMLAttributes = mergeAttributes(
+      { 'data-type': this.name },
+      this.options.HTMLAttributes,
+      HTMLAttributes
+    );
+    const html = this.options.renderHTML({
+      options: mergedOptions,
+      node,
+    });
+
+    if (typeof html === 'string') {
+      return [
+        'span',
+        mergeAttributes(
+          { 'data-type': this.name },
+          this.options.HTMLAttributes,
+          HTMLAttributes
+        ),
+        html,
+      ];
+    }
+    return html;
+  },
+
+  renderText({ node }) {
+    return this.options.renderText({
+      options: this.options,
+      node,
+    });
+  },
+
+  addKeyboardShortcuts() {
     return {
-      open: false,
-      range: null,
+      Backspace: () =>
+        this.editor.commands.command(({ tr, state }) => {
+          let isMention = false;
+          const { selection } = state;
+          const { empty, anchor } = selection;
+
+          if (!empty) {
+            return false;
+          }
+
+          state.doc.nodesBetween(anchor - 1, anchor, (node, pos) => {
+            if (node.type.name === this.name) {
+              isMention = true;
+              tr.insertText(
+                this.options.deleteTriggerWithBackspace
+                  ? ''
+                  : this.options.suggestion.char || '',
+                pos,
+                pos + node.nodeSize
+              );
+
+              return false;
+            }
+          });
+
+          return isMention;
+        }),
     };
   },
+
   addProseMirrorPlugins() {
     return [
       Suggestion({
@@ -130,44 +433,54 @@ const SlashCommand = Extension.create({
   },
 });
 
-export interface SuggestionItem {
-  title: string;
-  description: string;
-  icon: ReactNode;
-  searchTerms?: string[];
-  command?: (props: { editor: Editor; range: Range }) => void;
-}
-
 // Create a lowlight instance with all languages loaded
 const lowlight = createLowlight(all);
+
+type EditorSlashMenuProps = {
+  items: SuggestionItem[];
+  command: (item: SuggestionItem) => void;
+  editor: Editor;
+};
+
+const EditorSlashMenu = ({ items, command }: EditorSlashMenuProps) => (
+  <Command id="slash-command" className="border shadow">
+    <CommandEmpty className="px-2 text-muted-foreground">
+      No results
+    </CommandEmpty>
+    <CommandList>
+      {items.map((item) => (
+        <CommandItem
+          key={item.title}
+          onSelect={() => command(item)}
+          className="flex items-center gap-2 px-4"
+        >
+          {item.icon}
+          <div className="flex flex-col">
+            <span className="font-medium text-sm">{item.title}</span>
+            <span className="text-muted-foreground text-xs">
+              {item.description}
+            </span>
+          </div>
+        </CommandItem>
+      ))}
+    </CommandList>
+  </Command>
+);
+
+const handleCommandNavigation = (event: KeyboardEvent) => {
+  if (['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
+    const slashCommand = document.querySelector('#slash-command');
+    if (slashCommand) {
+      return true;
+    }
+  }
+};
 
 export type EditorProviderProps = TiptapEditorProviderProps & {
   className?: string;
   limit?: number;
   placeholder?: string;
 };
-
-// StarterKit contains the following:
-// - Blockquote
-// - BulletList
-// - CodeBlock (disabled for lowlight version)
-// - Document
-// - HardBreak
-// - Heading
-// - HorizontalRule
-// - ListItem
-// - OrderedList
-// - Paragraph
-// - Text
-// - Marks
-// - Bold
-// - Code
-// - Italic
-// - Strike
-// - Extensions
-// - Dropcursor
-// - Gapcursor
-// - History
 
 export const EditorProvider = ({
   className,
@@ -230,7 +543,69 @@ export const EditorProvider = ({
     }),
     Superscript,
     Subscript,
-    SlashCommand,
+    Slash.configure({
+      suggestion: {
+        items: async ({ editor, query }) => {
+          const items = await defaultSlashSuggestions({ editor, query });
+
+          if (!query) {
+            return items;
+          }
+
+          return items.filter((item) =>
+            item.searchTerms?.some((term) => query.includes(term))
+          );
+        },
+        char: '/',
+        render: () => {
+          let component: ReactRenderer<EditorSlashMenuProps>;
+          let popup: TippyInstance[];
+
+          return {
+            onStart: (props) => {
+              component = new ReactRenderer(EditorSlashMenu, {
+                props,
+                editor: props.editor,
+              });
+
+              popup = tippy('body', {
+                getReferenceClientRect: props.clientRect,
+                appendTo: () => document.body,
+                content: component.element,
+                showOnCreate: true,
+                interactive: true,
+                trigger: 'manual',
+                placement: 'bottom-start',
+              });
+            },
+
+            onUpdate(props) {
+              component.updateProps(props);
+
+              popup[0].setProps({
+                getReferenceClientRect: props.clientRect,
+              });
+            },
+
+            onKeyDown(props) {
+              if (props.event.key === 'Escape') {
+                popup[0].hide();
+                component.destroy();
+
+                return true;
+              }
+
+              return component.ref?.onKeyDown(props);
+            },
+
+            onExit() {
+              popup[0].destroy();
+              component.destroy();
+            },
+          };
+        },
+      },
+    }),
     Table.configure({
       HTMLAttributes: {
         class: cn(
@@ -267,6 +642,11 @@ export const EditorProvider = ({
       <div className={cn(className, '[&_.ProseMirror-focused]:outline-none')}>
         <TiptapEditorProvider
           extensions={[...defaultExtensions, ...(extensions ?? [])]}
+          editorProps={{
+            handleKeyDown: (_view, event) => {
+              handleCommandNavigation(event);
+            },
+          }}
           {...props}
         />
       </div>
@@ -952,268 +1332,6 @@ export const EditorBackgroundColor = ({
     />
   );
 };
-
-type EditorSlashMenuProps = {
-  children: ReactNode;
-  className?: string;
-};
-
-export const EditorSlashMenu = ({
-  children,
-  className,
-  ...props
-}: EditorSlashMenuProps) => {
-  const { editor } = useCurrentEditor();
-
-  if (!editor) {
-    return null;
-  }
-
-  return (
-    <BubbleMenu
-      className={cn(
-        'flex rounded-xl border bg-background p-0.5 shadow',
-        '[&>*:first-child]:rounded-l-[9px]',
-        '[&>*:last-child]:rounded-r-[9px]',
-        { hidden: !editor.storage.slashCommand.open },
-        className
-      )}
-      tippyOptions={{
-        maxWidth: 'none',
-        placement: 'bottom',
-      }}
-      shouldShow={() => true}
-      editor={null}
-      {...props}
-    >
-      <Command>
-        <CommandEmpty className="px-2 text-muted-foreground">
-          No results
-        </CommandEmpty>
-        <CommandList>
-          {Children.map(children, (child) => (
-            <CommandItem asChild>{child}</CommandItem>
-          ))}
-        </CommandList>
-      </Command>
-    </BubbleMenu>
-  );
-};
-
-type EditorSlashMenuButtonProps = {
-  title: string;
-  description: string;
-  searchTerms: string[];
-  icon: LucideIcon;
-  command: (props: { editor: Editor; range: Range }) => void;
-};
-
-const EditorSlashMenuButton = ({
-  title,
-  description,
-  searchTerms,
-  icon: Icon,
-  command,
-}: EditorSlashMenuButtonProps) => {
-  const { editor } = useCurrentEditor();
-
-  if (!editor) {
-    return null;
-  }
-
-  const { from, to } = editor.state.selection;
-  const range: Range = { from, to };
-
-  return (
-    <CommandItem
-      onSelect={() => command({ editor, range })}
-      className="flex items-center gap-2"
-    >
-      <div className="flex size-10 items-center justify-center rounded-md border border-muted bg-background">
-        <Icon size={16} />
-      </div>
-      <div>
-        <p className="font-medium">{title}</p>
-        <p className="text-muted-foreground text-xs">{description}</p>
-      </div>
-    </CommandItem>
-  );
-};
-
-export const EditorSlashTextButton = () => (
-  <EditorSlashMenuButton
-    title="Text"
-    description="Just start typing with plain text."
-    searchTerms={['p', 'paragraph']}
-    icon={TextIcon}
-    command={({ editor, range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .toggleNode('paragraph', 'paragraph')
-        .run();
-    }}
-  />
-);
-
-export const EditorSlashHeading1Button = () => (
-  <EditorSlashMenuButton
-    title="Heading 1"
-    description="Big section heading."
-    searchTerms={['title', 'big', 'large']}
-    icon={Heading1Icon}
-    command={({ editor, range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .setNode('heading', { level: 1 })
-        .run();
-    }}
-  />
-);
-
-export const EditorSlashHeading2Button = () => (
-  <EditorSlashMenuButton
-    title="Heading 2"
-    description="Medium section heading."
-    searchTerms={['subtitle', 'medium']}
-    icon={Heading2Icon}
-    command={({ editor, range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .setNode('heading', { level: 2 })
-        .run();
-    }}
-  />
-);
-
-export const EditorSlashHeading3Button = () => (
-  <EditorSlashMenuButton
-    title="Heading 3"
-    description="Small section heading."
-    searchTerms={['subtitle', 'small']}
-    icon={Heading3Icon}
-    command={({ editor, range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .setNode('heading', { level: 3 })
-        .run();
-    }}
-  />
-);
-
-export const EditorSlashBulletListButton = () => (
-  <EditorSlashMenuButton
-    title="Bullet List"
-    description="Create a simple bullet list."
-    searchTerms={['unordered', 'point']}
-    icon={ListIcon}
-    command={({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).toggleBulletList().run();
-    }}
-  />
-);
-
-export const EditorSlashOrderedListButton = () => (
-  <EditorSlashMenuButton
-    title="Numbered List"
-    description="Create a list with numbering."
-    searchTerms={['ordered']}
-    icon={ListOrderedIcon}
-    command={({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).toggleOrderedList().run();
-    }}
-  />
-);
-
-export const EditorSlashTaskListButton = () => (
-  <EditorSlashMenuButton
-    title="To-do List"
-    description="Track tasks with a to-do list."
-    searchTerms={['todo', 'task', 'list', 'check', 'checkbox']}
-    icon={CheckSquareIcon}
-    command={({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).toggleTaskList().run();
-    }}
-  />
-);
-
-export const EditorSlashQuoteButton = () => (
-  <EditorSlashMenuButton
-    title="Quote"
-    description="Capture a quote."
-    searchTerms={['blockquote']}
-    icon={TextQuoteIcon}
-    command={({ editor, range }) =>
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .toggleNode('paragraph', 'paragraph')
-        .toggleBlockquote()
-        .run()
-    }
-  />
-);
-
-export const EditorSlashCodeButton = () => (
-  <EditorSlashMenuButton
-    title="Code"
-    description="Capture a code snippet."
-    searchTerms={['codeblock']}
-    icon={CodeIcon}
-    command={({ editor, range }) =>
-      editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
-    }
-  />
-);
-
-export const EditorSlashImageButton = () => (
-  <EditorSlashMenuButton
-    title="Image"
-    description="Upload an image from your computer."
-    searchTerms={['photo', 'picture', 'media']}
-    icon={ImageIcon}
-    command={({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).run();
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = async () => {
-        if (input.files?.length) {
-          const file = input.files[0];
-          const pos = editor.view.state.selection.from;
-          // uploadFn(file, editor.view, pos);
-          console.log('file', file, pos);
-        }
-      };
-      input.click();
-    }}
-  />
-);
-
-export const EditorSlashTableButton = () => (
-  <EditorSlashMenuButton
-    title="Table"
-    description="Add a table view to organize data."
-    searchTerms={['table']}
-    icon={TableIcon}
-    command={({ editor, range }) =>
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
-        .run()
-    }
-  />
-);
 
 export type EditorTableMenuProps = {
   children: ReactNode;
