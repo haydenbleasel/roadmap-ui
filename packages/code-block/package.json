@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@icons-pack/react-simple-icons": "^11.2.0",
     "@repo/shadcn-ui": "workspace:*",
     "lucide-react": "^0.474.0",
     "react": "^19.0.0",
