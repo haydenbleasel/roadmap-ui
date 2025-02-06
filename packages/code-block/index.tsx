@@ -76,7 +76,7 @@ import {
 import { CheckIcon, CopyIcon } from 'lucide-react';
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
 import { cloneElement, useEffect, useState } from 'react';
-import { codeToHtml } from 'shiki';
+import { type CodeOptionsMultipleThemes, codeToHtml } from 'shiki';
 
 const filenameIconMap = {
   '.env': SiDotenv,
@@ -249,16 +249,17 @@ export const CodeBlockCopyButton = ({
 
 export type CodeBlockBodyProps = {
   children: ReactNode;
+  themes?: CodeOptionsMultipleThemes['themes'];
 };
 
-export const CodeBlockBody = ({ children }: CodeBlockBodyProps) => {
+export const CodeBlockBody = ({ children, themes }: CodeBlockBodyProps) => {
   const [html, setHtml] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHtml = async () => {
       const html = await codeToHtml(children as string, {
         lang: 'javascript',
-        themes: {
+        themes: themes ?? {
           light: 'vitesse-light',
           dark: 'vitesse-dark',
         },
@@ -266,7 +267,7 @@ export const CodeBlockBody = ({ children }: CodeBlockBodyProps) => {
       setHtml(html);
     };
     fetchHtml();
-  }, [children]);
+  }, [children, themes]);
 
   if (!html) {
     return <pre className="p-4">{html}</pre>;
@@ -287,6 +288,7 @@ export const CodeBlockBody = ({ children }: CodeBlockBodyProps) => {
         '[&_.line]:before:font-mono',
         '[&_.line]:before:select-none'
       )}
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: "Kinda how Shiki works"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
