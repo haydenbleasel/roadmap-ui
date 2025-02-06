@@ -17,6 +17,7 @@
     "@radix-ui/react-tooltip": "^1.1.8",
     "@repo/announcement": "workspace:*",
     "@repo/calendar": "workspace:*",
+    "@repo/code-block": "workspace:*",
     "@repo/color-picker": "workspace:*",
     "@repo/dialog-stack": "workspace:*",
     "@repo/dropzone": "workspace:*",
