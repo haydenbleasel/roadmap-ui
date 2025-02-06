@@ -277,6 +277,8 @@ export const CodeBlockBody = ({ children, themes }: CodeBlockBodyProps) => {
     <div
       className={cn(
         'p-4 text-sm',
+        '[&_code]:[counter-reset:line]',
+        '[&_code]:[counter-increment:line_0]',
         '[&_.line]:before:content-[counter(line)]',
         '[&_.line]:before:inline-block',
         '[&_.line]:before:[counter-increment:line]',
