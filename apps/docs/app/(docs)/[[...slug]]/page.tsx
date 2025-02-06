@@ -41,9 +41,6 @@ export default async function Page(props: {
           toc={page.data.toc}
           full={page.data.full}
           tableOfContent={{ style: 'clerk' }}
-          article={{
-            className: '',
-          }}
         >
           <DocsTitle className="tracking-tighter lg:text-4xl">
             {page.data.title}
