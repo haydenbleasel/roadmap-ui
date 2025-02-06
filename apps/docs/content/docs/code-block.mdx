@@ -176,6 +176,51 @@ const Example = () => (
 
 export default Example;`} />
 
+### Hidden line numbers
+
+<Preview name="code-block" code={`'use client';
+
+import { useState } from 'react';
+import {
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockCopyButton,
+  CodeBlockTabsContent,
+  CodeBlockTabsList,
+  CodeBlockTabsTrigger
+} from '@/components/ui/kibo-ui/code-block';
+
+const name = 'MyComponent.js';
+const code = \`function MyComponent(props) {
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1> // [!code highlight]
+      <p>This is an example React component.</p>
+    </div>
+  );
+}\`;
+
+const Example = () => (
+  <div className="p-4">
+    <CodeBlock defaultValue={name}>
+      <CodeBlockTabsContent value={name} lineNumbers={false}>
+        {code}
+      </CodeBlockTabsContent>
+      <CodeBlockCopyButton
+        value={code}
+        onCopy={() =>
+          console.log(\`Copied "\${code}" to clipboard\`)
+        }
+        onError={() =>
+          console.error(\`Failed to copy "\${code}" to clipboard\`)
+        }
+      />
+    </CodeBlock>
+  </div>
+);
+
+export default Example;`} />
+
 ## Props
 
 The Code Block component is made up of the following subcomponents:
