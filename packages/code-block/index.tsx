@@ -1,6 +1,9 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
+  type IconType,
   SiAstro,
   SiBiome,
   SiBower,
@@ -70,14 +73,10 @@ import {
   SiVuedotjs,
   SiWebassembly,
 } from '@icons-pack/react-simple-icons';
-import { type ReactNode, useEffect, useState } from 'react';
+import { CheckIcon, CopyIcon } from 'lucide-react';
+import type { ComponentProps, ReactElement, ReactNode } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 import { codeToHtml } from 'shiki';
-
-export type CodeBlockProps = {
-  children: ReactNode;
-  language: string;
-  filename: string;
-};
 
 const filenameIconMap = {
   '.env': SiDotenv,
@@ -155,29 +154,98 @@ const filenameIconMap = {
   '*.wasm': SiWebassembly,
 };
 
-export const CodeBlock = ({ children, language, filename }: CodeBlockProps) => {
-  const extension = filename ? filename.split('.').pop() : null;
-  const Icon = extension
-    ? filenameIconMap[extension as keyof typeof filenameIconMap]
-    : null;
+export type CodeBlockProps = {
+  children: ReactNode;
+};
+
+export const CodeBlock = ({ children }: CodeBlockProps) => (
+  <div className="overflow-hidden rounded-md border">{children}</div>
+);
+
+export type CodeBlockHeaderProps = {
+  children: ReactNode;
+  filename: string;
+  icon?: IconType;
+};
+
+export const CodeBlockHeader = ({
+  children,
+  filename,
+  icon,
+}: CodeBlockHeaderProps) => {
+  const defaultIcon = Object.entries(filenameIconMap).find(([pattern]) => {
+    const regex = new RegExp(
+      `^${pattern.replace(/\./g, '\\.').replace(/\*/g, '.*')}$`
+    );
+    return regex.test(filename);
+  })?.[1];
+  const Icon = icon ?? defaultIcon;
 
   return (
-    <div className="overflow-hidden rounded-md border">
-      {Object.values(extensionIconMap).map((Icon) => (
-        <Icon key={Icon.name} className="h-4 w-4" />
-      ))}
+    <div className="group flex items-center gap-2 bg-secondary px-4 py-1.5 text-muted-foreground text-xs">
+      {Icon && <Icon className="h-4 w-4 shrink-0" />}
+      <span className="flex-1 truncate">{filename}</span>
       {children}
     </div>
   );
 };
 
-export type CodeBlockHeaderProps = {
-  children: ReactNode;
+export type CodeBlockCopyButtonProps = ComponentProps<typeof Button> & {
+  value: string;
+  onCopy?: () => void;
+  onError?: (error: Error) => void;
+  timeout?: number;
 };
 
-export const CodeBlockHeader = ({ children }: CodeBlockHeaderProps) => (
-  <div className="bg-secondary px-4 text-sm">{children}</div>
-);
+export const CodeBlockCopyButton = ({
+  asChild,
+  value,
+  onCopy,
+  onError,
+  timeout = 2000,
+  children,
+  ...props
+}: CodeBlockCopyButtonProps) => {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const copyToClipboard = () => {
+    if (
+      typeof window === 'undefined' ||
+      !navigator.clipboard.writeText ||
+      !value
+    ) {
+      return;
+    }
+
+    navigator.clipboard.writeText(value).then(() => {
+      setIsCopied(true);
+      onCopy?.();
+
+      setTimeout(() => setIsCopied(false), timeout);
+    }, onError);
+  };
+
+  if (asChild) {
+    return cloneElement(children as ReactElement, {
+      // @ts-expect-error - we know this is a button
+      onClick: copyToClipboard,
+    });
+  }
+
+  const Icon = isCopied ? CheckIcon : CopyIcon;
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={copyToClipboard}
+      className="-mr-1 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+      {...props}
+    >
+      {children ?? <Icon size={14} className="text-muted-foreground" />}
+    </Button>
+  );
+};
 
 export type CodeBlockBodyProps = {
   children: ReactNode;
@@ -190,7 +258,10 @@ export const CodeBlockBody = ({ children }: CodeBlockBodyProps) => {
     const fetchHtml = async () => {
       const html = await codeToHtml(children as string, {
         lang: 'javascript',
-        theme: 'vitesse-dark',
+        themes: {
+          light: 'vitesse-light',
+          dark: 'vitesse-dark',
+        },
       });
       setHtml(html);
     };
@@ -201,5 +272,22 @@ export const CodeBlockBody = ({ children }: CodeBlockBodyProps) => {
     return <pre className="p-4">{html}</pre>;
   }
 
-  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <div
+      className={cn(
+        'p-4 text-sm',
+        '[&_.line]:before:content-[counter(line)]',
+        '[&_.line]:before:inline-block',
+        '[&_.line]:before:[counter-increment:line]',
+        '[&_.line]:before:w-4',
+        '[&_.line]:before:mr-4',
+        '[&_.line]:before:text-[13px]',
+        '[&_.line]:before:text-right',
+        '[&_.line]:before:text-muted-foreground/50',
+        '[&_.line]:before:font-mono',
+        '[&_.line]:before:select-none'
+      )}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 };

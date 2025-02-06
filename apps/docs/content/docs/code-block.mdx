@@ -15,20 +15,27 @@ import {
   CodeBlock,
   CodeBlockHeader,
   CodeBlockBody,
+  CodeBlockCopyButton,
 } from '@/components/ui/kibo-ui/code-block';
 
-const Example = () => (
-  <CodeBlock filename="MyComponent.js">
-    <CodeBlockHeader />
-    <CodeBlockBody>{\`function MyComponent(props) {
+const code = \`function MyComponent(props) {
   return (
     <div>
       <h1>Hello, {props.name}!</h1>
       <p>This is an example React component.</p>
     </div>
   );
-}\`}</CodeBlockBody>
-  </CodeBlock>
+}\`;
+
+const Example = () => (
+  <div className="p-4">
+    <CodeBlock>
+      <CodeBlockHeader filename="MyComponent.js">
+        <CodeBlockCopyButton value={code} />
+      </CodeBlockHeader>
+      <CodeBlockBody>{code}</CodeBlockBody>
+    </CodeBlock>
+  </div>
 );
 
 export default Example;`} />
