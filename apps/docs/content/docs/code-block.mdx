@@ -11,13 +11,97 @@ import { AutoTypeTable } from 'fumadocs-typescript/ui';
 
 <Preview name="code-block" code={`'use client';
 
+import { useState } from 'react';
 import {
   CodeBlock,
   CodeBlockHeader,
   CodeBlockBody,
   CodeBlockCopyButton,
+  CodeBlockTabsContent,
+  CodeBlockTabsList,
+  CodeBlockTabsTrigger
 } from '@/components/ui/kibo-ui/code-block';
 
+const code = [{
+  name: 'MyComponent.js',
+  code: \`function MyComponent(props) {
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>This is an example React component.</p>
+    </div>
+  );
+}\`,
+}]
+
+const Example = () => {
+  const [value, setValue] = useState(code[0].name);
+  const activeCommand = code.find((command) => command.name === value);
+
+  return (
+    <div className="p-4">
+      <CodeBlock value={value} onChange={setValue}>
+        <CodeBlockHeader>
+          <CodeBlockTabsList>
+            {code.map((item) => (
+              <CodeBlockTabsTrigger key={item.name} value={item.name} label={item.name} />
+            ))}
+          </CodeBlockTabsList>
+          <CodeBlockCopyButton
+            value={activeCommand?.code}
+            onCopy={() =>
+              console.log(\`Copied "\${activeCommand?.code}" to clipboard\`)
+            }
+            onError={() =>
+              console.error(\`Failed to copy "\${activeCommand?.code}" to clipboard\`)
+            }
+          />
+        </CodeBlockHeader>
+        {code.map((item) => (
+          <CodeBlockTabsContent key={item.name} value={item.name}>
+            {item.code}
+          </CodeBlockTabsContent>
+        ))}
+      </CodeBlock>
+    </div>
+  );
+};
+
+export default Example;`} />
+
+## Installation
+
+<Installer packageName="code-block" />
+
+## Features
+
+- Syntax highlighting
+- Line numbers
+- Copy to clipboard
+- Filename and tabbed view
+- Highlighted lines
+- Language detection
+- Theme support
+- Customizable styles
+
+## Examples
+
+### No filename
+
+<Preview name="code-block" code={`'use client';
+
+import { useState } from 'react';
+import {
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockBody,
+  CodeBlockCopyButton,
+  CodeBlockTabsContent,
+  CodeBlockTabsList,
+  CodeBlockTabsTrigger
+} from '@/components/ui/kibo-ui/code-block';
+
+const name = 'MyComponent.js';
 const code = \`function MyComponent(props) {
   return (
     <div>
@@ -29,28 +113,70 @@ const code = \`function MyComponent(props) {
 
 const Example = () => (
   <div className="p-4">
-    <CodeBlock>
-      <CodeBlockHeader filename="MyComponent.js">
-        <CodeBlockCopyButton value={code} />
-      </CodeBlockHeader>
-      <CodeBlockBody>{code}</CodeBlockBody>
+    <CodeBlock defaultValue={name}>
+      <CodeBlockTabsContent value={name}>
+        {code}
+      </CodeBlockTabsContent>
+      <CodeBlockCopyButton
+        value={code}
+        onCopy={() =>
+          console.log(\`Copied "\${code}" to clipboard\`)
+        }
+        onError={() =>
+          console.error(\`Failed to copy "\${code}" to clipboard\`)
+        }
+      />
     </CodeBlock>
   </div>
 );
 
 export default Example;`} />
 
-## Installation
+### Highlighted lines
 
-<Installer packageName="code-block" />
+<Preview name="code-block" code={`'use client';
 
-## Features
+import { useState } from 'react';
+import {
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockBody,
+  CodeBlockCopyButton,
+  CodeBlockTabsContent,
+  CodeBlockTabsList,
+  CodeBlockTabsTrigger
+} from '@/components/ui/kibo-ui/code-block';
 
-TBD.
+const name = 'MyComponent.js';
+const code = \`function MyComponent(props) {
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1> // [!code highlight]
+      <p>This is an example React component.</p>
+    </div>
+  );
+}\`;
 
-## Examples
+const Example = () => (
+  <div className="p-4">
+    <CodeBlock defaultValue={name}>
+      <CodeBlockTabsContent value={name}>
+        {code}
+      </CodeBlockTabsContent>
+      <CodeBlockCopyButton
+        value={code}
+        onCopy={() =>
+          console.log(\`Copied "\${code}" to clipboard\`)
+        }
+        onError={() =>
+          console.error(\`Failed to copy "\${code}" to clipboard\`)
+        }
+      />
+    </CodeBlock>
+  </div>
+);
 
-TBD.
+export default Example;`} />
 
 ## Props
 

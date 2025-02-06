@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import {
   type IconType,
@@ -74,7 +75,7 @@ import {
   SiWebassembly,
 } from '@icons-pack/react-simple-icons';
 import { CheckIcon, CopyIcon } from 'lucide-react';
-import type { ComponentProps, ReactElement, ReactNode } from 'react';
+import type { ComponentProps, HTMLAttributes, ReactElement } from 'react';
 import { cloneElement, useEffect, useState } from 'react';
 import { type CodeOptionsMultipleThemes, codeToHtml } from 'shiki';
 
@@ -154,39 +155,60 @@ const filenameIconMap = {
   '*.wasm': SiWebassembly,
 };
 
-export type CodeBlockProps = {
-  children: ReactNode;
-};
+export type CodeBlockProps = ComponentProps<typeof Tabs>;
 
-export const CodeBlock = ({ children }: CodeBlockProps) => (
-  <div className="overflow-hidden rounded-md border">{children}</div>
+export const CodeBlock = ({ children, ...props }: CodeBlockProps) => (
+  <Tabs className="group overflow-hidden rounded-md border" {...props}>
+    {children}
+  </Tabs>
 );
 
-export type CodeBlockHeaderProps = {
-  children: ReactNode;
-  filename: string;
+export type CodeBlockHeaderProps = HTMLAttributes<HTMLDivElement>;
+
+export const CodeBlockHeader = ({
+  className,
+  ...props
+}: CodeBlockHeaderProps) => (
+  <div
+    className={cn(
+      'flex flex-row items-center justify-between border-b bg-secondary p-1',
+      className
+    )}
+    {...props}
+  />
+);
+
+export type CodeBlockTabsListProps = ComponentProps<typeof TabsList>;
+
+export const CodeBlockTabsList = TabsList;
+
+export type CodeBlockTabsTriggerProps = ComponentProps<typeof TabsTrigger> & {
+  label: string;
   icon?: IconType;
 };
 
-export const CodeBlockHeader = ({
-  children,
-  filename,
+export const CodeBlockTabsTrigger = ({
+  className,
+  label,
   icon,
-}: CodeBlockHeaderProps) => {
+  ...props
+}: CodeBlockTabsTriggerProps) => {
   const defaultIcon = Object.entries(filenameIconMap).find(([pattern]) => {
     const regex = new RegExp(
       `^${pattern.replace(/\./g, '\\.').replace(/\*/g, '.*')}$`
     );
-    return regex.test(filename);
+    return regex.test(label);
   })?.[1];
   const Icon = icon ?? defaultIcon;
 
   return (
-    <div className="group flex items-center gap-2 bg-secondary px-4 py-1.5 text-muted-foreground text-xs">
+    <TabsTrigger
+      className="group flex items-center gap-2 bg-secondary px-4 py-1.5 text-muted-foreground text-xs"
+      {...props}
+    >
       {Icon && <Icon className="h-4 w-4 shrink-0" />}
-      <span className="flex-1 truncate">{filename}</span>
-      {children}
-    </div>
+      <span className="flex-1 truncate">{label}</span>
+    </TabsTrigger>
   );
 };
 
@@ -247,36 +269,42 @@ export const CodeBlockCopyButton = ({
   );
 };
 
-export type CodeBlockBodyProps = {
-  children: ReactNode;
+export type CodeBlockTabsContentProps = ComponentProps<typeof TabsContent> & {
   themes?: CodeOptionsMultipleThemes['themes'];
 };
 
-export const CodeBlockBody = ({ children, themes }: CodeBlockBodyProps) => {
+export const CodeBlockTabsContent = ({
+  children,
+  themes,
+  className,
+  ...props
+}: CodeBlockTabsContentProps) => {
   const [html, setHtml] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchHtml = async () => {
-      const html = await codeToHtml(children as string, {
-        lang: 'javascript',
-        themes: themes ?? {
-          light: 'vitesse-light',
-          dark: 'vitesse-dark',
-        },
-      });
-      setHtml(html);
-    };
-    fetchHtml();
+    codeToHtml(children as string, {
+      lang: 'javascript',
+      themes: themes ?? {
+        light: 'vitesse-light',
+        dark: 'vitesse-dark',
+      },
+    })
+      .then(setHtml)
+      .catch(console.error);
   }, [children, themes]);
 
   if (!html) {
-    return <pre className="p-4">{html}</pre>;
+    return (
+      <TabsContent className={cn('mt-0 p-4 text-sm', className)} {...props}>
+        <pre>{children}</pre>
+      </TabsContent>
+    );
   }
 
   return (
-    <div
+    <TabsContent
       className={cn(
-        'p-4 text-sm',
+        'mt-0 p-4 text-sm',
         '[&_code]:[counter-reset:line]',
         '[&_code]:[counter-increment:line_0]',
         '[&_.line]:before:content-[counter(line)]',
@@ -288,10 +316,15 @@ export const CodeBlockBody = ({ children, themes }: CodeBlockBodyProps) => {
         '[&_.line]:before:text-right',
         '[&_.line]:before:text-muted-foreground/50',
         '[&_.line]:before:font-mono',
-        '[&_.line]:before:select-none'
+        '[&_.line]:before:select-none',
+        className
       )}
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: "Kinda how Shiki works"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+      {...props}
+    >
+      <div
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: "Kinda how Shiki works"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    </TabsContent>
   );
 };
