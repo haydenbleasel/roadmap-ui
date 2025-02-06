@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "homepage": "https://www.kibo-ui.com/code-block",
+  "name": "code-block",
+  "type": "registry:ui",
+  "author": "Hayden Bleasel <hello@haydenbleasel.com>",
+  "registryDependencies": [],
+  "dependencies": [
+    "lucide-react",
+    "shiki"
+  ],
+  "devDependencies": [],
+  "files": [
+    {
+      "type": "registry:ui",
+      "path": "index.tsx",
+      "content": "'use client';\n\nimport { type ReactNode, useEffect, useState } from 'react';\nimport { codeToHtml } from 'shiki';\n\nexport type CodeBlockProps = {\n  children: ReactNode;\n  language: string;\n};\n\nexport const CodeBlock = ({ children, language }: CodeBlockProps) => {\n  return <div className=\"overflow-hidden rounded-md border\">{children}</div>;\n};\n\nexport type CodeBlockHeaderProps = {\n  children: ReactNode;\n};\n\nexport const CodeBlockHeader = ({ children }: CodeBlockHeaderProps) => (\n  <div className=\"bg-secondary px-4 text-sm\">{children}</div>\n);\n\nexport type CodeBlockBodyProps = {\n  children: ReactNode;\n};\n\nexport const CodeBlockBody = ({ children }: CodeBlockBodyProps) => {\n  const [html, setHtml] = useState<string | null>(null);\n\n  useEffect(() => {\n    const fetchHtml = async () => {\n      const html = await codeToHtml(children as string, {\n        lang: 'javascript',\n        theme: 'vitesse-dark',\n      });\n      setHtml(html);\n    };\n    fetchHtml();\n  }, [children]);\n\n  if (!html) {\n    return <pre className=\"p-4\">{html}</pre>;\n  }\n\n  return <div className=\"p-4\" dangerouslySetInnerHTML={{ __html: html }} />;\n};\n",
+      "target": "components/ui/kibo-ui/code-block.tsx"
+    }
+  ]
+}

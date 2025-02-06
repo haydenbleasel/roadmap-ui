@@ -6,7 +6,8 @@
     "@repo/shadcn-ui": "workspace:*",
     "lucide-react": "^0.474.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "shiki": "^2.1.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

@@ -60,6 +60,9 @@ importers:
       '@repo/calendar':
         specifier: workspace:*
         version: link:../../packages/calendar
+      '@repo/code-block':
+        specifier: workspace:*
+        version: link:../../packages/code-block
       '@repo/color-picker':
         specifier: workspace:*
         version: link:../../packages/color-picker
@@ -282,6 +285,37 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.0.3(@types/react@19.0.7)
+      typescript:
+        specifier: ^5
+        version: 5.7.3
+
+  packages/code-block:
+    dependencies:
+      '@repo/shadcn-ui':
+        specifier: workspace:*
+        version: link:../shadcn-ui
+      lucide-react:
+        specifier: ^0.474.0
+        version: 0.474.0(react@19.0.0)
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.0.0(react@19.0.0)
+      shiki:
+        specifier: ^2.1.0
+        version: 2.1.0
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^19
+        version: 19.0.8
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.0.3(@types/react@19.0.8)
       typescript:
         specifier: ^5
         version: 5.7.3

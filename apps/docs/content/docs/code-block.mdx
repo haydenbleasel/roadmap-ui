@@ -11,7 +11,25 @@ import { AutoTypeTable } from 'fumadocs-typescript/ui';
 
 <Preview name="code-block" code={`'use client';
 
-const Example = () => ();
+import {
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockBody,
+} from '@/components/ui/kibo-ui/code-block';
+
+const Example = () => (
+  <CodeBlock language="javascript">
+    <CodeBlockHeader filename="MyComponent.js" />
+    <CodeBlockBody>{\`function MyComponent(props) {
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>This is an example React component.</p>
+    </div>
+  );
+}\`}</CodeBlockBody>
+  </CodeBlock>
+);
 
 export default Example;`} />
 
