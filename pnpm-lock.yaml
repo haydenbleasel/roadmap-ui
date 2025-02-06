@@ -308,7 +308,7 @@ importers:
         version: 19.0.0(react@19.0.0)
       shiki:
         specifier: ^2.1.0
-        version: 2.1.0
+        version: 2.3.2
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*

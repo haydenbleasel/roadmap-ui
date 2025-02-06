@@ -7,6 +7,7 @@ icon: Braces
 import { AutoTypeTable } from 'fumadocs-typescript/ui';
 
 <PoweredBy packages={[
+  { name: 'Lucide', url: 'https://lucide.dev/' },
 ]} />
 
 <Preview name="code-block" code={`'use client';
@@ -15,7 +16,6 @@ import { useState } from 'react';
 import {
   CodeBlock,
   CodeBlockHeader,
-  CodeBlockBody,
   CodeBlockCopyButton,
   CodeBlockTabsContent,
   CodeBlockTabsList,
@@ -94,7 +94,6 @@ import { useState } from 'react';
 import {
   CodeBlock,
   CodeBlockHeader,
-  CodeBlockBody,
   CodeBlockCopyButton,
   CodeBlockTabsContent,
   CodeBlockTabsList,
@@ -140,7 +139,6 @@ import { useState } from 'react';
 import {
   CodeBlock,
   CodeBlockHeader,
-  CodeBlockBody,
   CodeBlockCopyButton,
   CodeBlockTabsContent,
   CodeBlockTabsList,
@@ -180,6 +178,29 @@ export default Example;`} />
 
 ## Props
 
-The Calendar component is made up of the following subcomponents:
+The Code Block component is made up of the following subcomponents:
 
-TBD.
+### CodeBlock
+
+<AutoTypeTable path="node_modules/@repo/code-block/index.tsx" name="CodeBlockProps" />
+
+### CodeBlockHeader
+
+<AutoTypeTable path="node_modules/@repo/code-block/index.tsx" name="CodeBlockHeaderProps" />
+
+### CodeBlockCopyButton
+
+<AutoTypeTable path="node_modules/@repo/code-block/index.tsx" name="CodeBlockCopyButtonProps" />
+
+### CodeBlockTabsContent
+
+<AutoTypeTable path="node_modules/@repo/code-block/index.tsx" name="CodeBlockTabsContentProps" />
+
+### CodeBlockTabsList
+
+<AutoTypeTable path="node_modules/@repo/code-block/index.tsx" name="CodeBlockTabsListProps" />
+
+### CodeBlockTabsTrigger
+
+<AutoTypeTable path="node_modules/@repo/code-block/index.tsx" name="CodeBlockTabsTriggerProps" />
+
