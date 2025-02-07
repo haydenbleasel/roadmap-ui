@@ -465,7 +465,7 @@ export const CodeBlockContent = ({
         '[&_.line.diff.add]:bg-emerald-50',
         '[&_.line.diff.remove]:bg-rose-50',
         '[&_.highlighted-word]:bg-blue-50',
-        '[&_code:has(.focused)_.line]:blur-sm',
+        '[&_code:has(.focused)_.line]:blur-[2px]',
         '[&_code:has(.focused)_.line.focused]:blur-none',
         lineNumbers && lineNumberClassNames,
         className
