@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "@icons-pack/react-simple-icons": "^11.2.0",
+    "@radix-ui/react-use-controllable-state": "^1.1.0",
     "@repo/shadcn-ui": "workspace:*",
+    "@shikijs/transformers": "^2.3.2",
     "lucide-react": "^0.474.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

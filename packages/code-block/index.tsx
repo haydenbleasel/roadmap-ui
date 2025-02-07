@@ -1,7 +1,13 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import {
   type IconType,
@@ -74,9 +80,23 @@ import {
   SiVuedotjs,
   SiWebassembly,
 } from '@icons-pack/react-simple-icons';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import {
+  transformerNotationDiff,
+  transformerNotationErrorLevel,
+  transformerNotationFocus,
+  transformerNotationHighlight,
+  transformerNotationWordHighlight,
+} from '@shikijs/transformers';
 import { CheckIcon, CopyIcon } from 'lucide-react';
 import type { ComponentProps, HTMLAttributes, ReactElement } from 'react';
-import { cloneElement, useEffect, useState } from 'react';
+import {
+  cloneElement,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { type CodeOptionsMultipleThemes, codeToHtml } from 'shiki';
 
 const filenameIconMap = {
@@ -155,13 +175,46 @@ const filenameIconMap = {
   '*.wasm': SiWebassembly,
 };
 
-export type CodeBlockProps = ComponentProps<typeof Tabs>;
+type CodeBlockContextType = {
+  value: string | undefined;
+  onValueChange: ((value: string) => void) | undefined;
+};
 
-export const CodeBlock = ({ children, ...props }: CodeBlockProps) => (
-  <Tabs className="group overflow-hidden rounded-md border" {...props}>
-    {children}
-  </Tabs>
-);
+const CodeBlockContext = createContext<CodeBlockContextType>({
+  value: undefined,
+  onValueChange: undefined,
+});
+
+export type CodeBlockProps = HTMLAttributes<HTMLDivElement> &
+  CodeBlockContextType & {
+    defaultValue?: string;
+  };
+
+export const CodeBlock = ({
+  children,
+  value: controlledValue,
+  onValueChange: controlledOnValueChange,
+  defaultValue,
+  className,
+  ...props
+}: CodeBlockProps) => {
+  const [value, onValueChange] = useControllableState({
+    defaultProp: defaultValue ?? '',
+    prop: controlledValue,
+    onChange: controlledOnValueChange,
+  });
+
+  return (
+    <CodeBlockContext.Provider value={{ value, onValueChange }}>
+      <div
+        className={cn('overflow-hidden rounded-md border', className)}
+        {...props}
+      >
+        {children}
+      </div>
+    </CodeBlockContext.Provider>
+  );
+};
 
 export type CodeBlockHeaderProps = HTMLAttributes<HTMLDivElement>;
 
@@ -171,49 +224,109 @@ export const CodeBlockHeader = ({
 }: CodeBlockHeaderProps) => (
   <div
     className={cn(
-      'flex flex-row items-center justify-between border-b bg-secondary p-1',
+      'flex flex-row items-center border-b bg-secondary p-1',
       className
     )}
     {...props}
   />
 );
 
-export type CodeBlockTabsListProps = ComponentProps<typeof TabsList>;
-
-export const CodeBlockTabsList = TabsList;
-
-export type CodeBlockTabsTriggerProps = ComponentProps<typeof TabsTrigger> & {
-  label: string;
+export type CodeBlockFilenameProps = HTMLAttributes<HTMLDivElement> & {
   icon?: IconType;
+  value?: string;
 };
 
-export const CodeBlockTabsTrigger = ({
+export const CodeBlockFilename = ({
   className,
-  label,
   icon,
+  value,
+  children,
   ...props
-}: CodeBlockTabsTriggerProps) => {
+}: CodeBlockFilenameProps) => {
+  const { value: activeValue } = useContext(CodeBlockContext);
   const defaultIcon = Object.entries(filenameIconMap).find(([pattern]) => {
     const regex = new RegExp(
       `^${pattern.replace(/\./g, '\\.').replace(/\*/g, '.*')}$`
     );
-    return regex.test(label);
+    return regex.test(children as string);
   })?.[1];
   const Icon = icon ?? defaultIcon;
 
+  if (value !== activeValue) {
+    return null;
+  }
+
   return (
-    <TabsTrigger
-      className="group flex items-center gap-2 bg-secondary px-4 py-1.5 text-muted-foreground text-xs"
+    <div
+      className="flex grow items-center gap-2 bg-secondary px-4 py-1.5 text-muted-foreground text-xs"
       {...props}
     >
       {Icon && <Icon className="h-4 w-4 shrink-0" />}
-      <span className="flex-1 truncate">{label}</span>
-    </TabsTrigger>
+      <span className="flex-1 truncate">{children}</span>
+    </div>
   );
 };
 
+export type CodeBlockSelectProps = ComponentProps<typeof Select>;
+
+export const CodeBlockSelect = ({
+  children,
+  ...props
+}: CodeBlockSelectProps) => {
+  const { value, onValueChange } = useContext(CodeBlockContext);
+
+  return (
+    <Select value={value} onValueChange={onValueChange} {...props}>
+      {children}
+    </Select>
+  );
+};
+
+export type CodeBlockSelectTriggerProps = ComponentProps<typeof SelectTrigger>;
+
+export const CodeBlockSelectTrigger = ({
+  children,
+  ...props
+}: CodeBlockSelectTriggerProps) => (
+  <SelectTrigger
+    className="w-fit border-none text-muted-foreground text-xs shadow-none"
+    {...props}
+  >
+    {children}
+  </SelectTrigger>
+);
+
+export type CodeBlockSelectValueProps = ComponentProps<typeof SelectValue>;
+
+export const CodeBlockSelectValue = ({
+  children,
+  ...props
+}: CodeBlockSelectValueProps) => (
+  <SelectValue {...props}>{children}</SelectValue>
+);
+
+export type CodeBlockSelectContentProps = ComponentProps<typeof SelectContent>;
+
+export const CodeBlockSelectContent = ({
+  children,
+  ...props
+}: CodeBlockSelectContentProps) => (
+  <SelectContent {...props}>{children}</SelectContent>
+);
+
+export type CodeBlockSelectItemProps = ComponentProps<typeof SelectItem>;
+
+export const CodeBlockSelectItem = ({
+  children,
+  className,
+  ...props
+}: CodeBlockSelectItemProps) => (
+  <SelectItem className={cn('text-sm', className)} value={props.value}>
+    {children}
+  </SelectItem>
+);
+
 export type CodeBlockCopyButtonProps = ComponentProps<typeof Button> & {
-  value: string;
   onCopy?: () => void;
   onError?: (error: Error) => void;
   timeout?: number;
@@ -221,14 +334,15 @@ export type CodeBlockCopyButtonProps = ComponentProps<typeof Button> & {
 
 export const CodeBlockCopyButton = ({
   asChild,
-  value,
   onCopy,
   onError,
   timeout = 2000,
   children,
+  className,
   ...props
 }: CodeBlockCopyButtonProps) => {
   const [isCopied, setIsCopied] = useState(false);
+  const { value } = useContext(CodeBlockContext);
 
   const copyToClipboard = () => {
     if (
@@ -261,7 +375,7 @@ export const CodeBlockCopyButton = ({
       variant="ghost"
       size="icon"
       onClick={copyToClipboard}
-      className="-mr-1 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+      className={cn('shrink-0', className)}
       {...props}
     >
       {children ?? <Icon size={14} className="text-muted-foreground" />}
@@ -269,20 +383,22 @@ export const CodeBlockCopyButton = ({
   );
 };
 
-export type CodeBlockTabsContentProps = ComponentProps<typeof TabsContent> & {
+export type CodeBlockContentProps = HTMLAttributes<HTMLDivElement> & {
+  value: string;
   themes?: CodeOptionsMultipleThemes['themes'];
   lineNumbers?: boolean;
 };
 
-export const CodeBlockTabsContent = ({
+export const CodeBlockContent = ({
+  value,
   children,
   themes,
   className,
   lineNumbers = true,
   ...props
-}: CodeBlockTabsContentProps) => {
+}: CodeBlockContentProps) => {
   const [html, setHtml] = useState<string | null>(null);
-
+  const { value: activeValue } = useContext(CodeBlockContext);
   useEffect(() => {
     codeToHtml(children as string, {
       lang: 'javascript',
@@ -290,16 +406,27 @@ export const CodeBlockTabsContent = ({
         light: 'vitesse-light',
         dark: 'vitesse-dark',
       },
+      transformers: [
+        transformerNotationDiff(),
+        transformerNotationHighlight(),
+        transformerNotationWordHighlight(),
+        transformerNotationFocus(),
+        transformerNotationErrorLevel(),
+      ],
     })
       .then(setHtml)
       .catch(console.error);
   }, [children, themes]);
 
+  if (value !== activeValue) {
+    return null;
+  }
+
   if (!html) {
     return (
-      <TabsContent className={cn('mt-0 p-4 text-sm', className)} {...props}>
-        <pre>{children}</pre>
-      </TabsContent>
+      <div className={cn('mt-0 p-4 text-sm', className)} {...props}>
+        <pre className="w-full">{children}</pre>
+      </div>
     );
   }
 
@@ -319,18 +446,33 @@ export const CodeBlockTabsContent = ({
   );
 
   return (
-    <TabsContent
+    <div
       className={cn(
-        'mt-0 p-4 text-sm',
+        'mt-0 py-4 text-sm',
+        '[&_code]:w-full',
+        '[&_code]:grid',
+        '[&_code]:overflow-x-auto',
+        '[&_.line]:px-4',
+        '[&_.line]:w-full',
+        '[&_.line]:relative',
+        '[&_.line.highlighted]:bg-blue-50',
+        '[&_.line.highlighted]:after:absolute',
+        '[&_.line.highlighted]:after:left-0',
+        '[&_.line.highlighted]:after:top-0',
+        '[&_.line.highlighted]:after:bottom-0',
+        '[&_.line.highlighted]:after:w-0.5',
+        '[&_.line.highlighted]:after:bg-blue-500',
+        '[&_.line.diff.add]:bg-emerald-50',
+        '[&_.line.diff.remove]:bg-rose-50',
+        '[&_.highlighted-word]:bg-blue-50',
+        '[&_code:has(.focused)_.line]:blur-sm',
+        '[&_code:has(.focused)_.line.focused]:blur-none',
         lineNumbers && lineNumberClassNames,
         className
       )}
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: "Kinda how Shiki works"
+      dangerouslySetInnerHTML={{ __html: html }}
       {...props}
-    >
-      <div
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: "Kinda how Shiki works"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    </TabsContent>
+    />
   );
 };
