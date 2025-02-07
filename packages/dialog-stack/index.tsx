@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import * as Portal from '@radix-ui/react-portal';
+import { cn } from "@/lib/utils";
+import * as Portal from "@radix-ui/react-portal";
 import {
   Children,
   cloneElement,
@@ -9,7 +9,7 @@ import {
   useContext,
   useEffect,
   useState,
-} from 'react';
+} from "react";
 import type {
   ButtonHTMLAttributes,
   Dispatch,
@@ -17,7 +17,7 @@ import type {
   MouseEventHandler,
   ReactElement,
   SetStateAction,
-} from 'react';
+} from "react";
 
 type DialogStackContextType = {
   activeIndex: number;
@@ -27,6 +27,7 @@ type DialogStackContextType = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   clickable: boolean;
+  controlled: boolean;
 };
 
 const DialogStackContext = createContext<DialogStackContextType>({
@@ -37,6 +38,7 @@ const DialogStackContext = createContext<DialogStackContextType>({
   isOpen: false,
   setIsOpen: () => {},
   clickable: false,
+  controlled: false,
 });
 
 type DialogStackChildProps = {
@@ -61,7 +63,12 @@ export const DialogStack = ({
   const [isOpen, setIsOpen] = useState(open);
 
   useEffect(() => {
-    onOpenChange?.(isOpen);
+    // when onOpenChange is provided, the open state is controlled by the parent
+    // using the open prop, so we need to sync the local state with the prop
+    if (onOpenChange) {
+      setIsOpen(open);
+      onOpenChange(open);
+    }
   }, [isOpen, onOpenChange]);
 
   return (
@@ -74,6 +81,9 @@ export const DialogStack = ({
         isOpen,
         setIsOpen,
         clickable,
+        // providing onOpenChange callback denotes controlled mode
+        // i.e the open state is controlled by the parent
+        controlled: !!onOpenChange,
       }}
     >
       <div className={className} {...props}>
@@ -98,11 +108,11 @@ export const DialogStackTrigger = ({
   const context = useContext(DialogStackContext);
 
   if (!context) {
-    throw new Error('DialogStackTrigger must be used within a DialogStack');
+    throw new Error("DialogStackTrigger must be used within a DialogStack");
   }
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    context.setIsOpen(true);
+    if (!context.controlled) context.setIsOpen(true);
     onClick?.(e);
   };
 
@@ -118,11 +128,11 @@ export const DialogStackTrigger = ({
     <button
       onClick={handleClick}
       className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium text-sm',
-        'ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2',
-        'focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-        'bg-primary text-primary-foreground hover:bg-primary/90',
-        'h-10 px-4 py-2',
+        "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium text-sm",
+        "ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2",
+        "focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "bg-primary text-primary-foreground hover:bg-primary/90",
+        "h-10 px-4 py-2",
         className
       )}
       {...props}
@@ -141,7 +151,7 @@ export const DialogStackOverlay = ({
   const context = useContext(DialogStackContext);
 
   if (!context) {
-    throw new Error('DialogStackOverlay must be used within a DialogStack');
+    throw new Error("DialogStackOverlay must be used within a DialogStack");
   }
 
   if (!context.isOpen) {
@@ -152,9 +162,9 @@ export const DialogStackOverlay = ({
     // biome-ignore lint/nursery/noStaticElementInteractions: "This is a clickable overlay"
     <div
       className={cn(
-        'fixed inset-0 z-50 bg-black/80',
-        'data-[state=closed]:animate-out data-[state=open]:animate-in',
-        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        "fixed inset-0 z-50 bg-black/80",
+        "data-[state=closed]:animate-out data-[state=open]:animate-in",
+        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         className
       )}
       onClick={() => context.setIsOpen(false)}
@@ -167,18 +177,22 @@ export type DialogStackBodyProps = HTMLAttributes<HTMLDivElement> & {
   children:
     | ReactElement<DialogStackChildProps>[]
     | ReactElement<DialogStackChildProps>;
+  // container to render the dialog stack in
+  // especially useful for rendering the dialog stack in a shadow DOM e.g web extension content script
+  container?: HTMLElement;
 };
 
 export const DialogStackBody = ({
   children,
   className,
+  container,
   ...props
 }: DialogStackBodyProps) => {
   const context = useContext(DialogStackContext);
   const [totalDialogs, setTotalDialogs] = useState(Children.count(children));
 
   if (!context) {
-    throw new Error('DialogStackBody must be used within a DialogStack');
+    throw new Error("DialogStackBody must be used within a DialogStack");
   }
 
   if (!context.isOpen) {
@@ -193,10 +207,10 @@ export const DialogStackBody = ({
         setTotalDialogs,
       }}
     >
-      <Portal.Root>
+      <Portal.Root container={container}>
         <div
           className={cn(
-            'pointer-events-none fixed inset-0 z-50 mx-auto flex w-full max-w-lg flex-col items-center justify-center',
+            "pointer-events-none fixed inset-0 z-50 mx-auto flex w-full max-w-lg flex-col items-center justify-center",
             className
           )}
           {...props}
@@ -227,7 +241,7 @@ export const DialogStackContent = ({
   const context = useContext(DialogStackContext);
 
   if (!context) {
-    throw new Error('DialogStackContent must be used within a DialogStack');
+    throw new Error("DialogStackContent must be used within a DialogStack");
   }
 
   if (!context.isOpen) {
@@ -251,7 +265,7 @@ export const DialogStackContent = ({
     <div
       onClick={handleClick}
       className={cn(
-        'h-auto w-full rounded-lg border bg-background p-6 shadow-lg transition-all duration-300',
+        "h-auto w-full rounded-lg border bg-background p-6 shadow-lg transition-all duration-300",
 
         className
       )}
@@ -260,20 +274,20 @@ export const DialogStackContent = ({
         transform: `translateY(${translateY})`,
         width: `calc(100% - ${Math.abs(distanceFromActive) * 10}px)`,
         zIndex: 50 - Math.abs(context.activeIndex - (index ?? 0)),
-        position: distanceFromActive ? 'absolute' : 'relative',
+        position: distanceFromActive ? "absolute" : "relative",
         opacity: distanceFromActive > 0 ? 0 : 1,
         cursor:
           context.clickable && context.activeIndex > index
-            ? 'pointer'
-            : 'default',
+            ? "pointer"
+            : "default",
       }}
       {...props}
     >
       <div
         className={cn(
-          'h-full w-full transition-all duration-300',
+          "h-full w-full transition-all duration-300",
           context.activeIndex !== index &&
-            'pointer-events-none select-none opacity-0'
+            "pointer-events-none select-none opacity-0"
         )}
       >
         {children}
@@ -291,7 +305,7 @@ export const DialogStackTitle = ({
 }: DialogStackTitleProps) => (
   <h2
     className={cn(
-      'font-semibold text-lg leading-none tracking-tight',
+      "font-semibold text-lg leading-none tracking-tight",
       className
     )}
     {...props}
@@ -307,7 +321,7 @@ export const DialogStackDescription = ({
   className,
   ...props
 }: DialogStackDescriptionProps) => (
-  <p className={cn('text-muted-foreground text-sm', className)} {...props}>
+  <p className={cn("text-muted-foreground text-sm", className)} {...props}>
     {children}
   </p>
 );
@@ -320,7 +334,7 @@ export const DialogStackHeader = ({
 }: DialogStackHeaderProps) => (
   <div
     className={cn(
-      'flex flex-col space-y-1.5 text-center sm:text-left',
+      "flex flex-col space-y-1.5 text-center sm:text-left",
       className
     )}
     {...props}
@@ -335,7 +349,7 @@ export const DialogStackFooter = ({
   ...props
 }: DialogStackFooterProps) => (
   <div
-    className={cn('flex items-center justify-end space-x-2 pt-4', className)}
+    className={cn("flex items-center justify-end space-x-2 pt-4", className)}
     {...props}
   >
     {children}
@@ -355,7 +369,7 @@ export const DialogStackNext = ({
   const context = useContext(DialogStackContext);
 
   if (!context) {
-    throw new Error('DialogStackNext must be used within a DialogStack');
+    throw new Error("DialogStackNext must be used within a DialogStack");
   }
 
   const handleNext = () => {
@@ -377,13 +391,13 @@ export const DialogStackNext = ({
       type="button"
       onClick={handleNext}
       className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+        "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         className
       )}
       disabled={context.activeIndex >= context.totalDialogs - 1}
       {...props}
     >
-      {children || 'Next'}
+      {children || "Next"}
     </button>
   );
 };
@@ -402,7 +416,7 @@ export const DialogStackPrevious = ({
   const context = useContext(DialogStackContext);
 
   if (!context) {
-    throw new Error('DialogStackPrevious must be used within a DialogStack');
+    throw new Error("DialogStackPrevious must be used within a DialogStack");
   }
 
   const handlePrevious = () => {
@@ -424,13 +438,13 @@ export const DialogStackPrevious = ({
       type="button"
       onClick={handlePrevious}
       className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+        "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         className
       )}
       disabled={context.activeIndex <= 0}
       {...props}
     >
-      {children || 'Previous'}
+      {children || "Previous"}
     </button>
   );
 };
