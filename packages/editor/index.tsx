@@ -102,10 +102,7 @@ interface SlashNodeAttrs {
   label?: string | null;
 }
 
-type SlashOptions<
-  SuggestionItem = unknown,
-  Attrs extends Record<string, unknown> = SlashNodeAttrs,
-> = {
+type SlashOptions<SuggestionItem = unknown, Attrs = SlashNodeAttrs> = {
   HTMLAttributes: Record<string, unknown>;
   renderText: (props: {
     options: SlashOptions<SuggestionItem, Attrs>;
