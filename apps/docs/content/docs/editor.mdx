@@ -1,0 +1,174 @@
+---
+title: Editor
+description: The Editor component is a powerful and flexible text editor that allows you to create and edit rich text content.
+icon: NotebookPen
+---
+
+import { AutoTypeTable } from 'fumadocs-typescript/ui';
+
+<PoweredBy packages={[
+  { name: 'Tiptap', url: 'https://tiptap.dev/' },
+  { name: 'Lucide', url: 'https://lucide.dev/' },
+  { name: 'lowlight', url: 'https://github.com/wooorm/lowlight' },
+  { name: 'tippy.js', url: 'https://atomiks.github.io/tippyjs/' },
+  { name: 'Fuse.js', url: 'https://www.fusejs.io/' }
+]} />
+
+<Preview name="editor" code={`'use client';
+
+import { useState } from 'react';
+import {
+  EditorBubbleMenu,
+  EditorFloatingMenu,
+  EditorProvider,
+  EditorSelector,
+  EditorLinkSelector,
+  EditorClearFormatting,
+  EditorFormatBold,
+  EditorFormatItalic,
+  EditorFormatStrike,
+  EditorFormatCode,
+  EditorFormatSubscript,
+  EditorFormatSuperscript,
+  EditorFormatUnderline,
+  EditorNodeText,
+  EditorNodeHeading1,
+  EditorNodeHeading2,
+  EditorNodeHeading3,
+  EditorNodeBulletList,
+  EditorNodeOrderedList,
+  EditorNodeTaskList,
+  EditorNodeQuote,
+  EditorNodeCode,
+  EditorNodeTable,
+  EditorTextColor,
+  EditorBackgroundColor,
+  EditorTableMenu,
+  EditorTableGlobalMenu,
+  EditorTableColumnMenu,
+  EditorTableRowMenu,
+  EditorTableColumnBefore,
+  EditorTableColumnAfter,
+  EditorTableRowBefore,
+  EditorTableRowAfter,
+  EditorTableColumnDelete,
+  EditorTableRowDelete,
+  EditorTableHeaderColumnToggle,
+  EditorTableHeaderRowToggle,
+  EditorTableDelete,
+  EditorTableMergeCells,
+  EditorTableSplitCell,
+  EditorTableFix,
+  EditorCharacterCount,
+} from '@/components/ui/kibo-ui/editor';
+
+const textColors = [
+  { name: 'Red', color: '#b91c1c' },
+  { name: 'Orange', color: '#c2410c' },
+  { name: 'Amber', color: '#b45309' },
+  { name: 'Yellow', color: '#a16207' },
+];
+
+const backgroundColors = [
+  { name: 'Red', color: '#fca5a5' },
+  { name: 'Orange', color: '#fdba74' },
+  { name: 'Amber', color: '#fcd34d' },
+  { name: 'Yellow', color: '#fde047' },
+];
+
+const Example = () => {
+  const [content, setContent] = useState(null);
+
+  return (
+    <div className="bg-secondary flex h-screen w-full items-center justify-center p-8">
+      <EditorProvider
+        placeholder="Start typing..."
+        className="bg-background rounded-lg border w-full h-full p-4"
+      >
+        <EditorFloatingMenu>
+          <EditorNodeHeading1 hideName />
+          <EditorNodeBulletList hideName />
+          <EditorNodeQuote hideName />
+          <EditorNodeCode hideName />
+          <EditorNodeTable hideName />
+        </EditorFloatingMenu>
+        <EditorBubbleMenu>
+          <EditorSelector title="Text">
+            <EditorNodeText />
+            <EditorNodeHeading1 />
+            <EditorNodeHeading2 />
+            <EditorNodeHeading3 />
+            <EditorNodeBulletList />
+            <EditorNodeOrderedList />
+            <EditorNodeTaskList />
+            <EditorNodeQuote />
+            <EditorNodeCode />
+          </EditorSelector>
+          <EditorSelector title="Format">
+            <EditorFormatBold />
+            <EditorFormatItalic />
+            <EditorFormatUnderline />
+            <EditorFormatStrike />
+            <EditorFormatCode />
+            <EditorFormatSuperscript />
+            <EditorFormatSubscript />
+          </EditorSelector>
+          <EditorSelector title="Color">
+            {textColors.map((color) => (
+              <EditorTextColor key={color.name} color={color.color} name={color.name} />
+            ))}
+            {backgroundColors.map((color) => (
+              <EditorBackgroundColor key={color.name} color={color.color} name={color.name} />
+            ))}
+          </EditorSelector>
+          <EditorLinkSelector />
+          <EditorClearFormatting />
+        </EditorBubbleMenu>
+        <EditorTableMenu>
+          <EditorTableColumnMenu>
+            <EditorTableColumnBefore />
+            <EditorTableColumnAfter />
+            <EditorTableColumnDelete />
+          </EditorTableColumnMenu>
+          <EditorTableRowMenu>
+            <EditorTableRowBefore />
+            <EditorTableRowAfter />
+            <EditorTableRowDelete />
+          </EditorTableRowMenu>
+          <EditorTableGlobalMenu>
+            <EditorTableHeaderColumnToggle />
+            <EditorTableHeaderRowToggle />
+            <EditorTableDelete />
+            <EditorTableMergeCells />
+            <EditorTableSplitCell />
+            <EditorTableFix />
+          </EditorTableGlobalMenu>
+        </EditorTableMenu>
+        <EditorCharacterCount.Words>Words: </EditorCharacterCount.Words>
+      </EditorProvider>
+    </div>
+  );
+}
+
+export default Example;`} />
+
+## Installation
+
+<Installer packageName="editor" />
+
+## Features
+
+TBD
+
+## Examples
+
+TBD.
+
+## Props
+
+The editor component is made up of the following subcomponents:
+
+### EditorProvider
+
+<AutoTypeTable path="node_modules/@repo/editor/index.tsx" name="EditorProviderProps" />
+
